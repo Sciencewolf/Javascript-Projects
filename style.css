@@ -1,7 +1,15 @@
+a {
+    text-decoration: none;
+}
 
-div.project-codeeditor {
+a:hover {
+    text-decoration: underline;
+}
+
+div {
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 0.5em;
+    margin: 1em;
 }
