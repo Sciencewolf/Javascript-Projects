@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <!-- required meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="theme-color" content="#1a5d8d">
+    <meta name="keywords" content="Code, code, Code Editor, code editor, html, text editor, css, js, javascript">
+
+    <!-- Title of the page -->
+    <title id="title"> Code Editor(beta)</title>
+
+    <!-- Import JS file -->
+    <script src="js/main.js"></script>
+
+    <!-- Import CSS file -->
+    <link type="text/css" rel="stylesheet" href="css/mainpage.css">
+    <link type="text/css" rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Import Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@1,100&family=Secular+One&display=swap" rel="stylesheet">
+
+    <!-- Import favicon -->
+    <link rel="icon" sizes="32x32" href="https://img.icons8.com/color/48/null/source-code.png" />
+
+    <!-- For Apple Safari -->
+    <link rel="shortcut icon" type="image/png" href="https://img.icons8.com/color/48/null/source-code.png" />
+    <link rel="apple-touch-icon" type="image/png" href="https://img.icons8.com/color/48/null/source-code.png" />
+    <link rel="apple-touch-startup-image" type="image/png" href="https://img.icons8.com/color/48/null/source-code.png" />
+    
+</head>
+<body onload="onLoad()">
+    <span class="header" id="header">
+        <h1>CodeEditor</h1>
+        <div class="notification-count"><span id="counternotification"></span></div>
+        <button type="button" id="notification-button" onclick="openNotificationWindow()">
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAACXBIWXMAAAsTAAALEwEAmpwYAAAAh0lEQVR4nO2QwQmEMBBF380itCAtRrEEyxO86Fm97Nawe40EIgyCYhJFgz74MBD4bzLwJCpAmVRBCSKgAAYh6IHcvHmRAJ0oXqYFYp/Nu41yKXH6SbmjfI4+oTWNhaB2EfwtBD8XgbLMKyC8E4WL8sz1gjVGUaLnw/kKwecMQWYkujw9Q3BPJvHFo8d1v1dEAAAAAElFTkSuQmCC">
+        </button>
+        
+    </span>
+    
+    <!-- Notification Window -->
+    <span class="span-notification">
+        <p id="p-notification">Notification</p>
+        <button id="btn-not-close"><i class="fa fa-close"></i></button>
+        <button type="button" id="clear-btn-notification" onclick="clearNotification()">Clear All</button>
+        
+        <div class="items-notification"></div>
+    </span>
+
+    <!-- Text Area -->
+    <div class="inputs" id="inputs">
+        <div class="div-textarea" id="div-textarea">
+            <textarea id="textarea" class="textarea" spellcheck="false" e></textarea>
+        </div>
+    </div>
+    
+    <!-- Dialog for save file -->
+    <div class="dialog" id="dialog">
+        <div class="input_file_ext" id="input_file_ext"></div>
+    </div>
+    
+    <span id="span-Line_Column-number">
+        <span id="line">1</span>
+        :
+        <span id="column">1</span>
+    </span>
+
+
+    <!-- Inside setting's -->
+    <div class="settings" id="settings">
+        <h3>Settings</h3>
+        <h5>Version 0.9.3</h5>
+        
+        <div class="settings-panel" id="settings-panel">
+            <span class="span-wrapper">
+                <div class="wrapper-for-select">
+                
+                <div class="div-bgcolor" id="div-bgcolor">
+                    <label id="label-theme">Theme</label>
+                    <select id="select-theme">
+                        <option selected="selected">Floral White</option>
+                        <option>Tea Green</option>
+                        <option>Blue Sapphire</option>
+                        <option>Dark</option>
+                        <option>Melon</option>
+                        <option>Ming</option>
+                        <option>Jet</option>
+                    </select>
+                </div>
+        
+                <div class="div-default-file-ext">
+                    <label id="label-select-default-file-ext">Default file extension</label>
+                    <select id="select-default-file-ext"></select>
+                </div>
+        
+                <div class="div-choose-font-size">
+                    <label id="label-choose-font-size">Choose font size</label>
+                    <select id="select-choose-font-size">
+                        <option>Smaller</option>
+                        <option>Small</option>
+                        <option selected="selected">Medium</option>
+                        <option>Large</option>
+                        <option>Larger</option>
+                    </select>
+                </div>
+            </div>
+            
+                <div class="wrapper-for-checkbox">
+                <div class="div-enable-smooth-scrolling">
+                    <input type="checkbox" checked id="checkbox-enable-smooth-scrolling">
+                    <label id="label-enable-smooth-scrolling">Enable smooth scrolling</label>
+                </div>
+                
+                <div class="div-hide-scrollto-buttons">
+                    <input type="checkbox" id="checkbox-hide-scrollto-buttons">
+                    <label id="label-hide-scrollto-buttons">Hide to Top/Bottom button's</label>
+                </div>
+                
+                <div class="div-spellcheck">
+                    <input type="checkbox" id="checkbox-spellcheck">
+                    <label id="label-spellcheck">Enable spellcheck</label>
+                </div>
+                
+                <div class="div-line:column-number">
+                    <input type="checkbox" id="checkbox-line_column-number" checked>
+                    <label id="label-line_column-number">Line:Column number</label>
+                </div>
+            </div>
+            </span>
+            
+            <span id="span-buttons"></span>
+        </div>
+    </div>
+    
+    <footer id="footer" class="footer">
+        <!-- Settings img/button -->
+        <button type="button" id="open-settings">
+            <img src="https://img.icons8.com/fluency/48/null/gear.png" alt="settings" id="settings-img" />
+        </button>
+    
+        <!-- Scroll to top/bottom button's -->
+        <div class="scroll" id="scroll" >
+            <button type="button" id="scroll_top" onclick="scrollToTopButton()">To Top</button>
+            <button type="button" id="scroll_bottom" onclick="scrollToBottomButton()">To Bottom</button>
+        </div>
+    
+        <!-- Copy, Save button's -->
+        <span class="btns" id="btns"></span>
+        
+    </footer>
+</body>
+</html>
