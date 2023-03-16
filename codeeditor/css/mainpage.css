@@ -1,0 +1,396 @@
+:root {
+    --darkcolor: rgb(40, 40, 40);
+}
+
+*:not(textarea) {
+    box-sizing: border-box;
+    font-family: 'Secular One', monospace;
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: white;
+}
+
+::-webkit-scrollbar-track {
+    border: 1px solid black;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+h1 {
+    user-select: none;
+}
+
+h5 {
+    color: white;
+    position: absolute;
+    bottom: 1em;
+    right: 3em;
+}
+
+body {
+    background-color: floralwhite;
+    transition: .4s all;
+}
+
+button {
+    cursor: pointer;
+}
+
+button:is(.btn-copy, .btn-save) {
+    -webkit-appearance: none;
+    border: 1px solid black;
+}
+
+input:focus {
+    outline: black;
+    background-color: lightslategrey;
+    transition: .4s;
+}
+
+textarea {
+    background-color: transparent;
+}
+
+#notification-button {
+    width: 3em;
+    height: 3em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.notification-count {
+    display: none;
+    position: absolute;
+    background-color: red;
+    width: 1em;
+    height: 1em;
+    z-index: 2;
+    top: .1em;
+    right: .2em;
+    color: white;
+}
+
+#counternotification {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 12px;
+    font-family: Calibri, monospace;
+}
+
+.span-notification {
+    display: none;
+    position: absolute;
+    top: 4em;
+    right: 3em;
+    background-color: grey;
+    color: white;
+    font-family: Calibri, serif;
+    width: 25em;
+    height: 30em;
+    border: 2px solid black;
+    border-radius: 15px;
+    padding-left: 0.5em;
+    overflow: auto;
+}
+
+.span-notification > p {
+    margin-right: 0.5em;
+    font-size: large;
+    position: absolute;
+    left: 1em;
+}
+
+.span-notification button#btn-not-close {
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    width: 3em;
+    height: 3em;
+    border: none;
+    border-radius: 8px;
+}
+
+.span-notification button#clear-btn-notification {
+    position: absolute;
+    top: 4em;
+    right: 1em;
+    border: none;
+    border-radius: 12px;
+    margin-top: 5px;
+}
+
+.div-notification {
+    position: absolute;
+    bottom: 3em;
+    right: 2em;
+    background-color: grey;
+    color: white;
+    display: flex;
+    justify-content: center;align-items: center;
+    border-radius: 15px;
+    margin: 10px;
+    padding: 10px;
+    transition: 1s all;
+}
+
+.items-notification {
+    background-color: #38363d;
+    width: 20em;
+    height: 20em;
+    overflow: auto;
+    position: absolute;
+    top: 6em;
+    left: 2em;
+    display: grid;
+    justify-content: center;
+}
+
+.items-notification .item-notification {
+    z-index: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    color: white;
+    margin: 0.5em;
+    width: 15em;
+    height: 8em;
+    position: relative;
+    border-radius: 10px;
+}
+
+.item-notification p {
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+}
+
+.item-notification p#pName {
+    position: absolute;
+    top: 10px;
+    left: 2px;
+
+}
+
+.item-notification p#pDate {
+    position: absolute;
+    top: 0;
+    right: 2px;
+}
+
+.item-notification p#pInfo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.header {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    overflow: auto;
+}
+
+.header button {
+    position: absolute;
+    top: 0.5em;
+    right: 0.5em;
+    display: flex;
+}
+
+.inputs {
+    width: 100%;
+    height: auto;
+}
+
+.div-textarea {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btns {
+    display: flex;
+    justify-content: center;
+    gap: 1em;
+}
+
+.btn-copy {
+    transition: 0.4s all;
+    width: 10em;
+}
+
+.btn-save {
+    width: 5em;
+    transition: 0.4s all;
+}
+
+#open-settings {
+    background-color: transparent;
+    border: none;
+}
+
+#open-settings img {
+    width: 3em;
+    height: 3em;
+    transition: .4s all;
+}
+
+.dialog {
+    display: none;
+    position: fixed;
+    background-color: rgba(0,0,0,0.4);
+    padding-top: 100px;
+    margin: auto;
+    z-index: 1;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%;
+    height: 40%;
+    overflow: auto;
+    text-align: center;
+}
+
+.input_file_ext {
+    background-color: #fefefe;
+    margin: auto;
+    border: 1px solid #888;
+    width: 80%;
+    padding: 15px;
+}
+
+.input_file_ext > input {
+    width: 20em;
+}
+
+.input_file_ext > input + select {
+    margin-left: 50px;
+}
+
+.div-btn-action {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    padding: 10px;
+}
+
+.div-btn-action button {
+    width: 5em;
+    height: 2em;
+    background-color: lightblue;
+    border: none;
+    transition: .4s all;
+    transform: scale(1);
+}
+
+#span-Line_Column-number {
+    display: flex;
+    justify-content: flex-end;
+    position: absolute;
+    bottom: 1em;
+    right: 1em;
+    z-index: 2;
+}
+
+.scroll {
+    display: flex;
+    justify-content:center;
+    align-items: center;
+    gap: 1em;
+}
+
+.scroll button:is(#scroll_top, #scroll_bottom) {
+    border: 1px solid black;
+    -webkit-appearance: none;
+    transition: .4s all;
+    transform: scale(1);
+}
+
+.footer {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 1em;
+    width: 99vw;
+    position: absolute;
+    bottom: 0.1em;
+    background-color:aliceblue;
+}
+
+.footer::before {
+    content: "";
+    gap: 1em;
+}
+
+/* Mobile version */
+@media screen and (max-width: 768px) {
+    textarea {
+        width: 80%;
+    }
+
+    input {
+        font-size: small;
+        width: 80%;
+    }
+
+    input:active {
+        border: none;
+    }
+
+    #open-settings img {
+        background-color: transparent;
+        width:  3em;
+        height: 3em;
+    }
+
+    .dialog {
+        width: 25em;
+        height: 30em;
+    }
+    
+    .input_file_ext > *{
+        margin: 0.5em;
+    }
+
+    .input_file_ext > button {
+        background-color: lightskyblue;
+        color: black;
+        border: none;
+    }
+}
+
+/* Hover effect for only desktop version */
+@media (hover: hover) {
+    #open-settings img:hover {
+        cursor: pointer;
+        transform: rotate(45deg);
+        transition: .4s all;
+    }
+
+    .input_file_ext > button:hover {
+        transform: scale(1.1);
+        transition: .4s all;
+    }
+    button:is(#scroll_bottom, #scroll_top, .btn-cancel, .btn-ok, .btn-save, .btn-copy):hover {
+        transition: .4s all;
+        transform: scale(1.1);
+        cursor: pointer;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+        background-color: grey;
+    }
+}
