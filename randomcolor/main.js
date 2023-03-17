@@ -1,6 +1,7 @@
 const onLoad = () => {
     createHTMLElement()
     pasteColorIntoHTMLElement()
+    settings()
 }
 
 function createHTMLElement() {
@@ -34,7 +35,6 @@ function createHTMLElement() {
 
     // p tags
     pLeft.id = "pLeft"
-    pLeft.innerHTML = 'Hi'
     pMiddleLeft.id = "pMiddleLeft"
     pMiddleRight.id = "pMiddleRight"
     pRight.id = "pRight"
@@ -66,13 +66,84 @@ function pasteColorIntoHTMLElement() {
     const divMiddleRight = document.querySelector('.middleRight')
     const divRight = document.querySelector('.right')
 
+    const pLeft = document.querySelector('#pLeft')
+    const pMiddleLeft = document.querySelector('#pMiddleLeft')
+    const pMiddleRight = document.querySelector('#pMiddleRight')
+    const pRight = document.querySelector('#pRight')
+
     const [r1, g1, b1] = randomizeColor()
     const [r2, g2, b2] = randomizeColor()
     const [r3, g3, b3] = randomizeColor()
     const [r4, g4, b4] = randomizeColor()
 
+    const RGB_1 = `${r1}, ${g1}, ${b1}`
+    const RGB_2 = `${r2}, ${g2}, ${b2}`
+    const RGB_3 = `${r3}, ${g3}, ${b3}`
+    const RGB_4 = `${r4}, ${g4}, ${b4}`
+
     divLeft.style.backgroundColor = `rgb(${r1}, ${g1}, ${b1})`
     divMiddleLeft.style.backgroundColor = `rgb(${r2}, ${g2}, ${b2})`
     divMiddleRight.style.backgroundColor = `rgb(${r3}, ${g3}, ${b3})`
     divRight.style.backgroundColor = `rgb(${r4}, ${g4}, ${b4})`
+
+    pLeft.innerHTML = RGB_1
+    pMiddleLeft.innerHTML = RGB_2
+    pMiddleRight.innerHTML = RGB_3
+    pRight.innerHTML = RGB_4
+}
+
+function copyColorCode() {
+    const pLeft = document.querySelector("#pLeft");
+    const pMiddleLeft = document.querySelector("#pMiddleLeft");
+    const pMiddleRight = document.querySelector("#pMiddleRight");
+    const pRight = document.querySelector("#pRight");
+
+    pLeft.addEventListener("click", () => {
+      navigator.clipboard
+        .writeText(pLeft.innerHTML)
+        .then(() => console.log("OK COPY"))
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+    pMiddleLeft.addEventListener("click", () => {
+      navigator.clipboard
+        .writeText(pMiddleLeft.innerHTML)
+        .then(() => console.log("OK COPY"))
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+    pMiddleRight.addEventListener("click", () => {
+      navigator.clipboard
+        .writeText(pMiddleRight.innerHTML)
+        .then(() => console.log("OK COPY"))
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+    pRight.addEventListener("click", () => {
+      navigator.clipboard
+        .writeText(pRight.innerHTML)
+        .then(() => console.log("OK COPY"))
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+}
+
+function settings() {
+    const settings = document.querySelector('.settings')
+
+    const button_tag = document.createElement('button')
+    button_tag.id = "btn-reload"
+    button_tag.innerHTML = "Pick New Color"
+
+    button_tag.addEventListener('click', () => {
+        pasteColorIntoHTMLElement()
+    })
+
+    copyColorCode()
+
+    settings.appendChild(button_tag)
 }
