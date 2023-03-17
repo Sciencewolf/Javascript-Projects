@@ -142,8 +142,6 @@ function settings() {
     button_tag.addEventListener('click', () => {
         pasteColorIntoHTMLElement()
     })
-
     copyColorCode()
-
     settings.appendChild(button_tag)
 }
