@@ -45,7 +45,6 @@ function randomizeColor() {
         g: Math.floor(Math.random() * 256),
         b: Math.floor(Math.random() * 256),
     }
-
     return [color.r, color.g, color.b]
 }
 
