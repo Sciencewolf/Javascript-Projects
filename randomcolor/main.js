@@ -18,20 +18,9 @@ function createHTMLElement() {
 
     // div tags
     divLeft.className = "left"
-    divLeft.style.width = "40em"
-    divLeft.style.height = "20em"
-
     divMiddleLeft.className = "middleLeft"
-    divMiddleLeft.style.width = '40em'
-    divMiddleLeft.style.height = '20em'
-
     divMiddleRight.className = "middleRight"
-    divMiddleRight.style.width = '40em'
-    divMiddleRight.style.height = '20em'
-
     divRight.className = "right"
-    divRight.style.width = '40em'
-    divRight.style.height= '20em'
 
     // p tags
     pLeft.id = "pLeft"
@@ -56,7 +45,6 @@ function randomizeColor() {
         g: Math.floor(Math.random() * 256),
         b: Math.floor(Math.random() * 256),
     }
-
     return [color.r, color.g, color.b]
 }
 
