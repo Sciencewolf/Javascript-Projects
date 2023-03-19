@@ -1,9 +1,18 @@
 const onLoad = () => {
-  createDivForProjects("project-codeeditor", "tinyurl.com/webcodeedit", "Code Editor", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/codeeditor")
-  createDivForProjects("project-askmeaquestion", "https://sciencewolf.github.io/AskMeAQuestion/", "Ask Me A Question", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/askmeaquestion")
-  createDivForProjects("project-randomcolor", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/RandomColor", "Random Color", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/randomcolor")
-  createDivForProjects("project-todoapp", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/ToDoApp", "To Do App", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/todoapp")
-  createDivForProjects("project-weatherapp", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/WeatherApp", "Weather App", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/weatherapp")
+  createDivForProjects("project-codeeditor", "https://tinyurl.com/webcodeedit", "Code Editor", 
+  "https://github.com/Sciencewolf/Javascript-Projects/tree/master/codeeditor")
+
+  createDivForProjects("project-askmeaquestion", "https://sciencewolf.github.io/AskMeAQuestion/", "Ask Me A Question", 
+  "https://github.com/Sciencewolf/Javascript-Projects/tree/master/askmeaquestion")
+
+  createDivForProjects("project-randomcolor", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/RandomColor", 
+  "Random Color", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/randomcolor")
+
+  createDivForProjects("project-todoapp", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/ToDoApp", 
+  "To Do App", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/todoapp")
+
+  createDivForProjects("project-weatherapp", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/WeatherApp", 
+  "Weather App", "https://github.com/Sciencewolf/Javascript-Projects/tree/master/weatherapp")
 }
 
 
