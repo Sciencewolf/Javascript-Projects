@@ -1,20 +1,19 @@
 const onLoad = () => {
-    createHTMLElement()
-    pasteColorIntoHTMLElement()
+    const checkbox_for_multiple_color_picking = document.getElementById('checkbox-pick-multiple-color')
+    if(checkbox_for_multiple_color_picking.checked) loadMultipleColor()
+    else loadOneColor()
+
     settings()
 }
 
-function createHTMLElement() {
+function createHTMLElementMultiple() {
     const wrapper = document.querySelector('.wrapper')
-    const divLeft = document.createElement('div')
-    const divMiddleLeft = document.createElement('div')
-    const divMiddleRight = document.createElement('div')
-    const divRight = document.createElement('div')
 
-    const pLeft = document.createElement('p')
-    const pMiddleLeft = document.createElement('p')
-    const pMiddleRight = document.createElement('p')
-    const pRight = document.createElement('p')
+    const [divLeft, divMiddleLeft, divMiddleRight, divRight] = 
+    Array.from({ length: 4 }, () => document.createElement('div'))
+
+    const [pLeft, pMiddleLeft, pMiddleRight, pRight] = 
+    Array.from({ length: 8 }, () => document.createElement('p'));
 
     // div tags
     divLeft.className = "left"
@@ -48,7 +47,12 @@ function randomizeColor() {
     return [color.r, color.g, color.b]
 }
 
-function pasteColorIntoHTMLElement() {
+function rgb_to_hex(r, g, b) {
+    const hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
+    return hex
+}
+
+function pasteColorIntoHTMLElementMultiple() {
     const divLeft = document.querySelector('.left')
     const divMiddleLeft = document.querySelector('.middleLeft')
     const divMiddleRight = document.querySelector('.middleRight')
@@ -60,24 +64,31 @@ function pasteColorIntoHTMLElement() {
     const pRight = document.querySelector('#pRight')
 
     const [r1, g1, b1] = randomizeColor()
+    const hex_1 = rgb_to_hex(r1, g1, b1)
+
     const [r2, g2, b2] = randomizeColor()
+    const hex_2 = rgb_to_hex(r2, g2, b2)
+
     const [r3, g3, b3] = randomizeColor()
+    const hex_3 = rgb_to_hex(r3, g3, b3)
+
     const [r4, g4, b4] = randomizeColor()
+    const hex_4 = rgb_to_hex(r4, g4, b4)
 
     const RGB_1 = `${r1}, ${g1}, ${b1}`
     const RGB_2 = `${r2}, ${g2}, ${b2}`
     const RGB_3 = `${r3}, ${g3}, ${b3}`
     const RGB_4 = `${r4}, ${g4}, ${b4}`
 
-    divLeft.style.backgroundColor = `rgb(${r1}, ${g1}, ${b1})`
-    divMiddleLeft.style.backgroundColor = `rgb(${r2}, ${g2}, ${b2})`
-    divMiddleRight.style.backgroundColor = `rgb(${r3}, ${g3}, ${b3})`
-    divRight.style.backgroundColor = `rgb(${r4}, ${g4}, ${b4})`
+    divLeft.style.backgroundColor = `rgb(${RGB_1})`
+    divMiddleLeft.style.backgroundColor = `rgb(${RGB_2})`
+    divMiddleRight.style.backgroundColor = `rgb(${RGB_3})`
+    divRight.style.backgroundColor = `rgb(${RGB_4})`
 
-    pLeft.innerHTML = RGB_1
-    pMiddleLeft.innerHTML = RGB_2
-    pMiddleRight.innerHTML = RGB_3
-    pRight.innerHTML = RGB_4
+    pLeft.innerHTML = hex_1
+    pMiddleLeft.innerHTML = hex_2
+    pMiddleRight.innerHTML = hex_3
+    pRight.innerHTML = hex_4
 }
 
 function copyColorCode() {
@@ -86,38 +97,18 @@ function copyColorCode() {
     const pMiddleRight = document.querySelector("#pMiddleRight");
     const pRight = document.querySelector("#pRight");
 
-    pLeft.addEventListener("click", () => {
-      navigator.clipboard
-        .writeText(pLeft.innerHTML)
-        .then(() => console.log("OK COPY"))
-        .catch((err) => {
-          console.log(err);
-        });
-    });
-    pMiddleLeft.addEventListener("click", () => {
-      navigator.clipboard
-        .writeText(pMiddleLeft.innerHTML)
-        .then(() => console.log("OK COPY"))
-        .catch((err) => {
-          console.log(err);
-        });
-    });
-    pMiddleRight.addEventListener("click", () => {
-      navigator.clipboard
-        .writeText(pMiddleRight.innerHTML)
-        .then(() => console.log("OK COPY"))
-        .catch((err) => {
-          console.log(err);
-        });
-    });
-    pRight.addEventListener("click", () => {
-      navigator.clipboard
-        .writeText(pRight.innerHTML)
-        .then(() => console.log("OK COPY"))
-        .catch((err) => {
-          console.log(err);
-        });
-    });
+    copyToClipboard(pLeft)
+    copyToClipboard(pMiddleLeft)
+    copyToClipboard(pMiddleRight)
+    copyToClipboard(pRight)
+}
+
+function copyToClipboard(p_tag) {
+    p_tag.addEventListener('click', () => {
+      navigator.clipboard.writeText(p_tag.innerHTML)
+      .then(() => console.log("OK COPY"))
+      .catch(err => console.log("ERROR ON COPY", err))
+    })
 }
 
 function settings() {
@@ -127,9 +118,45 @@ function settings() {
     button_tag.id = "btn-reload"
     button_tag.innerHTML = "Pick New Color"
 
-    button_tag.addEventListener('click', () => {
-        pasteColorIntoHTMLElement()
-    })
+    button_tag.addEventListener('click', () => pasteColorIntoHTMLElementMultiple() )
+
     copyColorCode()
     settings.appendChild(button_tag)
+}
+
+function loadMultipleColor() {
+    createHTMLElementMultiple()
+    pasteColorIntoHTMLElementMultiple()
+}
+
+function createHTMLElementOne() {
+    const wrapper = document.querySelector('.wrapper')
+
+    const divMain = document.createElement('div')
+    const pText = document.createElement('p')
+
+    divMain.className = "div-main"
+    pText.id = "pText"
+
+    divMain.appendChild(pText)
+    wrapper.appendChild(divMain)
+}
+
+function pasteColorIntoHTMLElementOne() {
+    const divMain = document.querySelector('.div-main')
+    const pText = document.getElementById('pText')
+
+    const [r, g, b] = randomizeColor()
+    const hex = rgb_to_hex(r, g, b)
+    const RGB = `${r}, ${g}, ${b}`
+
+    divMain.style.backgroundColor = `rgb(${RGB})`
+    pText.innerHTML = hex
+}
+
+
+function loadOneColor() {
+    createHTMLElementOne()
+    pasteColorIntoHTMLElementOne()
+    settings()
 }
