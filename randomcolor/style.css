@@ -1,16 +1,22 @@
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    width: 100%;
-    height: 90vh;
+    width: 99%;
+    height: 95vh;
     overflow: hidden;
 }
 
 .wrapper {
     width: 100%;
-    height: 80%;
+    height: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1em;
+    margin: 0;
+    padding: 0;
 }
 
 .wrapper div.div-main {
@@ -23,6 +29,7 @@ body {
     width: 20%;
     height: 100%;
     position: relative;
+    border-radius: 5px;
 }
 
 .wrapper div p {
@@ -31,18 +38,95 @@ body {
     bottom: 1em;
     left: 50%;
     transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    padding: 10px;
+    border-radius: 10px;
+    transition: 300ms;
 }
 
-p#text_copy1, p#text_copy2, p#text_copy3, p#text_copy4 {
-    font-size: 15px;
+.checkbox {
     position: absolute;
-    bottom: 0.4em;
+    top: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
 }
 
-p:hover {
-    cursor: pointer;
+.btn {
+    display: flex;
+}
+
+.btn > button {
+    background-color: green;
+    border: none;
+    border-radius: 5px;
+    width: auto;
+    height: 2em;
+    color: white;
+    transition: 300ms;
+}
+
+footer {
+    background-color: azure;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 7em;
+    border: none;
+    border-radius: 5px;
+}
+
+.settings input[type=checkbox] {
+    accent-color: green;
+    transform: scale(1.4);
+}
+
+.wrapper div p:hover {
+    background-color: rgb(50, 50, 70);
+    transition: 300ms;
 }
 
 button:hover {
+    background-color: rgb(3, 252, 19);
+    color: black;
+    transition: 300ms;
+}
+
+:hover:is(p, button, input) {
     cursor: pointer;
+}
+
+#tweet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 50%;
+    transform: translateX(-50%);
+    background-color: grey;
+    border-radius: 5px;
+    width: 4em;
+    height: 2em;
+}
+
+#tweet a {
+    text-decoration: none;
+    color: white;
+    font: bold;
+}
+
+#dev {
+    position: absolute;
+    right: 1em;
+}
+
+#dev a{
+    text-decoration: none;
+}
+
+#dev a:hover {
+    text-decoration: underline;
 }

@@ -13,8 +13,22 @@
     <div class="wrapper"></div>
     <hr>
     <footer class="settings">
-        <label>Pick Multiple Color</label>
-        <input type="checkbox" id="checkbox-pick-multiple-color" checked>
+        <div class="checkbox">
+            <input type="checkbox" id="checkbox-pick-multiple-color" onchange="handleCheckbox(this)">
+            <label>Pick Multiple Color</label>
+        </div>
+
+        <div class="btn">
+            <button type="button" id="btn-reload">Generate New Color</button>
+        </div>
+
+        <span id="tweet">
+            <a id="tweet-link" href="https://twitter.com/intent/tweet?text=Hello%20world" 
+            target="_blank">Tweet</a>
+        </span>
+
+        <span id="dev"></span>
+
     </footer>
 </body>
 </html>

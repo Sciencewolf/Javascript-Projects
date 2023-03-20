@@ -1,17 +1,18 @@
-const onLoad = () => {
-    const checkbox_for_multiple_color_picking = document.getElementById('checkbox-pick-multiple-color')
-    if(checkbox_for_multiple_color_picking.checked) loadMultipleColor()
-    else loadOneColor()
+const onLoad = () => { 
+    loadOneColor()
+    reload()
 
-    settings()
+    const curr_year = new Date()
+    const dev = document.getElementById("dev")
+    dev.innerHTML = `Created By: Aron Marton <a href="https://github.com/Sciencewolf">GitHub</a> ${curr_year.getFullYear()}`
 }
+
+/* Choose Multiple Color */
 
 function createHTMLElementMultiple() {
     const wrapper = document.querySelector('.wrapper')
-
     const [divLeft, divMiddleLeft, divMiddleRight, divRight] = 
     Array.from({ length: 4 }, () => document.createElement('div'))
-
     const [pLeft, pMiddleLeft, pMiddleRight, pRight] = 
     Array.from({ length: 8 }, () => document.createElement('p'));
 
@@ -36,20 +37,6 @@ function createHTMLElementMultiple() {
     wrapper.appendChild(divMiddleLeft)
     wrapper.appendChild(divMiddleRight)
     wrapper.appendChild(divRight)
-}
-
-function randomizeColor() {
-    const color = {
-        r: Math.floor(Math.random() * 256), // 0-255
-        g: Math.floor(Math.random() * 256),
-        b: Math.floor(Math.random() * 256),
-    }
-    return [color.r, color.g, color.b]
-}
-
-function rgb_to_hex(r, g, b) {
-    const hex = "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1)
-    return hex
 }
 
 function pasteColorIntoHTMLElementMultiple() {
@@ -85,49 +72,44 @@ function pasteColorIntoHTMLElementMultiple() {
     divMiddleRight.style.backgroundColor = `rgb(${RGB_3})`
     divRight.style.backgroundColor = `rgb(${RGB_4})`
 
-    pLeft.innerHTML = hex_1
-    pMiddleLeft.innerHTML = hex_2
-    pMiddleRight.innerHTML = hex_3
-    pRight.innerHTML = hex_4
+    pLeft.innerHTML = hex_1.toUpperCase()
+    pMiddleLeft.innerHTML = hex_2.toUpperCase()
+    pMiddleRight.innerHTML = hex_3.toUpperCase()
+    pRight.innerHTML = hex_4.toUpperCase()
 }
 
-function copyColorCode() {
+function copyColorCodeMultiple() {
     const pLeft = document.querySelector("#pLeft");
     const pMiddleLeft = document.querySelector("#pMiddleLeft");
     const pMiddleRight = document.querySelector("#pMiddleRight");
     const pRight = document.querySelector("#pRight");
 
-    copyToClipboard(pLeft)
-    copyToClipboard(pMiddleLeft)
-    copyToClipboard(pMiddleRight)
-    copyToClipboard(pRight)
+    copyToClipboard(pLeft);
+    copyToClipboard(pMiddleLeft);
+    copyToClipboard(pMiddleRight);
+    copyToClipboard(pRight);
 }
 
-function copyToClipboard(p_tag) {
-    p_tag.addEventListener('click', () => {
-      navigator.clipboard.writeText(p_tag.innerHTML)
-      .then(() => console.log("OK COPY"))
-      .catch(err => console.log("ERROR ON COPY", err))
-    })
-}
+function remove_loadMultipleColor() {
+  const wrapper = document.querySelector(".wrapper");
+  const divLeft = document.querySelector(".left");
+  const divMiddleLeft = document.querySelector(".middleLeft");
+  const divMiddleRight = document.querySelector(".middleRight");
+  const divRight = document.querySelector(".right");
 
-function settings() {
-    const settings = document.querySelector('.settings')
-
-    const button_tag = document.createElement('button')
-    button_tag.id = "btn-reload"
-    button_tag.innerHTML = "Pick New Color"
-
-    button_tag.addEventListener('click', () => pasteColorIntoHTMLElementMultiple() )
-
-    copyColorCode()
-    settings.appendChild(button_tag)
+  wrapper.removeChild(divLeft);
+  wrapper.removeChild(divMiddleLeft);
+  wrapper.removeChild(divMiddleRight);
+  wrapper.removeChild(divRight);
 }
 
 function loadMultipleColor() {
     createHTMLElementMultiple()
     pasteColorIntoHTMLElementMultiple()
+    settings()
 }
+
+/* Choose One Color*/
 
 function createHTMLElementOne() {
     const wrapper = document.querySelector('.wrapper')
@@ -151,12 +133,92 @@ function pasteColorIntoHTMLElementOne() {
     const RGB = `${r}, ${g}, ${b}`
 
     divMain.style.backgroundColor = `rgb(${RGB})`
-    pText.innerHTML = hex
+    pText.innerHTML = hex.toUpperCase()
 }
 
+function remove_loadOneColor() {
+    const wrapper = document.querySelector('.wrapper')
+    const divMain = document.querySelector(".div-main");
+
+    wrapper.removeChild(divMain)
+}
+
+function copyColorCodeOne() {
+  const pOne = document.querySelector("#pText");
+  copyToClipboard(pOne);
+}
 
 function loadOneColor() {
     createHTMLElementOne()
     pasteColorIntoHTMLElementOne()
     settings()
+}
+
+/* END */
+
+function randomizeColor() {
+  const color = {
+    r: Math.floor(Math.random() * 256), // 0-255
+    g: Math.floor(Math.random() * 256),
+    b: Math.floor(Math.random() * 256),
+  };
+  return [color.r, color.g, color.b];
+}
+
+function rgb_to_hex(r, g, b) {
+  const hex =
+    "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
+  return hex;
+}
+
+function copyToClipboard(p_tag) {
+  p_tag.addEventListener("click", () => {
+    navigator.clipboard
+      .writeText(p_tag.innerHTML)
+      .then(() => console.log("OK COPY"))
+      .catch((err) => console.log("ERROR ON COPY", err));
+  });
+}
+
+function settings() {
+  const checkbox_for_multiple_color_picking = document.getElementById(
+    "checkbox-pick-multiple-color"
+  );
+
+  if (checkbox_for_multiple_color_picking.checked) {
+    pasteColorIntoHTMLElementMultiple();
+    copyColorCodeMultiple();
+  } else {
+    pasteColorIntoHTMLElementOne();
+    copyColorCodeOne();
+  }
+}
+
+function handleCheckbox(elem) {
+  if (elem.checked) {
+    loadMultipleColor();
+    remove_loadOneColor();
+  } else if (!elem.checked) {
+    loadOneColor();
+    remove_loadMultipleColor();
+  }
+}
+
+function reload() {
+    const button_reload = document.getElementById('btn-reload')
+    const checkbox_for_multiple_color_picking = document.getElementById('checkbox-pick-multiple-color')
+
+    button_reload.addEventListener('click', () => {
+        if(checkbox_for_multiple_color_picking.checked) { 
+            pasteColorIntoHTMLElementMultiple()
+        }
+        else {
+            pasteColorIntoHTMLElementOne()
+        }
+    })
+}
+
+function isRGBDarkOrLight(r, g, b) {
+  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  return luminance > 0.5 ? "light" : "dark"
 }
