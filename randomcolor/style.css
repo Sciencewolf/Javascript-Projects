@@ -3,7 +3,6 @@ html {
 }
 
 body {
-    width: 99%;
     height: 95vh;
     overflow: hidden;
 }
@@ -106,21 +105,24 @@ button:hover {
     gap: 0.5em;
     position: absolute;
     right: 1em;
-    top: -50%;
-    background-color: grey;
+    bottom: 70%;
+    background-color: transparent;
     border-radius: 5px;
-    width: 5em;
+    width: auto;
     height: 2em;
+    padding-left: 3px;
+    padding-right: 3px;
+    border: 1px solid black;
 }
 
 #tweet a {
     text-decoration: none;
-    color: white;
+    color: black;
     font: bold;
-}
-
-#tweet a:hover {
-    text-decoration: underline;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
 }
 
 #dev {
