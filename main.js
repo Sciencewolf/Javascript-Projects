@@ -35,7 +35,6 @@ const onLoad = () => {
   );
 }
 
-
 function createDivForProjects(div_ClassName, first_aTag_href, first_aTag_Text, second_aTag_href, second_aTag_Text = "[Source Code]") {
   const body = document.querySelector('body')
   const div = document.createElement('div')
