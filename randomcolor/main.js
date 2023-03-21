@@ -40,6 +40,7 @@ function createHTMLElementMultiple() {
 }
 
 function pasteColorIntoHTMLElementMultiple() {
+  const header = document.querySelector('.header h3')
     const divLeft = document.querySelector('.left')
     const divMiddleLeft = document.querySelector('.middleLeft')
     const divMiddleRight = document.querySelector('.middleRight')
@@ -76,6 +77,8 @@ function pasteColorIntoHTMLElementMultiple() {
     pMiddleLeft.innerHTML = hex_2.toUpperCase()
     pMiddleRight.innerHTML = hex_3.toUpperCase()
     pRight.innerHTML = hex_4.toUpperCase()
+
+    header.style.color = "black"
 }
 
 function copyColorCodeMultiple() {
@@ -125,6 +128,7 @@ function createHTMLElementOne() {
 }
 
 function pasteColorIntoHTMLElementOne() {
+  const header = document.querySelector('.header h3')
     const divMain = document.querySelector('.div-main')
     const pText = document.getElementById('pText')
 
@@ -134,6 +138,12 @@ function pasteColorIntoHTMLElementOne() {
 
     divMain.style.backgroundColor = `rgb(${RGB})`
     pText.innerHTML = hex.toUpperCase()
+
+    console.log(r, g, b)
+    let lumen = isColorDarkOrLight(r, g, b)
+    console.log(lumen)
+    if(lumen === "dark") header.style.color = "white"
+    else header.style.color = "black"
 }
 
 function remove_loadOneColor() {
@@ -146,6 +156,15 @@ function remove_loadOneColor() {
 function copyColorCodeOne() {
   const pOne = document.querySelector("#pText");
   copyToClipboard(pOne);
+}
+
+function changeHeaderColor() {
+  const header = document.querySelector(".header h3")
+  let lumen = isColorDarkOrLight()
+  console.log(lumen)
+
+  if(lumen === "dark") header.style.color = "white"
+  else header.style.color = "Black"
 }
 
 function loadOneColor() {
@@ -218,7 +237,7 @@ function reload() {
     })
 }
 
-function isRGBDarkOrLight(r, g, b) {
-  const luminance = 0.2126 * r + 0.7152 * g + 0.0722 * b;
-  return luminance > 0.5 ? "light" : "dark"
+function isColorDarkOrLight(r, g, b) {
+  const luminance = (0.2126 * r) + (0.7152 * g) + (0.0722 * b);
+  return luminance >= 0.5 ? "light" : "dark"
 }
