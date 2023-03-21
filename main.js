@@ -1,4 +1,4 @@
-const onLoad = () => {
+const onLoadJSProject = () => {
   createDivForProjects(
     "project-codeeditor",
     "https://tinyurl.com/webcodeedit",
