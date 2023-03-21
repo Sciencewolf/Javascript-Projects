@@ -15,7 +15,9 @@ const onLoadJSProject = () => {
 
   createDivForProjects(
     "project-randomcolor",
-    "https://tinyurl.com/randcolors",
+    // "https://tinyurl.com/randcolors",
+    "https://randomcolorproject.glitch.me/",
+    
     "Random Color",
     "https://github.com/Sciencewolf/Javascript-Projects/tree/master/randomcolor"
   );
