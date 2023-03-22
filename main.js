@@ -1,4 +1,4 @@
-const onLoad = () => {
+const onLoadJSProject = () => {
   createDivForProjects(
     "project-codeeditor",
     "https://tinyurl.com/webcodeedit",
@@ -15,7 +15,9 @@ const onLoad = () => {
 
   createDivForProjects(
     "project-randomcolor",
-    "https://tinyurl.com/randcolors",
+    // "https://tinyurl.com/randcolors",
+    "https://randomcolorproject.glitch.me/",
+    
     "Random Color",
     "https://github.com/Sciencewolf/Javascript-Projects/tree/master/randomcolor"
   );

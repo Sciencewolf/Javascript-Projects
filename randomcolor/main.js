@@ -24,7 +24,7 @@ function createHTMLElementMultiple() {
     const [divLeft, divMiddleLeft, divMiddleRight, divRight] = 
     Array.from({ length: 4 }, () => document.createElement('div'))
     const [pLeft, pMiddleLeft, pMiddleRight, pRight] = 
-    Array.from({ length: 8 }, () => document.createElement('p'));
+    Array.from({ length: 4 }, () => document.createElement('p'));
 
     // div tags
     divLeft.className = "left"
