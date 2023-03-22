@@ -1,3 +1,5 @@
+let count_for_pInfo = 0;
+
 const onLoad = () => { 
     loadOneColor()
     reload()
@@ -5,6 +7,14 @@ const onLoad = () => {
     const curr_year = new Date()
     const dev = document.getElementById("dev")
     dev.innerHTML = `Created By: Aron Marton <a href="https://github.com/Sciencewolf">GitHub</a> ${curr_year.getFullYear()}`
+
+	const pInfo_id = document.getElementById('pInfo')
+	document.addEventListener('keyup', (event) => {
+		if(event.code === "Space") { 
+			reloadOnSpacebar()
+			pInfo_id.style.display = "none" 
+		}
+	})
 }
 
 /* Choose Multiple Color */
@@ -22,7 +32,7 @@ function createHTMLElementMultiple() {
     divMiddleRight.className = "middleRight"
     divRight.className = "right"
 
-    // p tags
+    // p tags 	
     pLeft.id = "pLeft"
     pMiddleLeft.id = "pMiddleLeft"
     pMiddleRight.id = "pMiddleRight"
@@ -40,7 +50,6 @@ function createHTMLElementMultiple() {
 }
 
 function pasteColorIntoHTMLElementMultiple() {
-  const header = document.querySelector('.header h3')
     const divLeft = document.querySelector('.left')
     const divMiddleLeft = document.querySelector('.middleLeft')
     const divMiddleRight = document.querySelector('.middleRight')
@@ -77,8 +86,6 @@ function pasteColorIntoHTMLElementMultiple() {
     pMiddleLeft.innerHTML = hex_2.toUpperCase()
     pMiddleRight.innerHTML = hex_3.toUpperCase()
     pRight.innerHTML = hex_4.toUpperCase()
-
-    header.style.color = "black"
 }
 
 function copyColorCodeMultiple() {
@@ -94,16 +101,16 @@ function copyColorCodeMultiple() {
 }
 
 function remove_loadMultipleColor() {
-  const wrapper = document.querySelector(".wrapper");
-  const divLeft = document.querySelector(".left");
-  const divMiddleLeft = document.querySelector(".middleLeft");
-  const divMiddleRight = document.querySelector(".middleRight");
-  const divRight = document.querySelector(".right");
+	const wrapper = document.querySelector('.wrapper')
+    const divLeft = document.querySelector(".left");
+    const divMiddleLeft = document.querySelector(".middleLeft");
+    const divMiddleRight = document.querySelector(".middleRight");
+    const divRight = document.querySelector(".right");
 
-  wrapper.removeChild(divLeft);
-  wrapper.removeChild(divMiddleLeft);
-  wrapper.removeChild(divMiddleRight);
-  wrapper.removeChild(divRight);
+	wrapper.removeChild(divLeft)
+	wrapper.removeChild(divMiddleLeft)
+	wrapper.removeChild(divMiddleRight)
+	wrapper.removeChild(divRight)
 }
 
 function loadMultipleColor() {
@@ -119,16 +126,28 @@ function createHTMLElementOne() {
 
     const divMain = document.createElement('div')
     const pText = document.createElement('p')
+	const pInfo = document.createElement('p')
 
     divMain.className = "div-main"
     pText.id = "pText"
+	pInfo.id = "pInfo"
+	pInfo.innerHTML = "Press [SPACEBAR] to change color"
 
     divMain.appendChild(pText)
+	divMain.appendChild(pInfo)
+	count_for_pInfo++;
+	if(count_for_pInfo > 1) {
+		clearTimeout(del_divMain)
+		divMain.removeChild(pInfo)
+	}
     wrapper.appendChild(divMain)
+
+	var del_divMain = setTimeout(() => {
+		if(divMain.childNodes.length === 2) divMain.removeChild(pInfo)
+	}, 5900)
 }
 
 function pasteColorIntoHTMLElementOne() {
-  const header = document.querySelector('.header h3')
     const divMain = document.querySelector('.div-main')
     const pText = document.getElementById('pText')
 
@@ -139,15 +158,11 @@ function pasteColorIntoHTMLElementOne() {
     divMain.style.backgroundColor = `rgb(${RGB})`
     pText.innerHTML = hex.toUpperCase()
 
-    console.log(r, g, b)
-    let lumen = isColorDarkOrLight(r, g, b)
-    console.log(lumen)
-    if(lumen === "dark") header.style.color = "white"
-    else header.style.color = "black"
+	changeHeaderColor(r, g, b)
 }
 
 function remove_loadOneColor() {
-    const wrapper = document.querySelector('.wrapper')
+	const wrapper = document.querySelector('.wrapper')
     const divMain = document.querySelector(".div-main");
 
     wrapper.removeChild(divMain)
@@ -156,15 +171,6 @@ function remove_loadOneColor() {
 function copyColorCodeOne() {
   const pOne = document.querySelector("#pText");
   copyToClipboard(pOne);
-}
-
-function changeHeaderColor() {
-  const header = document.querySelector(".header h3")
-  let lumen = isColorDarkOrLight()
-  console.log(lumen)
-
-  if(lumen === "dark") header.style.color = "white"
-  else header.style.color = "Black"
 }
 
 function loadOneColor() {
@@ -214,13 +220,14 @@ function settings() {
 }
 
 function handleCheckbox(elem) {
-  if (elem.checked) {
-    loadMultipleColor();
-    remove_loadOneColor();
-  } else if (!elem.checked) {
-    loadOneColor();
-    remove_loadMultipleColor();
-  }
+	if (elem.checked) {
+		loadMultipleColor();
+		remove_loadOneColor();
+	} else if (!elem.checked) {
+		loadOneColor();
+		remove_loadMultipleColor();
+	}
+	elem.blur()
 }
 
 function reload() {
@@ -237,7 +244,30 @@ function reload() {
     })
 }
 
+function reloadOnSpacebar() {
+	const checkbox_for_multiple_color_picking = document.getElementById('checkbox-pick-multiple-color')
+
+	if(checkbox_for_multiple_color_picking.checked) {
+		pasteColorIntoHTMLElementMultiple()
+	}
+	else {
+		pasteColorIntoHTMLElementOne()
+	}
+}
+
+function changeHeaderColor(r, g, b) {
+	const header = document.querySelector(".header h3")
+	let _isColorDarkOrLight = isColorDarkOrLight(r, g, b)
+
+	if (_isColorDarkOrLight === "dark") header.style.color = "white"
+	else header.style.color = "Black"
+}
+
 function isColorDarkOrLight(r, g, b) {
-  const luminance = (0.2126 * r) + (0.7152 * g) + (0.0722 * b);
-  return luminance >= 0.5 ? "light" : "dark"
+	const hsp = Math.sqrt(
+		0.299 * (r * r) +
+		0.587 * (g * g) +
+		0.114 * (b * b) )
+
+    return hsp > 127.5 ? "light" : "dark"
 }

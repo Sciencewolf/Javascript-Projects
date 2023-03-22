@@ -59,6 +59,30 @@ body {
     transition: 300ms;
 }
 
+.wrapper div p#pInfo {
+    font-size: 32px;
+    position: absolute;
+    width: auto;
+    height: 1em;
+    top: 50%;
+    background-color: transparent;
+    padding: 0;
+    animation: fade 6s linear;
+}
+
+@keyframes fade {
+    0%, 100% {
+        opacity: 0;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+.wrapper div p#pInfo:hover {
+    cursor: auto
+}
+
 .checkbox {
     position: absolute;
     top: 0.5em;
