@@ -3,11 +3,7 @@ let count_for_pInfo = 0;
 const onLoad = () => { 
     loadOneColor()
     reload()
-
-    const curr_year = new Date()
-    const dev = document.getElementById("dev")
-    dev.innerHTML = `Created By: Aron Marton <a href="https://github.com/Sciencewolf">GitHub</a> ${curr_year.getFullYear()}`
-
+    aboutDev()
 	const pInfo_id = document.getElementById('pInfo')
 	document.addEventListener('keyup', (event) => {
 		if(event.code === "Space") { 
@@ -116,7 +112,7 @@ function remove_loadMultipleColor() {
 function loadMultipleColor() {
     createHTMLElementMultiple()
     pasteColorIntoHTMLElementMultiple()
-    settings()
+    checkbox_for_multcolpick()
 }
 
 /* Choose One Color*/
@@ -158,7 +154,7 @@ function pasteColorIntoHTMLElementOne() {
     divMain.style.backgroundColor = `rgb(${RGB})`
     pText.innerHTML = hex.toUpperCase()
 
-	changeHeaderColor(r, g, b)
+	changeTextColor(r, g, b)
 }
 
 function remove_loadOneColor() {
@@ -176,7 +172,7 @@ function copyColorCodeOne() {
 function loadOneColor() {
     createHTMLElementOne()
     pasteColorIntoHTMLElementOne()
-    settings()
+    checkbox_for_multcolpick()
 }
 
 /* END */
@@ -202,10 +198,29 @@ function copyToClipboard(p_tag) {
       .writeText(p_tag.innerHTML)
       .then(() => console.log("OK COPY"))
       .catch((err) => console.log("ERROR ON COPY", err));
+
+      colorIsCopied()
   });
 }
 
-function settings() {
+function colorIsCopied() {
+    const body = document.querySelector('body')
+    const div = document.createElement('div')
+    const maybe_div_exists = document.querySelector('.div-coloriscopied')
+
+    // if(maybe_div_exists !== null) body.removeChild(maybe_div_exists)
+
+    div.className = "div-coloriscopied"
+    div.innerHTML = "Color Is Copied"
+
+    body.appendChild(div)
+
+    setTimeout(() => {
+        body.removeChild(div)
+    }, 3000)
+}
+
+function checkbox_for_multcolpick() {
   const checkbox_for_multiple_color_picking = document.getElementById(
     "checkbox-pick-multiple-color"
   );
@@ -255,12 +270,19 @@ function reloadOnSpacebar() {
 	}
 }
 
-function changeHeaderColor(r, g, b) {
+function changeTextColor(r, g, b) {
 	const header = document.querySelector(".header h3")
+    const hint = document.getElementById('pInfo')
 	let _isColorDarkOrLight = isColorDarkOrLight(r, g, b)
 
-	if (_isColorDarkOrLight === "dark") header.style.color = "white"
-	else header.style.color = "Black"
+	if (_isColorDarkOrLight === "dark") {
+        header.style.color = "white"
+        hint.style.color = "white"
+    }
+	else {
+        header.style.color = "black"
+        hint.style.color = "black"
+    }
 }
 
 function isColorDarkOrLight(r, g, b) {
@@ -270,4 +292,10 @@ function isColorDarkOrLight(r, g, b) {
 		0.114 * (b * b) )
 
     return hsp > 127.5 ? "light" : "dark"
+}
+
+function aboutDev() {
+    const curr_year = new Date()
+    const dev = document.getElementById("dev")
+    dev.innerHTML = `Created By: Aron Marton <a href="https://github.com/Sciencewolf">[GitHub]</GitHub></a> ${curr_year.getFullYear()}`
 }

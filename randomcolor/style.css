@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Sono:wght@500&display=swap');
+
+* {
+    font-family: 'Sono', sans-serif;
+}
+
 html {
     scroll-behavior: smooth;
 }
@@ -17,6 +23,7 @@ body {
 }
 
 .header h3 {
+    user-select: none;
     color: white;
     letter-spacing: 1px;
     text-decoration: underline;
@@ -83,6 +90,20 @@ body {
     cursor: auto
 }
 
+.div-coloriscopied {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    bottom: 1em;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 8em;
+    height: 2em;
+    background-color: aquamarine;
+    color: black;
+    border-radius: 5px;
+}
 .checkbox {
     position: absolute;
     top: 0.5em;
@@ -117,7 +138,7 @@ footer {
     border-radius: 5px;
 }
 
-.settings input[type=checkbox] {
+.footer input[type=checkbox] {
     accent-color: green;
     transform: scale(1.4);
 }
