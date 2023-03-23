@@ -272,16 +272,22 @@ function reloadOnSpacebar() {
 
 function changeTextColor(r, g, b) {
 	const header = document.querySelector(".header h3")
-    const hint = document.getElementById('pInfo')
+    const pInfo = document.getElementById('pInfo')
+    let is_pInfo_exists = false
+    if(typeof(pInfo) === null || pInfo === 'undefined') {
+        console.log("true")
+        is_pInfo_exists = true
+    }
+    
 	let _isColorDarkOrLight = isColorDarkOrLight(r, g, b)
 
 	if (_isColorDarkOrLight === "dark") {
         header.style.color = "white"
-        hint.style.color = "white"
+        if(is_pInfo_exists === false) pInfo.style.color = "white"
     }
 	else {
         header.style.color = "black"
-        hint.style.color = "black"
+        if(is_pInfo_exists === false) pInfo.style.color = "black"
     }
 }
 
