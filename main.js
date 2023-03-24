@@ -8,16 +8,14 @@ const onLoadJSProject = () => {
 
   createDivForProjects(
     "project-askmeaquestion",
-    "https://sciencewolf.github.io/AskMeAQuestion/",
+    "https://askmeaquestionproject.glitch.me/",
     "Ask Me A Question",
     "https://github.com/Sciencewolf/Javascript-Projects/tree/master/askmeaquestion"
   );
 
   createDivForProjects(
     "project-randomcolor",
-    // "https://tinyurl.com/randcolors",
     "https://randomcolorproject.glitch.me/",
-    
     "Random Color",
     "https://github.com/Sciencewolf/Javascript-Projects/tree/master/randomcolor"
   );
