@@ -56,6 +56,9 @@ function pasteColorIntoHTMLElementMultiple() {
     const pMiddleRight = document.querySelector('#pMiddleRight')
     const pRight = document.querySelector('#pRight')
 
+    const header = document.querySelector('.header h3')
+    header.style.color = 'black'
+
     const [r1, g1, b1] = randomizeColor()
     const hex_1 = rgb_to_hex(r1, g1, b1)
 
@@ -272,22 +275,22 @@ function reloadOnSpacebar() {
 
 function changeTextColor(r, g, b) {
 	const header = document.querySelector(".header h3")
-    const pInfo = document.getElementById('pInfo')
-    let is_pInfo_exists = false
-    if(typeof(pInfo) === null || pInfo === 'undefined') {
-        console.log("true")
-        is_pInfo_exists = true
-    }
+    // const pInfo = document.getElementById('pInfo')
+    // let is_pInfo_exists = false
+    // if(typeof(pInfo) === null || pInfo === 'undefined') {
+    //     console.log("true")
+    //     is_pInfo_exists = true
+    // }
     
 	let _isColorDarkOrLight = isColorDarkOrLight(r, g, b)
 
 	if (_isColorDarkOrLight === "dark") {
         header.style.color = "white"
-        if(is_pInfo_exists === false) pInfo.style.color = "white"
+        // if(is_pInfo_exists === false) pInfo.style.color = "white"
     }
 	else {
         header.style.color = "black"
-        if(is_pInfo_exists === false) pInfo.style.color = "black"
+        // if(is_pInfo_exists === false) pInfo.style.color = "black"
     }
 }
 
@@ -304,4 +307,19 @@ function aboutDev() {
     const curr_year = new Date()
     const dev = document.getElementById("dev")
     dev.innerHTML = `Created By: Aron Marton <a href="https://github.com/Sciencewolf">[GitHub]</GitHub></a> ${curr_year.getFullYear()}`
+}
+
+function maintenance() {
+    const body = document.querySelector('body')
+
+    const div = document.createElement('div')
+    const img = document.createElement('img')
+
+    div.innerHTML = "Maintenance"
+    div.className = "div-maintenance"
+    img.src = "https://img.icons8.com/ios/100/null/online-maintenance-portal.png"
+    img.id = "img-maintenance"
+
+    body.appendChild(div)
+    body.appendChild(img)
 }
