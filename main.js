@@ -24,7 +24,7 @@ const onLoadJSProject = () => {
 
   createDivForProjects(
     "project-todoapp",
-    "https://github.com/Sciencewolf/Javascript-Projects/tree/master/ToDoApp",
+    "https://todoappproject.glitch.me/",
     "To Do App",
     "https://github.com/Sciencewolf/Javascript-Projects/tree/master/todoapp"
   );
