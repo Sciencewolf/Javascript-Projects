@@ -1,7 +1,7 @@
 const onLoadJSProject = () => {
   createDivForProjects(
     "project-codeeditor",
-    "https://tinyurl.com/webcodeedit",
+    "https://codeeditorproject.glitch.me/",
     "Code Editor",
     "https://github.com/Sciencewolf/Javascript-Projects/tree/master/codeeditor"
   );
