@@ -197,3 +197,26 @@ button:hover {
 #dev a:hover {
     text-decoration: underline;
 }
+
+
+/*
+Maintenance
+*/
+
+.body-maintenance {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    font-size: 40px;
+}
+
+.body-maintenance img {
+    width: 5em;
+    height: 5em;
+}
+
+.body-maintenance .span-return_later {
+    position: absolute;
+    top: 70%;
+}

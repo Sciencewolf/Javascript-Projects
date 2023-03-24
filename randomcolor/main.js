@@ -150,6 +150,7 @@ function pasteColorIntoHTMLElementOne() {
     const divMain = document.querySelector('.div-main')
     const pText = document.getElementById('pText')
 
+
     const [r, g, b] = randomizeColor()
     const hex = rgb_to_hex(r, g, b)
     const RGB = `${r}, ${g}, ${b}`
@@ -209,9 +210,6 @@ function copyToClipboard(p_tag) {
 function colorIsCopied() {
     const body = document.querySelector('body')
     const div = document.createElement('div')
-    const maybe_div_exists = document.querySelector('.div-coloriscopied')
-
-    // if(maybe_div_exists !== null) body.removeChild(maybe_div_exists)
 
     div.className = "div-coloriscopied"
     div.innerHTML = "Color Is Copied"
@@ -275,22 +273,16 @@ function reloadOnSpacebar() {
 
 function changeTextColor(r, g, b) {
 	const header = document.querySelector(".header h3")
-    // const pInfo = document.getElementById('pInfo')
-    // let is_pInfo_exists = false
-    // if(typeof(pInfo) === null || pInfo === 'undefined') {
-    //     console.log("true")
-    //     is_pInfo_exists = true
-    // }
-    
+    const  hint_pInfo = document.getElementById('pInfo')
 	let _isColorDarkOrLight = isColorDarkOrLight(r, g, b)
 
 	if (_isColorDarkOrLight === "dark") {
         header.style.color = "white"
-        // if(is_pInfo_exists === false) pInfo.style.color = "white"
+        if (typeof (hint_pInfo) != 'undefined' && hint_pInfo != null) hint_pInfo.style.color = "white"
     }
 	else {
         header.style.color = "black"
-        // if(is_pInfo_exists === false) pInfo.style.color = "black"
+        if (typeof (hint_pInfo) != 'undefined' && hint_pInfo != null)hint_pInfo.style.color = "black"
     }
 }
 
@@ -309,17 +301,30 @@ function aboutDev() {
     dev.innerHTML = `Created By: Aron Marton <a href="https://github.com/Sciencewolf">[GitHub]</GitHub></a> ${curr_year.getFullYear()}`
 }
 
-function maintenance() {
+// Maintenance for glitch 
+function showMaintenanceWindow() {
+    const html = document.querySelector('html')
     const body = document.querySelector('body')
 
+    const body_new = document.createElement('body')
     const div = document.createElement('div')
     const img = document.createElement('img')
+    const span_new = document.createElement('span')
 
+    body_new.className = "body-maintenance"
     div.innerHTML = "Maintenance"
     div.className = "div-maintenance"
     img.src = "https://img.icons8.com/ios/100/null/online-maintenance-portal.png"
     img.id = "img-maintenance"
+    span_new.className = "span-return_later"
+    span_new.innerHTML = 'Come Back Later'
 
-    body.appendChild(div)
-    body.appendChild(img)
+    body.innerHTML = ""
+    body.style.width = 0
+    body.style.height = 0
+    
+    body_new.appendChild(div)
+    body_new.appendChild(img)
+    body_new.appendChild(span_new)
+    html.appendChild(body_new)
 }
