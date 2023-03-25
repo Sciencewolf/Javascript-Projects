@@ -4,11 +4,12 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script type="script" src="main.js"></script>
+    <script type="text/javascript" src="main.js"></script>
     <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="https://img.icons8.com/fluency/96/null/todo-list.png">
     <title>To Do App</title>
 </head>
-<body>
+<body onload="onLoad()">
     <!-- 
         To Do App [Tasks To Do for me]
         
@@ -17,6 +18,40 @@
         
         cookies for restoring tasks(min 1 day expire)
     -->
+    <header class="header">
+        <h1>DoNow</h1>    
+    </header>
+
+    <div class="list-todo">
+        <h3>Task</h3>
+        <div class="list">
+            <p>hfjds</p>
+        </div>
+    </div>
+
+    <span class="input">
+        <input type="text" placeholder="Task">
+        <div class="dropdown" role="option">-- Select Type --</div>
+        <button type="button" id="btn-add">Add</button>
+    </span>
+
+    <div class="tip"></div>
+
+    <hr>
+    <footer class="footer">
+        fjdk
+        <span class="tweet">
+            <a 
+            id="tweet-link" 
+            href="https://twitter.com/intent/tweet?text=DoNow%20by%20@aronmarton_%20https://todoappproject.glitch.me/" 
+            target="_blank">
+                <img src="https://img.icons8.com/tiny-color/16/null/twitter.png"/>
+                Tweet <!-- Text -->
+            </a>
+        </span>
+
+        <span class="dev"></span>
+    </footer>
     
 </body>
 </html>

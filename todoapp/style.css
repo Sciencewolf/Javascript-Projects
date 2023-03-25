@@ -1,0 +1,104 @@
+@import url('https://fonts.googleapis.com/css2?family=Changa&display=swap');
+
+* {
+    font-family: 'Changa', sans-serif;
+}
+
+body {
+    height: 95vh;
+    overflow: hidden;
+}
+
+.header {
+    width: 100%;
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-todo {
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: grey;
+    color: white;
+    border-radius: 10px;
+}
+
+.input {
+    height: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .3em;
+}
+
+.input input {
+    width: 20em;
+}
+
+.input .dropdown {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+    width: 10em;
+}
+
+.input .dropdown:hover {
+    cursor: pointer;
+}
+
+.input button {
+    width: 5em;
+    border: none;
+    border-radius: 10px;
+    background-color: grey;
+    color: white;
+}
+
+.footer {
+    position: absolute;
+    bottom: 10px;
+    background-color: black;
+    height: 10%;
+    width: 99%;
+    border-radius: 10px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+} 
+
+.footer .tweet {
+    width: 5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    grid-area: 1em;
+    border: 1px solid white;
+    position: absolute;
+    right: 1em;
+    bottom: 3em;
+    background-color: aliceblue;
+}
+
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+.footer .dev {
+    position: absolute;
+    right: 1em;
+    bottom: 5px;
+}
+
+.input button:hover {
+    cursor: pointer;
+    background-color: black;
+    transition: .3s all;
+}
