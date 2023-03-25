@@ -1,16 +1,69 @@
 let count_for_pInfo = 0;
 
 const onLoad = () => { 
+    if(detectPlatform() === 'mobile') mobileVersion()
+    else if(detectPlatform() === 'desktop') desktopVersion()
+}
+
+function detectPlatform() {
+    const isMobile = /Android|iPhone/i.test(navigator.userAgent)
+    return isMobile ? "mobile" : "desktop"
+}
+
+function mobileVersion() {
+    loadOneColor()
+    aboutDev()
+    const alert_on_copy = document.createElement('span')
+    const img_on_copy = document.createElement('img')
+    const text_on_copy = document.createElement('p')
+
+    const body = document.querySelector('body')
+    const checkbox = document.querySelector('footer .checkbox')
+    const about_dev = document.getElementById('dev')
+    const gen_new_color_button = document.querySelector('.btn')
+    const p_info = document.getElementById('pInfo')
+    const div_main = document.querySelector('.wrapper div.div-main')
+    const p_text = document.getElementById('pText')
+
+    checkbox.style.display = "none"
+    about_dev.style.fontSize = "15px"
+    gen_new_color_button.style.display = "none"
+    p_info.innerText = "Tap Here"
+    setTimeout(() => {
+        p_info.style.display = "none"
+    }, 2900)
+
+    div_main.addEventListener('touchstart', () => {
+        pasteColorIntoHTMLElementOne()
+        p_info.style.display = "none"
+    })
+
+    alert_on_copy.className = "alert-copy-mobile"
+    img_on_copy.src = "https://img.icons8.com/color/48/null/ok--v1.png"
+    text_on_copy.innerText = "Copied"
+
+    alert_on_copy.appendChild(img_on_copy)
+    alert_on_copy.appendChild(text_on_copy)
+
+    p_text.addEventListener('touchstart', () => {
+        body.appendChild(alert_on_copy)
+        setTimeout(() => {
+            body.removeChild(alert_on_copy)
+        }, 2500);
+    })
+}
+
+function desktopVersion() {
     loadOneColor()
     reload()
     aboutDev()
-	const pInfo_id = document.getElementById('pInfo')
-	document.addEventListener('keyup', (event) => {
-		if(event.code === "Space") { 
-			reloadOnSpacebar()
-			pInfo_id.style.display = "none" 
-		}
-	})
+    const pInfo_id = document.getElementById('pInfo')
+    document.addEventListener('keyup', (event) => {
+        if (event.code === "Space") {
+            reloadOnSpacebar()
+            pInfo_id.style.display = "none"
+        }
+    })
 }
 
 /* Choose Multiple Color */
@@ -150,7 +203,6 @@ function pasteColorIntoHTMLElementOne() {
     const divMain = document.querySelector('.div-main')
     const pText = document.getElementById('pText')
 
-
     const [r, g, b] = randomizeColor()
     const hex = rgb_to_hex(r, g, b)
     const RGB = `${r}, ${g}, ${b}`
@@ -202,23 +254,7 @@ function copyToClipboard(p_tag) {
       .writeText(p_tag.innerHTML)
       .then(() => console.log("OK COPY"))
       .catch((err) => console.log("ERROR ON COPY", err));
-
-      colorIsCopied()
   });
-}
-
-function colorIsCopied() {
-    const body = document.querySelector('body')
-    const div = document.createElement('div')
-
-    div.className = "div-coloriscopied"
-    div.innerHTML = "Color Is Copied"
-
-    body.appendChild(div)
-
-    setTimeout(() => {
-        body.removeChild(div)
-    }, 3000)
 }
 
 function checkbox_for_multcolpick() {
