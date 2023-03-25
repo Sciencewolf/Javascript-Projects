@@ -13,17 +13,13 @@ function detectPlatform() {
 function mobileVersion() {
     loadOneColor()
     aboutDev()
-    const alert_on_copy = document.createElement('span')
-    const img_on_copy = document.createElement('img')
-    const text_on_copy = document.createElement('p')
+    // alertOnCopy_mobileplatform() copy is not working for mobile devices
 
-    const body = document.querySelector('body')
     const checkbox = document.querySelector('footer .checkbox')
     const about_dev = document.getElementById('dev')
     const gen_new_color_button = document.querySelector('.btn')
     const p_info = document.getElementById('pInfo')
-    const div_main = document.querySelector('.wrapper div.div-main')
-    const p_text = document.getElementById('pText')
+    const div_main = document.querySelector('.wrapper div.div-one')
 
     checkbox.style.display = "none"
     about_dev.style.fontSize = "15px"
@@ -33,23 +29,9 @@ function mobileVersion() {
         p_info.style.display = "none"
     }, 2900)
 
-    div_main.addEventListener('touchstart', () => {
+    div_main.addEventListener('touchend', () => {
         pasteColorIntoHTMLElementOne()
         p_info.style.display = "none"
-    })
-
-    alert_on_copy.className = "alert-copy-mobile"
-    img_on_copy.src = "https://img.icons8.com/color/48/null/ok--v1.png"
-    text_on_copy.innerText = "Copied"
-
-    alert_on_copy.appendChild(img_on_copy)
-    alert_on_copy.appendChild(text_on_copy)
-
-    p_text.addEventListener('touchstart', () => {
-        body.appendChild(alert_on_copy)
-        setTimeout(() => {
-            body.removeChild(alert_on_copy)
-        }, 2500);
     })
 }
 
@@ -57,7 +39,9 @@ function desktopVersion() {
     loadOneColor()
     reload()
     aboutDev()
+    alertOnCopy_desktopplatform()
     const pInfo_id = document.getElementById('pInfo')
+
     document.addEventListener('keyup', (event) => {
         if (event.code === "Space") {
             reloadOnSpacebar()
@@ -70,6 +54,7 @@ function desktopVersion() {
 
 function createHTMLElementMultiple() {
     const wrapper = document.querySelector('.wrapper')
+    const wrapper_p = document.querySelector('.wrapper p#pText')
     const [divLeft, divMiddleLeft, divMiddleRight, divRight] = 
     Array.from({ length: 4 }, () => document.createElement('div'))
     const [pLeft, pMiddleLeft, pMiddleRight, pRight] = 
@@ -91,6 +76,8 @@ function createHTMLElementMultiple() {
     divMiddleLeft.appendChild(pMiddleLeft)
     divMiddleRight.appendChild(pMiddleRight)
     divRight.appendChild(pRight)
+
+    wrapper.removeChild(wrapper_p)
 
     wrapper.appendChild(divLeft)
     wrapper.appendChild(divMiddleLeft)
@@ -180,12 +167,11 @@ function createHTMLElementOne() {
     const pText = document.createElement('p')
 	const pInfo = document.createElement('p')
 
-    divMain.className = "div-main"
+    divMain.className = "div-one"
     pText.id = "pText"
 	pInfo.id = "pInfo"
 	pInfo.innerHTML = "Press [SPACEBAR] to change color"
 
-    divMain.appendChild(pText)
 	divMain.appendChild(pInfo)
 	count_for_pInfo++;
 	if(count_for_pInfo > 1) {
@@ -193,14 +179,15 @@ function createHTMLElementOne() {
 		divMain.removeChild(pInfo)
 	}
     wrapper.appendChild(divMain)
+    wrapper.appendChild(pText)
 
 	var del_divMain = setTimeout(() => {
-		if(divMain.childNodes.length === 2) divMain.removeChild(pInfo)
+		if(divMain.childNodes.length === 1) divMain.removeChild(pInfo)
 	}, 5900)
 }
 
 function pasteColorIntoHTMLElementOne() {
-    const divMain = document.querySelector('.div-main')
+    const divMain = document.querySelector('.div-one')
     const pText = document.getElementById('pText')
 
     const [r, g, b] = randomizeColor()
@@ -215,7 +202,7 @@ function pasteColorIntoHTMLElementOne() {
 
 function remove_loadOneColor() {
 	const wrapper = document.querySelector('.wrapper')
-    const divMain = document.querySelector(".div-main");
+    const divMain = document.querySelector(".div-one");
 
     wrapper.removeChild(divMain)
 }
@@ -249,12 +236,12 @@ function rgb_to_hex(r, g, b) {
 }
 
 function copyToClipboard(p_tag) {
-  p_tag.addEventListener("click", () => {
-    navigator.clipboard
-      .writeText(p_tag.innerHTML)
-      .then(() => console.log("OK COPY"))
-      .catch((err) => console.log("ERROR ON COPY", err));
-  });
+    p_tag.addEventListener("click", () => {
+        navigator.clipboard
+        .writeText(p_tag.innerHTML)
+        .then(() => console.log("OK COPY"))
+        .catch((err) => console.log("ERROR ON COPY", err));
+    });
 }
 
 function checkbox_for_multcolpick() {
@@ -309,14 +296,20 @@ function reloadOnSpacebar() {
 
 function changeTextColor(r, g, b) {
 	const header = document.querySelector(".header h3")
-    const  hint_pInfo = document.getElementById('pInfo')
+    const hint_pInfo = document.getElementById('pInfo')
+    const p_text = document.getElementById('pText')
+
 	let _isColorDarkOrLight = isColorDarkOrLight(r, g, b)
 
 	if (_isColorDarkOrLight === "dark") {
+        p_text.style.backgroundColor = "white"
+        p_text.style.color = "black"
         header.style.color = "white"
         if (typeof (hint_pInfo) != 'undefined' && hint_pInfo != null) hint_pInfo.style.color = "white"
     }
 	else {
+        p_text.style.backgroundColor = "black"
+        p_text.style.color = "white"
         header.style.color = "black"
         if (typeof (hint_pInfo) != 'undefined' && hint_pInfo != null)hint_pInfo.style.color = "black"
     }
@@ -335,6 +328,29 @@ function aboutDev() {
     const curr_year = new Date()
     const dev = document.getElementById("dev")
     dev.innerHTML = `Created By: Aron Marton <a href="https://github.com/Sciencewolf">[GitHub]</GitHub></a> ${curr_year.getFullYear()}`
+}
+
+function alertOnCopy_desktopplatform() {
+    const alert_on_copy = document.createElement('span')
+    const img_on_copy = document.createElement('img')
+    const text_on_copy = document.createElement('p')
+
+    const body = document.querySelector('body')
+    const p_text = document.getElementById('pText')
+
+    alert_on_copy.className = "alert-copy-desktop"
+    img_on_copy.src = "https://img.icons8.com/color/48/null/ok--v1.png"
+    text_on_copy.innerText = "Copied!"
+
+    alert_on_copy.appendChild(img_on_copy)
+    alert_on_copy.appendChild(text_on_copy)
+
+    p_text.addEventListener('click', () => {
+        body.appendChild(alert_on_copy)
+        setTimeout(() => {
+            body.removeChild(alert_on_copy)
+        }, 2500);
+    })
 }
 
 // Maintenance for glitch 
