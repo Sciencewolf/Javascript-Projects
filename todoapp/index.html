@@ -23,15 +23,26 @@
     </header>
 
     <div class="list-todo">
-        <h3>Task</h3>
-        <div class="list">
-            <p>hfjds</p>
-        </div>
+        <div class="list"></div>
     </div>
 
     <span class="input">
-        <input type="text" placeholder="Task">
-        <div class="dropdown" role="option">-- Select Type --</div>
+        <input type="text" placeholder="Task" id="input-task">
+        <select class="dropdown">
+            <option>
+                -- Select --
+            </option>
+
+            <option>
+                Ride
+            </option>
+
+            <option>
+                Walk
+            </option>
+        </select>
+        <div class="date">Date</div> 
+        <!-- select date for task -->
         <button type="button" id="btn-add">Add</button>
     </span>
 
