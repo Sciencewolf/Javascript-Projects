@@ -327,7 +327,7 @@ function isColorDarkOrLight(r, g, b) {
 function aboutDev() {
     const curr_year = new Date()
     const dev = document.getElementById("dev")
-    dev.innerHTML = `Created By: Aron Marton <a href="https://github.com/Sciencewolf">[GitHub]</GitHub></a> ${curr_year.getFullYear()}`
+    dev.innerHTML = `Created By: Aron Marton <a href="https://github.com/Sciencewolf">[GitHub]</a> ${curr_year.getFullYear()}`
 }
 
 function alertOnCopy_desktopplatform() {
