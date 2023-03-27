@@ -9,7 +9,6 @@
 
 body {
     height: 95vh;
-    overflow: hidden;
 }
 
 .header {
@@ -21,10 +20,9 @@ body {
 }
 
 .list-todo {
-    height: 10%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: none;
+    height: auto;
+    padding: 8px 0;
     background-color: grey;
     color: white;
     border-radius: var(--br);
@@ -35,7 +33,34 @@ body {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    
+    flex: 4;
+    gap: 2em;
+}
+
+.list .span-task {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2em;
+    background-color: black;
+    color: white;
+    border-radius: var(--br);
+    padding: 0 8px;
+}
+.list button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5em;
+    border-radius: 5px;
+}
+
+.list button:hover {
+    cursor: pointer;
+}
+
+button i:hover {
+    color: red;
 }
 
 .input {
