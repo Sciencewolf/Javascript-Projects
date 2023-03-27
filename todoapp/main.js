@@ -1,4 +1,4 @@
-const onLoad = () => {
+function onLoad() {
     if(getPlatform() === "mobile") mobileVersion()
     else if(getPlatform() === "desktop") desktopVersion()
     quotes()
@@ -10,6 +10,7 @@ function actions() {
     addtask_fn()
     removeTask()
     dropdown()
+    footer()
 }
 
 function addTask() {
@@ -99,7 +100,11 @@ async function quotes() {
 }
 
 function footer() {
-
+    const dev = document.querySelector('.dev')
+    const date = new Date()
+    
+    dev.innerHTML = `Created By: Aron Marton \
+    <a href="https://github.com/Sciencewolf/Javascript-Projects/tree/master/todoapp" target="_blank">[Source Code]</a> ${date.getFullYear()}`
 }
 
 function getPlatform() {
