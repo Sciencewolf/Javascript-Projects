@@ -1,38 +1,42 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <!-- required meta tags -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- <script src="https://cdn.jsdelivr.net/npm/browserify"></script> -->
+    <!-- Import JS file -->
     <script src="main.js"></script>
 
+    <!-- Import CSS files -->
     <link rel="stylesheet" href="style.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css" rel="stylesheet" type="text/css">
 
+    <!-- Favicon -->
     <link rel="icon" href="https://img.icons8.com/fluency/96/null/todo-list.png">
+
+    <!-- Title -->
     <title>To Do App</title>
+
 </head>
 <body onload="onLoad()">
-    <!-- 
-        To Do App [Tasks To Do for me]
-        
-        enter title, choose type(self-dev, reading, etc), add button
-        list -> task completed(huzzuk ki), delete task,
-        
-        cookies for restoring tasks(min 1 day expire)
-    -->
+
+    <!-- Header -->
     <header class="header">
         <h1>DoNow</h1>    
     </header>
 
+    <!-- List of tasks -->
     <div class="list-todo">
         <div class="list"></div>
     </div>
 
+    <!-- Input -->
     <span class="input">
         <input type="text" placeholder="Task" id="input-task">
+        
         <select class="dropdown">
             <option>
                 -- Select --
@@ -45,15 +49,22 @@
             <option>
                 Walk
             </option>
+
+            <option>
+                Other
+            </option>
         </select>
-        <input type="date" id="input-date">
-        <!-- select date for task -->
+
+        <input type="date" id="input-date" />
+
         <button type="button" id="btn-add">Add</button>
     </span>
+</div>
 
+<!-- Quote -->
     <div class="quote"></div>
 
-    <hr>
+    <!-- Footer -->
     <footer class="footer">
         <span class="tweet">
             <a 

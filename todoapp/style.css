@@ -3,12 +3,14 @@
 :root {
     --br: 10px;
 }
+
 * {
     font-family: 'Changa', sans-serif;
 }
 
 body {
     height: 95vh;
+    background-color: #1B5B90;
 }
 
 .header {
@@ -19,11 +21,15 @@ body {
     align-items: center;
 }
 
+.header h1 {
+    color: white;
+}
+
 .list-todo {
     display: none;
     height: auto;
     padding: 8px 0;
-    background-color: grey;
+    background-color: transparent;
     color: white;
     border-radius: var(--br);
 }
@@ -79,11 +85,18 @@ button i:hover {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid black;
-    width: 10em;
+    width: auto;
 }
 
 .input .dropdown:hover {
+    cursor: pointer;
+}
+
+.input input[type=date] {
+    width: 10em;
+}
+
+.input input[type=date]:hover {
     cursor: pointer;
 }
 
@@ -98,14 +111,16 @@ button i:hover {
 .footer {
     position: absolute;
     bottom: 10px;
-    background-color: black;
-    height: 10%;
+    background-color: transparent;
+    height: 5.5em;
     width: 99%;
-    border-radius: var(--br);
-    color: white;
     display: flex;
     justify-content: center;
     align-items: flex-start;
+    border-top: 1px solid white;
+    border-left: 1px solid white;
+    border-right: 1px solid white;
+    border-radius: var(--br);
 }
 
 .footer .tweet {
@@ -122,20 +137,39 @@ button i:hover {
     background-color: aliceblue;
 }
 
+.tweet a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5em;
+}
+
 a {
     text-decoration: none;
+    color: black;
 }
+
 a:hover {
+    color: black;
     text-decoration: underline;
 }
-a:visited {
-    color: white;
+
+p::selection {
+    user-select: none;
+}
+
+h1::selection {
+    user-select: none;
 }
 
 .footer .dev {
     position: absolute;
     right: 1em;
     bottom: 5px;
+    color: white;
+}
+
+.dev a {
     color: white;
 }
 
@@ -157,6 +191,12 @@ a:visited {
     border-radius: var(--br);
 }
 
+.quote span {
+    width: auto;
+    padding: 0 8px;
+    color: black;
+}
+
 .input button:hover {
     cursor: pointer;
     background-color: black;
@@ -174,5 +214,39 @@ a:visited {
 }
 
 @media screen and (max-width: 768px) {
-    
+    .list .span-task {
+        gap: .3em;
+    }
+
+    .span-task button {
+        gap: 0;
+    }
+
+    .quote {
+        width: 90%;
+        height: 3em;
+        font-size: 13px;
+        padding: 0 5px;
+    }
+
+    .footer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        bottom: 0;
+    }
+
+    .footer .dev {
+        position: absolute;
+        padding: 0;
+        margin: 0;
+        width: 90%;
+        left: 10px;
+    }
+
+    .footer .tweet {
+        padding: 0;
+        right: 10px;
+        bottom: 5px;
+    }
 }
