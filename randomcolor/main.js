@@ -13,7 +13,6 @@ function detectPlatform() {
 function mobileVersion() {
     loadOneColor()
     aboutDev()
-    // alertOnCopy_mobileplatform() copy is not working for mobile devices
 
     const checkbox = document.querySelector('footer .checkbox')
     const about_dev = document.getElementById('dev')
@@ -198,6 +197,7 @@ function pasteColorIntoHTMLElementOne() {
     pText.innerHTML = hex.toUpperCase()
 
 	changeTextColor(r, g, b)
+    changeThemeColorForWebbrowsers(rgb_to_hex(r, g, b))
 }
 
 function remove_loadOneColor() {
@@ -328,6 +328,11 @@ function aboutDev() {
     const curr_year = new Date()
     const dev = document.getElementById("dev")
     dev.innerHTML = `Created By: Aron Marton <a href="https://github.com/Sciencewolf">[GitHub]</a> ${curr_year.getFullYear()}`
+}
+
+function changeThemeColorForWebbrowsers(hex) {
+    const meta = document.getElementById('meta-themecolor')
+    meta.content = hex
 }
 
 function alertOnCopy_desktopplatform() {
