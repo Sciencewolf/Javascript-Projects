@@ -29,7 +29,7 @@ const onLoadJSProject = () => {
 
   createDivForProjects(
     "project-weatherapp",
-    "https://github.com/Sciencewolf/Javascript-Projects/tree/master/WeatherApp",
+    "https://weatherappproject.glitch.me/",
     "Weather App",
     "https://github.com/Sciencewolf/Javascript-Projects/tree/master/weatherapp"
   );
