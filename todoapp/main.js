@@ -5,17 +5,10 @@ function onLoad() {
 }
 
 function actions() {
-    addTask()
-    footer()
+    add_remove_completeTask()
 }
 
-function setInputToToday() {
-    const date = new Date()
-    let _date = date.toISOString().substring(0, 10)
-    return _date
-}
-
-function addTask() {
+function add_remove_completeTask() {
     const list_todo_div = document.querySelector('.list-todo')
     const add_button = document.getElementById("btn-add")
     const list = document.querySelector('.list')
@@ -55,7 +48,6 @@ function addTask() {
             const remove_button = document.createElement('button')
             remove_button.className = "btn-remove"
             remove_button.innerText = "Remove"
-            // remove_button.addEventListener('click', removeTask()) // 
 
             const i_ = document.createElement('i')
             i_.className = "fa fa-close"
@@ -64,7 +56,6 @@ function addTask() {
             const complete_button = document.createElement('button')
             complete_button.className = "btn-complete"
             complete_button.innerText = "Complete"
-            // completeTask.addEventListener('click', completeTask()) // 
 
             const i__ = document.createElement('i')
             i__.className = "fa-solid fa-check"
@@ -83,35 +74,71 @@ function addTask() {
             input_value.value = ""
             select_.selectedIndex = 0
             input_date.value = ""
+
+            removeTask()
+            completeTask()
+            // styling()
         }
     })
 }
 
 function removeTask() {
-    const remove_btn = document.querySelector('.btn-remove')
-    const list = document.querySelector('.list')
+    let remove_btn = document.getElementsByClassName("btn-remove")
 
-    let parent_span_of_removebtn = remove_btn.parentElement
-    list.removeChild(parent_span_of_removebtn)
+    for(let btn = 0;btn < remove_btn.length;btn++) {
+        remove_btn[btn].addEventListener('click', () => {
+            let div = remove_btn[btn].parentElement
+            div.style.display = "none"
+        })
+    }
 }
 
 function completeTask() {
-    const complete_btn = document.querySelector('.btn-complete')
-    let parent_span_of_completebtn = complete_btn.parentElement
-    parent_span_of_completebtn.style.backgroundColor = "lightslategrey"
-    complete_btn.style.curson = "default"
+    const complete_btn = document.querySelectorAll('.btn-complete')
+    const p_task = document.getElementById('p-task')
+    const p_type = document.getElementById('p-type')
+    const p_date = document.getElementById('p-date')
+
+    const elements = [p_type, p_date];
+
+    for(let i = 0;i< complete_btn.length;i++){
+        complete_btn[i].addEventListener('click', () => {
+            let parent_span_of_completebtn = complete_btn[i].parentElement
+            parent_span_of_completebtn.style.backgroundColor = "lightslategrey"
+            complete_btn[i].style.curson = "default"
+
+            let parent = complete_btn[i].parentElement
+            parent.removeChild(complete_btn[i])
+            for (let elem of elements) elem.style.textDecoration = "line-through"
+
+            p_task.innerHTML = "Task Completed" // first child, need to fix 
+            // image <img src="https://img.icons8.com/parakeet/48/null/checked-checkbox.png"/>
+        })
+    }
 }
 
-async function quotes() {
-    const quote_div = document.querySelector('.quote')
-    let rand_num = Math.floor(Math.random() * 25)
+async function mobileVersion() {
+    quotes("https://raw.githubusercontent.com/Sciencewolf/Javascript-Projects/master/todoapp/short-quotes.json", 10)
+}
 
-    let data = await fetch("https://raw.githubusercontent.com/Sciencewolf/Javascript-Projects/master/todoapp/quotes.json")
+function desktopVersion() {
+    quotes("https://raw.githubusercontent.com/Sciencewolf/Javascript-Projects/master/todoapp/quotes.json", 25)
+}
+
+function cookies() {
+
+}
+
+async function quotes(url, times) {
+    const quote_div = document.querySelector('.quote')
+    let rand_num = Math.floor(Math.random() * times)
+
+    let data = await fetch(url)
     let json = await data.json();
-    let str = `<span id='span-qouteoftheday'>Quote of the Day:</span>   ${JSON.stringify(json["quotes"][`${rand_num}`][`${++rand_num}`]) }`
+    let str = `<span id='span-qouteoftheday'>Quote of the Day:</span>   ${JSON.stringify(json["quotes"][`${rand_num}`][`${++rand_num}`])}`
 
     let wordsIn_str = str.split(" ")
-    let count_words = (wordsIn_str.length - 4) * 700
+    let count_words = (wordsIn_str.length - 4) * 750
 
     quote_div.innerHTML = str.replaceAll('"', '')
 
@@ -120,44 +147,31 @@ async function quotes() {
     }, count_words)
 }
 
-function footer() {
-    const dev = document.querySelector('.dev')
-    const date = new Date()
-    
-    dev.innerHTML = `Created By: Aron Marton \
-    [<a href="https://github.com/Sciencewolf" target="_blank">GitHub</a>] ${date.getFullYear()}`
-}
-
 function getPlatform() {
     const isMobile = /android|iphone|ipad|ipod/i.test(navigator.userAgent)
     return isMobile ? "mobile" : "desktop"
 }
 
-async function mobileVersion() {
+function setInputToToday() {
+    const date = new Date()
+    let _date = date.toISOString().substring(0, 10)
+    return _date
+}
 
-    async function quote() {
-        const quote_div = document.querySelector('.quote')
-        let rand_num = Math.floor(Math.random() * 10)
+function styling() {
+    const span_task = document.querySelector('.span-task')
+    const p_task = document.getElementById('p-task')
+    const p_type = document.getElementById('p-type')
+    const p_date = document.getElementById('p-date')
 
-        let data = await fetch("https://raw.githubusercontent.com/Sciencewolf/Javascript-Projects/master/todoapp/short-quotes.json")
-        let json = await data.json();
-        let quote_from_json = JSON.stringify(json["quotes"][`${rand_num}`][`${++rand_num}`])
-        let words_len = (quote_from_json.split(' ').length)
+    const elements = [p_task, p_type, p_date];
 
-        let str = `<span id='span-qouteoftheday'>Quote of the Day:</span> ${quote_from_json}`
-        quote_div.innerHTML = str.replaceAll('"', '')
-
-        setTimeout(() => {
-            quote_div.style.display = "none"
-        }, words_len * 900)
+    if (p_type.innerHTML === "Other") {
+        span_task.style.backgroundColor = "green"
+        for (const element of elements) element.style.color = "black"
     }
-    quote()
-}
-
-function desktopVersion() {
-    quotes()
-}
-
-function cookies() {
-
+    else if (p_type.innerHTML === "Walk") {
+        span_task.style.backgroundColor = "grey"
+        for (const element of elements) element.style.color = "black"
+    }
 }

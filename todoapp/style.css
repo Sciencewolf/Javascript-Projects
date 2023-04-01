@@ -4,13 +4,25 @@
     --br: 10px;
 }
 
+::-webkit-scrollbar {
+    width: 10px;
+    height: 20px;
+    background-color: black;
+}
+
+::-webkit-scrollbar-thumb {
+    background: white;
+    border-radius: var(--br);
+}
+
 * {
     font-family: 'Changa', sans-serif;
+    transition: .4s all;
 }
 
 body {
     height: 95vh;
-    background-color: #1B5B90;
+    background-color: #415259;
 }
 
 .header {
@@ -27,11 +39,16 @@ body {
 
 .list-todo {
     display: none;
-    height: auto;
     padding: 8px 0;
     background-color: transparent;
     color: white;
     border-radius: var(--br);
+}
+
+.list-todo p {
+    position: absolute;
+    top: 50%;
+    left: 50%;
 }
 
 .list {
@@ -39,8 +56,12 @@ body {
     justify-content: center;
     align-items: center;
     flex-wrap: wrap;
-    flex: 4;
     gap: 2em;
+    max-height: 500px;
+    overflow: auto;
+    border: 2px solid black;
+    border-radius: var(--br);
+    padding: var(--br) 0;
 }
 
 .list .span-task {
@@ -52,13 +73,51 @@ body {
     color: white;
     border-radius: var(--br);
     padding: 0 8px;
+    position: relative;
+    min-width: 25em;
+    min-height: 5em;
 }
-.list button {
+ 
+.span-task p {
+    max-width: 25em;
+    overflow: auto;
+    position: absolute;
+    margin: 0;
+}
+
+.span-task #p-task {
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+}
+
+.span-task #p-type {
+    top: 1px;
+    left: 1px;
+}
+
+.span-task #p-date {
+    top: 1px;
+    right: 1px;
+}
+
+.span-task button {
+    border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: .5em;
-    border-radius: 5px;
+    position: absolute;
+    bottom: 5px;
+    padding: 2px;
+}
+
+.span-task .btn-complete {
+    right: 5px;
+}
+
+.span-task .btn-remove {
+    right: 7em;
 }
 
 .list button:hover {
@@ -70,6 +129,10 @@ button i:hover {
 }
 
 .input {
+    position: absolute;
+    bottom: 20%;
+    left: 50%;
+    transform: translateX(-50%);
     height: 10%;
     display: flex;
     justify-content: center;
@@ -79,6 +142,7 @@ button i:hover {
 
 .input input {
     width: 20em;
+    border-radius: 5px;
 }
 
 .input .dropdown {
@@ -86,6 +150,7 @@ button i:hover {
     justify-content: center;
     align-items: center;
     width: auto;
+    border-radius: 5px;
 }
 
 .input .dropdown:hover {
@@ -111,16 +176,12 @@ button i:hover {
 .footer {
     position: absolute;
     bottom: 10px;
-    background-color: transparent;
+    right: 1px;
     height: 5.5em;
-    width: 99%;
+    width: 20em;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
-    border-top: 1px solid white;
-    border-left: 1px solid white;
-    border-right: 1px solid white;
-    border-radius: var(--br);
+    align-items: flex-end;
 }
 
 .footer .tweet {
@@ -175,7 +236,7 @@ h1::selection {
 
 .quote {
     position: absolute;
-    bottom: 4em;
+    bottom: 3em;
     left: 50%;
     transform: translateX(-50%);
     background-color: grey;
@@ -214,12 +275,20 @@ h1::selection {
 }
 
 @media screen and (max-width: 768px) {
+    .list {
+        max-height: 400px;
+    }
+
     .list .span-task {
         gap: .3em;
     }
 
     .span-task button {
         gap: 0;
+    }
+
+    .input input {
+        width: 10em;
     }
 
     .quote {
@@ -233,14 +302,23 @@ h1::selection {
         display: flex;
         justify-content: center;
         align-items: center;
-        bottom: 0;
+        width: 100%;
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: 5px;
+        border-left: none;
+        border-right: none;
+        border-radius: 0;
+        height: 4em;
+        background: none;
     }
 
     .footer .dev {
         position: absolute;
         padding: 0;
         margin: 0;
-        width: 90%;
+        width: 70%;
         left: 10px;
     }
 
