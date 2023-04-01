@@ -2,6 +2,10 @@
     transition: .4s all;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 ::-webkit-scrollbar {
     width: 10px;
     height: 20px;
@@ -98,4 +102,24 @@ a {
         right: 10px;
         bottom: 5px;
     }
+}
+
+/* Maintenance */
+
+.body-maintenance {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    font-size: 40px;
+}
+
+.body-maintenance img {
+    width: 5em;
+    height: 5em;
+}
+
+.body-maintenance .span-return_later {
+    position: absolute;
+    top: 70%;
 }
