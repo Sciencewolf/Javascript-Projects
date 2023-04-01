@@ -37,7 +37,13 @@ class Import {
 }
 
 const _Import = new Import()
-console.log("Import success from", "https://raw.githack.com/Sciencewolf/Javascript-Projects/master/class/import-script.js")
+console.log("Import success from =>", "https://raw.githack.com/Sciencewolf/Javascript-Projects/master/class/import-script.js")
 
 _Import.footer()
-_Import.showMaintenanceWindow()
+
+const body = document.querySelector('body#maintenance-glitch')
+if(body !== null) {
+    _Import.showMaintenanceWindow()
+}else {
+    console.log("Maintenance if off")
+}
