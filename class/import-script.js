@@ -37,6 +37,7 @@ class Import {
 }
 
 const _Import = new Import()
+console.log("Import success from", "https://raw.githack.com/Sciencewolf/Javascript-Projects/master/class/import-script.js")
 
 _Import.footer()
 _Import.showMaintenanceWindow()
