@@ -101,6 +101,14 @@ body {
     right: 1px;
 }
 
+.span-task #img-complete {
+    position: absolute;
+    left: 8em;
+    top: .3em;
+    width: 1.5em;
+    height: 1.5em;
+}
+
 .span-task button {
     border-radius: 5px;
     display: flex;
@@ -110,6 +118,14 @@ body {
     position: absolute;
     bottom: 5px;
     padding: 2px;
+    width: 2.5em;
+    height: 2.5em;
+}
+
+.span-task button i {
+    width: 2em;
+    padding: 0;
+    margin: 0;
 }
 
 .span-task .btn-complete {
@@ -117,15 +133,7 @@ body {
 }
 
 .span-task .btn-remove {
-    right: 7em;
-}
-
-.list button:hover {
-    cursor: pointer;
-}
-
-button i:hover {
-    color: red;
+    right: 3.5em;
 }
 
 .input {
@@ -153,16 +161,8 @@ button i:hover {
     border-radius: 5px;
 }
 
-.input .dropdown:hover {
-    cursor: pointer;
-}
-
 .input input[type=date] {
     width: 10em;
-}
-
-.input input[type=date]:hover {
-    cursor: pointer;
 }
 
 .input button {
@@ -210,11 +210,6 @@ a {
     color: black;
 }
 
-a:hover {
-    color: black;
-    text-decoration: underline;
-}
-
 p::selection {
     user-select: none;
 }
@@ -258,12 +253,6 @@ h1::selection {
     color: black;
 }
 
-.input button:hover {
-    cursor: pointer;
-    background-color: black;
-    transition: .3s all;
-}
-
 @keyframes moveto {
     from {
         bottom: 0;
@@ -274,17 +263,86 @@ h1::selection {
     }
 }
 
+/* For desktop version */
+
+@media (hover: hover) {
+    .span-task button i#complete:hover {
+            color: green;
+        }
+    
+    .span-task button i:hover {
+        color: red;
+    }
+
+    .list button:hover {
+        cursor: pointer;
+    }
+
+    .input .dropdown:hover {
+        cursor: pointer;
+    }
+
+    .input input[type=date]:hover {
+        cursor: pointer;
+    }
+
+    a:hover {
+        color: black;
+        text-decoration: underline;
+    }
+
+    .input button:hover {
+        cursor: pointer;
+        background-color: black;
+        transition: .3s all;
+    }
+}
+
 @media screen and (max-width: 768px) {
     .list {
+        max-width: 25em;
         max-height: 400px;
+        overflow-x: hidden;
     }
 
     .list .span-task {
         gap: .3em;
     }
+    
+    .span-task #p-task {
+        top: 50%;
+        transform: translateY(-50%);
+        left: 1.5em;
+    }
+
+    .span-task #p-type {
+        top: 1px;
+        left: 1em;
+    }
+
+    .span-task #p-date {
+        top: 1px;
+        left: 80%;
+    }
 
     .span-task button {
-        gap: 0;
+        appearance: none;
+    }
+
+    .span-task .btn-complete {
+        right: 1.5em;
+    }
+
+    .span-task .btn-remove {
+        right: 5em;
+    }
+
+    .span-task #img-complete {
+        position: absolute;
+        left: 9em;
+        top: .3em;
+        width: 1.5em;
+        height: 1.5em;
     }
 
     .input input {

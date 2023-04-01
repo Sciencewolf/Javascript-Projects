@@ -2,6 +2,9 @@ function onLoad() {
     if(getPlatform() === "mobile") mobileVersion()
     else if(getPlatform() === "desktop") desktopVersion()
     actions()
+    
+    const input_date = document.getElementById('input-date')
+    input_date.value = setInputToToday()
 }
 
 function actions() {
@@ -16,58 +19,25 @@ function add_remove_completeTask() {
     const input_date = document.getElementById('input-date')
     const input_value = document.getElementById('input-task')
 
-    add_button.addEventListener('click', () => {
-        if(input_value.value === "") {
+    input_value.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') createTask()
+    })
+
+    createTaskWithButtonClick()
+
+    function createTask() {
+        input_date.value = setInputToToday()
+
+        if (input_value.value === "") {
             input_value.style.border = "1px solid red"
         }
         else {
             input_value.style.border = "none"
-            const span = document.createElement('span')
-            span.className = "span-task"
+            input_value.focus()
 
-            const p_task = document.createElement('p')
-            p_task.id = "p-task"
-            p_task.innerHTML = input_value.value
+            const task = createTaskElement()
 
-            const p_type = document.createElement('p')
-            p_type.id = "p-type"
-            if (select_.options[select_.selectedIndex].text === "-- Select --") {
-                p_type.innerText = "Other"
-            }
-            else {
-                p_type.innerText = select_.options[select_.selectedIndex].text
-            }
-
-            const p_date = document.createElement('p')
-            p_date.id = "p-date"
-            if(input_date.value === "") {
-                p_date.innerHTML = setInputToToday()
-            }
-            else p_date.innerText = input_date.value
-
-            const remove_button = document.createElement('button')
-            remove_button.className = "btn-remove"
-            remove_button.innerText = "Remove"
-
-            const i_ = document.createElement('i')
-            i_.className = "fa fa-close"
-            remove_button.appendChild(i_)
-
-            const complete_button = document.createElement('button')
-            complete_button.className = "btn-complete"
-            complete_button.innerText = "Complete"
-
-            const i__ = document.createElement('i')
-            i__.className = "fa-solid fa-check"
-            complete_button.appendChild(i__)
-
-            span.appendChild(p_task)
-            span.appendChild(p_type)
-            span.appendChild(p_date)
-            span.appendChild(remove_button)
-            span.appendChild(complete_button)
-
-            list.appendChild(span)
+            list.appendChild(task)
             list_todo_div.style.display = "block"
 
             // reset all inputs to default
@@ -77,42 +47,134 @@ function add_remove_completeTask() {
 
             removeTask()
             completeTask()
-            // styling()
         }
-    })
+    }
+
+    function createTaskWithButtonClick() {
+        add_button.addEventListener('click', () => {
+            input_date.value = setInputToToday()
+
+            if (input_value.value === "") {
+                input_value.style.border = "1px solid red"
+            }
+            else {
+                input_value.style.border = "none"
+                input_value.focus()
+
+                const task = createTaskElement()
+
+                list.appendChild(task)
+                list_todo_div.style.display = "block"
+
+                // reset all inputs to default
+                input_value.value = ""
+                select_.selectedIndex = 0
+                input_date.value = ""
+
+                removeTask()
+                completeTask()
+                // styling()
+            }
+        })
+    }
+
+    function createTaskElement() {
+        const span = document.createElement('span')
+        span.className = "span-task"
+
+        const p_task = document.createElement('p')
+        p_task.id = "p-task"
+        p_task.innerHTML = input_value.value
+
+        const p_type = document.createElement('p')
+        p_type.id = "p-type"
+        if (select_.options[select_.selectedIndex].text === "-- Select --") {
+            p_type.innerText = "Other"
+        }
+        else {
+            p_type.innerText = select_.options[select_.selectedIndex].text
+        }
+
+        const p_date = document.createElement('p')
+        p_date.id = "p-date"
+        if (input_date.value === "" || input_date.value === setInputToToday()) p_date.innerHTML = "Today"
+        else p_date.innerText = input_date.value
+
+        const remove_button = document.createElement('button')
+        remove_button.className = "btn-remove"
+
+        const i_ = document.createElement('i')
+        i_.className = "fa fa-close"
+        remove_button.appendChild(i_)
+
+        const complete_button = document.createElement('button')
+        complete_button.className = "btn-complete"
+
+        const i__ = document.createElement('i')
+        i__.className = "fa-solid fa-check"
+        i__.id = "complete"
+        complete_button.appendChild(i__)
+
+        span.appendChild(p_task)
+        span.appendChild(p_type)
+        span.appendChild(p_date)
+        span.appendChild(remove_button)
+        span.appendChild(complete_button)
+
+        return span
+    }
 }
 
+
 function removeTask() {
+    const list = document.querySelector('.list')
     let remove_btn = document.getElementsByClassName("btn-remove")
+    let count = 0
 
     for(let btn = 0;btn < remove_btn.length;btn++) {
         remove_btn[btn].addEventListener('click', () => {
-            let div = remove_btn[btn].parentElement
-            div.style.display = "none"
+            if (!remove_btn[btn].parentElement) {
+                throw null
+            }
+            else {
+                var parent_div = remove_btn[btn].parentElement
+                parent_div.style.display = 'none'
+                count++
+            }
+
+            if(count >= remove_btn.length) list.style.border = "none"   // need to fix when multiple times removed border is seen
+            else list.style.border = "2px solid black"
         })
     }
 }
 
 function completeTask() {
+    const remove_btn = document.getElementsByClassName("btn-remove")
     const complete_btn = document.querySelectorAll('.btn-complete')
-    const p_task = document.getElementById('p-task')
-    const p_type = document.getElementById('p-type')
-    const p_date = document.getElementById('p-date')
 
-    const elements = [p_type, p_date];
+    const p_task = document.querySelectorAll('#p-task')
+    const p_type = document.querySelectorAll('#p-type')
+    const p_date = document.querySelectorAll('#p-date')
 
-    for(let i = 0;i< complete_btn.length;i++){
+    for(let i = 0;i < complete_btn.length;i++){
         complete_btn[i].addEventListener('click', () => {
-            let parent_span_of_completebtn = complete_btn[i].parentElement
-            parent_span_of_completebtn.style.backgroundColor = "lightslategrey"
-            complete_btn[i].style.curson = "default"
+            if(complete_btn[i].parentElement !== "undefined") {
+                let parent_span_of_completebtn = complete_btn[i].parentElement
+                parent_span_of_completebtn.style.backgroundColor = "lightslategrey"
+                parent_span_of_completebtn.removeChild(complete_btn[i])
+                if(getPlatform() === 'desktop') remove_btn[i].style.right = "5px"
+                else if(getPlatform() === 'mobile') remove_btn[i].style.right = "20px"
 
-            let parent = complete_btn[i].parentElement
-            parent.removeChild(complete_btn[i])
-            for (let elem of elements) elem.style.textDecoration = "line-through"
+                p_task[i].style.textDecoration = "line-through"
+                p_task[i].style.color = "black"
+                p_type[i].innerHTML = "Task Completed!"
+                p_date[i].style.display = "none"
 
-            p_task.innerHTML = "Task Completed" // first child, need to fix 
-            // image <img src="https://img.icons8.com/parakeet/48/null/checked-checkbox.png"/>
+                const img = document.createElement('img')
+                img.id = "img-complete"
+                img.src = "https://img.icons8.com/parakeet/48/null/checked-checkbox.png"
+                parent_span_of_completebtn.appendChild(img)
+            }
         })
     }
 }

@@ -5,7 +5,9 @@
     <!-- required meta tags -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="theme-color" content="#E4FFCE">
+    <meta name="keywords" content="to do, to do app, TODO, ToDo, To Do, task, Task">
 
     <!-- Import JS file -->
     <script src="main.js"></script>
@@ -21,6 +23,11 @@
 
     <!-- Title -->
     <title>To Do App</title>
+
+    <!-- For Apple Safari -->
+    <link rel="shortcut icon" type="image/png" href="https://img.icons8.com/fluency/96/null/todo-list.png" />
+    <link rel="apple-touch-icon" type="image/png" href="https://img.icons8.com/fluency/96/null/todo-list.png" />
+    <link rel="apple-touch-startup-image" type="image/png" href="https://img.icons8.com/fluency/96/null/todo-list.png" />
 
 </head>
 <body onload="onLoad()">
@@ -38,8 +45,7 @@
 
     <!-- Input -->
     <span class="input">
-        <input type="text" placeholder="Task" id="input-task">
-        
+        <input type="text" placeholder="Task" id="input-task" autofocus>
         <select class="dropdown">
             <option>
                 -- Select --
@@ -57,9 +63,7 @@
                 Other
             </option>
         </select>
-
         <input type="date" id="input-date" />
-
         <button type="button" id="btn-add">Add</button>
     </span>
 </div>
@@ -78,9 +82,7 @@
                 Tweet <!-- Text -->
             </a>
         </span>
-
         <span class="dev" id="dev"></span>
     </footer>
-    
 </body>
 </html>
