@@ -8,3 +8,13 @@
 body {
     background-color: grey
 }
+
+main {
+    position: relative;
+}
+
+.current-weather {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+}
