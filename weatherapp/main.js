@@ -40,52 +40,52 @@ async function position(pos) {
 
 async function fetchDataFromWeatherAPI(x, y) {
     let url_daily_temp_max_min   = 
-    `https://api.open-meteo.com/v1/forecast?latitude=${x}&longitude=${y}&timezone=Europe/Budapest&daily=temperature_2m_max,temperature_2m_min`
+        `https://api.open-meteo.com/v1/forecast?latitude=${x}&longitude=${y}&timezone=Europe/Budapest&daily=temperature_2m_max,temperature_2m_min`
     let url_daily_sunrise_sunset = 
-    `https://api.open-meteo.com/v1/forecast?latitude=${x}&longitude=${y}&timezone=Europe/Budapest&daily=sunrise,sunset`
+        `https://api.open-meteo.com/v1/forecast?latitude=${x}&longitude=${y}&timezone=Europe/Budapest&daily=sunrise,sunset`
     let url_daily_rain           = 
-    `https://api.open-meteo.com/v1/forecast?latitude=${x}&longitude=${y}&timezone=Europe/Budapest&daily=precipitation_probability_mean`
+        `https://api.open-meteo.com/v1/forecast?latitude=${x}&longitude=${y}&timezone=Europe/Budapest&daily=precipitation_probability_mean`
     let url_daily_currentweather = 
-    `https://api.open-meteo.com/v1/forecast?latitude=${x}&longitude=${y}&timezone=Europe/Budapest&current_weather=true`
+        `https://api.open-meteo.com/v1/forecast?latitude=${x}&longitude=${y}&timezone=Europe/Budapest&current_weather=true`
+    let url_hourly_visibility = 
+        `https://api.open-meteo.com/v1/forecast?latitude=${x}&longitude=${y}&timezone=Europe/Budapest&hourly=visibility`
+    let url_hourly_humidity = 
+        `https://api.open-meteo.com/v1/forecast?latitude=${x}&longitude=${y}&timezone=Europe/Budapest&hourly=relativehumidity_2m`
 
     let json = ""
+    let json_time = ""
+    let urltime = `https://timeapi.io/api/Time/current/coordinate?latitude=47.53&longitude=21.62`
 
     async function fetchData(_url) {
-        return await fetch(
-            _url, { method: "GET" }
-        ).then(
-            response => {
-                return response.json()
-            }
-        ).then(
-            resJSON => {
-                json = resJSON
-            }
-        ).catch(err => {
-            console.log(err)
-        })
+        try {
+            const response = await fetch(_url, { method: "GET" })
+            const resJSON = await response.json()
+            json = resJSON
+            return json
+        }catch (err) {
+            console.log(err);
+        }
     }
 
     async function fetchDataDaily(day) {
-        let max_temp = 0, min_temp = 0
         await fetchData(url_daily_temp_max_min)
         return [
-            max_temp = "H: " + json["daily"]["temperature_2m_max"][day] + " °C",
-            min_temp = "L: " + json["daily"]["temperature_2m_min"][day] + " °C"
+            "H: " + json["daily"]["temperature_2m_max"][day] + " °C<br>",
+            "L: " + json["daily"]["temperature_2m_min"][day] + " °C<br>"
         ]
     }
 
     async function fetchDataSunriseSunset(day) {
         await fetchData(url_daily_sunrise_sunset)
         return [
-            json['daily']["sunrise"][day],
-            json['daily']['sunset'][day]
+            "Sunrise: " + json['daily']["sunrise"][day].slice(11) + "<br>",
+            "Sunset: " + json['daily']['sunset'][day].slice(11) + "<br>"
         ]
     }
 
     async function fetchDataRain(day) {
         await fetchData(url_daily_rain)
-        return json['daily']['precipitation_probability_mean'][day]
+        return "Precipitation Probability: " + json['daily']['precipitation_probability_mean'][day] + " %<br>"
     }
 
     async function fetchDataCurrentWeather() {
@@ -93,33 +93,56 @@ async function fetchDataFromWeatherAPI(x, y) {
         return json['current_weather']
     }
 
-    const main = document.querySelector('main')
-
-    let [h, l] = await fetchDataDaily(0)
-    let [sunrise, sunset] = await fetchDataSunriseSunset(0)
-    sunrise = "Sunrise: " + sunrise.slice(11)
-    sunset = "Sunset: " + sunset.slice(11)
-
-    let percentage_of_rain = await fetchDataRain(0)
-    percentage_of_rain = "Precipitation Probability: " + percentage_of_rain + " %"
-    let current_weather = await fetchDataCurrentWeather()
-
-    main.innerHTML = h + "<br>" + l + "<br>"
-    main.innerHTML += sunrise + "<br>" + sunset + "<br>"
-    main.innerHTML += percentage_of_rain + "<br>"
-    main.innerHTML += "Current Weather: <br>"
-
-    // current weather
-    for(let elem in current_weather) {
-        if(elem === "time") {
-            main.innerHTML += elem + " " + current_weather[elem].slice(11) + "<br>"
-        }
-        else if(elem === "winddirection" || elem === "weathercode") main.innerHTML += ""
-        else main.innerHTML += elem + " " + current_weather[elem] + "<br>"
+    async function fetchDataVisibility() { // now time hour
+        await fetchData(url_hourly_visibility)
+        return "Visibility: " + json['hourly']['visibility'][0] + " m<br>"
     }
 
-    // last item in main
-    main.innerHTML += "<div class='current-weather'>gfd</div>"
+    async function fetchDataHumidity(hour) { // need to get now time hour
+        await fetchData(url_hourly_humidity)
+        return "Humidity: " + json['hourly']['relativehumidity_2m'][hour] + " %<br>"
+    }
+
+
+    // Paste Data
+    async function pasteData() {
+        const main = document.querySelector('main')
+
+        // await fetch, call functions
+        let [h, l] = await fetchDataDaily(0)
+        let [sunrise, sunset] = await fetchDataSunriseSunset(0)
+        let percentage_of_rain = await fetchDataRain(0)
+        let current_weather = await fetchDataCurrentWeather()
+        let visibility = await fetchDataVisibility()
+        let humidity = await fetchDataHumidity(16)
+
+        main.innerHTML = h + l
+        main.innerHTML += sunrise + sunset
+        main.innerHTML += percentage_of_rain
+        main.innerHTML += visibility
+        main.innerHTML += humidity
+
+        // last item in main
+        main.innerHTML += "<div class='current-weather'></div>"
+
+        const curr_weather_div = document.querySelector('.current-weather')
+        curr_weather_div.innerHTML += "Current Weather: <br>"
+        let compassDirections = [
+            "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "N"
+        ]
+        let compassDir = Math.round((current_weather['winddirection']) / 45)
+
+        // current weather
+        for (let elem in current_weather) {
+            if (elem === "time") curr_weather_div.innerHTML += "Last time updated: " + current_weather[elem].slice(11) + "<br>"
+            else if (elem === "weathercode") curr_weather_div.innerHTML += ""
+            else if(elem === "winddirection") 
+                curr_weather_div.innerHTML += elem + ": " + current_weather[elem] + "° " + compassDirections[compassDir] + "<br>"
+            else if (elem === "temperature") curr_weather_div.innerHTML += elem + ": " + current_weather[elem] + " °C<br>"
+            else if (elem === "windspeed") curr_weather_div.innerHTML += elem + ": " + current_weather[elem] + " km/h<br>"
+        }
+    }
+    pasteData()
 }
 
 function mobileVersion() {

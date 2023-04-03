@@ -9,12 +9,24 @@ body {
     background-color: grey
 }
 
+header {
+    width: 15em;
+    margin: 0;
+    padding: 0;
+}
+
 main {
     position: relative;
 }
 
 .current-weather {
     position: absolute;
-    top: 10%;
-    right: 10%;
+    top: 0em;
+    right: 2em;
+    border: 1px solid black;
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
