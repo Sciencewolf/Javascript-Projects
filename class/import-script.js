@@ -1,10 +1,32 @@
 class Import {
     footer() {
-        const dev = document.querySelector('.dev')
+        const footer = document.querySelector('footer')
+        const new_span_tweet = document.createElement('span')
+        const a = document.createElement('a')
+        const img = document.createElement('img')
         const date = new Date()
 
-        dev.innerHTML = `Created By: Aron Marton \
-        [<a href="https://github.com/Sciencewolf" target="_blank">GitHub</a>] ${date.getFullYear()}`
+        let tweet_text = footer.innerHTML.split(',')
+        footer.innerHTML = ""
+
+        a.id = 'tweet-link'
+        a.href = `https://twitter.com/intent/tweet?text=${tweet_text[0].trim()}%20by%20@aronmarton_%20${tweet_text[1]}`
+        a.target = "_blank"
+
+        img.src = "https://img.icons8.com/tiny-color/16/null/twitter.png"
+        a.appendChild(img)
+
+        new_span_tweet.id = "tweet"
+        new_span_tweet.className = 'tweet'
+
+        a.innerHTML += "Tweet"
+        new_span_tweet.appendChild(a)
+
+        let dev_span = `<span class='dev' id='dev'>Created By: Aron Marton \
+        [<a href="https://github.com/Sciencewolf" target="_blank">GitHub</a>] ${date.getFullYear()}</span>`
+
+        footer.appendChild(new_span_tweet)
+        footer.innerHTML += dev_span
     }
 
     // Maintenance for glitch 
