@@ -2,6 +2,10 @@
     transition: .4s all;
 }
 
+:root {
+    --br: 10px;
+}
+
 html {
     scroll-behavior: smooth;
 }
