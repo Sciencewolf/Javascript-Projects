@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://raw.githack.com/Sciencewolf/Javascript-Projects/master/class/import-css.css">
 
     <!-- Import JS file -->
-    <script src="main.js"></script>
+    <script async src="main.js"></script>
     <script type="module" async src="https://raw.githack.com/Sciencewolf/Javascript-Projects/master/class/import-script.js"></script>
 
     <!-- Favicon -->
@@ -32,8 +32,25 @@
 
     <!-- Main -->
     <main class="main">
-        Wait...
-        <div class="current-weather">Wait...</div>
+        <span class="wait">Wait...</span>
+        <div class="wrapper">
+            <div class="weathercode">--</div>
+            <div class="hl-temperature">--</div>
+            <div class="srsn-sun">--</div>
+            <div class="rain-chance">--</div>
+            <div class="visibility">--</div>
+            <div class="humidity">--</div>
+        </div>
+        
+        <div class="current-wrapper">
+            <div class="current-weather">
+                <span class="wait-currweather">Current Weather: <br>Wait...</span>
+                <div class="current-temperature">--</div>
+                <div class="current-windspeed">--</div>
+                <div class="current-winddirection">--</div>
+                <div class="current-lasttimeupdated">--</div>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->

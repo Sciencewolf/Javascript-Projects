@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
 
 * {
-    box-sizing: border-box;
+    /*box-sizing: border-box;*/
     font-family: 'Sriracha', cursive;
 }
 
@@ -10,6 +10,10 @@ body {
 }
 
 header {
+    position: absolute;
+    top: 1em;
+    left: 50%;
+    transform: translateX(-50%);
     width: 15em;
     margin: 0;
     padding: 0;
@@ -19,14 +23,60 @@ main {
     position: relative;
 }
 
+div.wrapper {
+    width: auto;
+    height: 20em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .1em;
+    flex-direction: column;
+    margin-top: 3em;
+}
+
+div:is(.weathercode, .hl-temperature, .srsn-sun, .rain-chance, .visibility, .humidity) {
+    background-color: lightslategrey;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+div.current-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+div:is(.current-temperature, .current-windspeed, .current-winddirection, .current-lasttimeupdated) {
+    background-color: lightslategrey;
+    border-radius: 7px;
+    padding: 2px;
+}
+
 .current-weather {
     position: absolute;
-    top: 0em;
+    top: 0;
     right: 2em;
     border: 1px solid black;
     border-radius: 10px;
     padding: 5px;
+
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
+}
+
+@media screen and (max-width: 768px) {
+    div.wrapper {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    div.current-wrapper {
+        display: flex;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
 }
