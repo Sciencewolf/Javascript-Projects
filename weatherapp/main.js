@@ -34,12 +34,18 @@ class objects {
         96: "Thunderstorm: with Slight and Heavy Hail"
     }
 
-    static images = {
+    static icons = {
         "sunset": "<img src='https://img.icons8.com/ios/50/null/sunset--v1.png'/>",
         "sunrise": "<img src='https://img.icons8.com/ios/50/null/sunrise--v1.png'/>",
         "precipitation": "<img src='https://img.icons8.com/external-microdots-premium-microdot-graphic/64/null/external-precipitation-weather-forecast-microdots-premium-microdot-graphic-2.png' />",
         "visibility": '<img src="https://img.icons8.com/fluency-systems-filled/48/null/visible.png"/>',
         "humidity": '<img src="https://img.icons8.com/ios-glyphs/30/null/hygrometer.png"/>',
+    }
+
+    static bgImages = {
+        0: "img/am.jpg",
+        1: "img/pm.jpg",
+        2: "img/midday.jpg",
     }
 
     static compassDirections = [
@@ -76,8 +82,6 @@ class objects {
 }
 
 async function onLoad() {
-    if(getPlatform() === "mobile") mobileVersion()
-    else if(getPlatform() === 'desktop') desktopVersion()
     await onLoadGetGeolocation()
 }
 
@@ -106,155 +110,160 @@ async function position(pos) {
     ).catch(_ => {
         span_geolocation.innerHTML = "Error!"
     })
-    await fetchDataFromWeatherAPI(x, y)
+
+    const main_class = new Main();
+    await main_class.fetchDataFromWeatherAPI(x, y)
 }
 
-async function fetchDataFromWeatherAPI(x, y) {
-    const objClass = new objects(x, y)
+class Main {
 
-    let json = ""
-    let json_time = ""
-    let urltime = "https://worldtimeapi.org/api/timezone/Europe/Budapest"
+    async fetchDataFromWeatherAPI(x, y) {
+        const objClass = new objects(x, y)
 
-    async function fetchData(_url) {
-        try {
-            const response = await fetch(_url, { method: "GET" })
-            return json = await response.json()
-        }catch (err) {
-            console.log(err)
+        let json = ""
+        let json_time = ""
+        let urltime = "https://worldtimeapi.org/api/timezone/Europe/Budapest"
+
+        async function fetchData(_url) {
+            try {
+                const response = await fetch(_url, { method: "GET" })
+                return json = await response.json()
+            }catch (err) {
+                console.log(err)
+            }
         }
-    }
 
-    async function fetchTime(__url) {
-        try {
-            const response = await fetch(__url)
-            return json_time = await response.json()
-        }catch(err) {
-            console.log(err)
+        async function fetchTime(__url) {
+            try {
+                const response = await fetch(__url)
+                return json_time = await response.json()
+            }catch(err) {
+                console.log(err)
+            }
         }
-    }
 
-    async function fetchDataDaily() {
-        await fetchData(objects.url_daily_temp_max_min(objClass))
-        return [
-            "H: " + Math.round(json["daily"]["temperature_2m_max"][0]) + "° ",
-            "L: " + Math.round(json["daily"]["temperature_2m_min"][0]) + "° "
-        ]
-    }
-
-    async function fetchDataSunriseSunset() {
-        await fetchData(objects.url_daily_sunrise_sunset(objClass))
-        return [
-            json['daily']["sunrise"][0].slice(11) + "<br>",
-            json['daily']['sunset'][0].slice(11)
-        ]
-    }
-
-    async function fetchDataRain() {
-        await fetchData(objects.url_daily_rain(objClass))
-        return json['daily']['precipitation_probability_mean'][0] + " %"
-    }
-
-    async function fetchDataCurrentWeather() {
-        await fetchData(objects.url_daily_currentweather(objClass))
-        return json['current_weather']
-    }
-
-    async function fetchDataVisibility(hour) {
-        await fetchData(objects.url_hourly_visibility(objClass))
-        return json['hourly']['visibility'][hour] + " m"
-    }
-
-    async function fetchDataHumidity(hour) {
-        await fetchData(objects.url_hourly_humidity(objClass))
-        return json['hourly']['relativehumidity_2m'][hour] + " %"
-    }
-
-    async function fetchDataWeathercode() {
-        await fetchData(objects.url_hourly_weathercode(objClass))
-        return [
-            json['hourly']['time'],
-            json['hourly']['weathercode']
-        ]
-    }
-
-    async function fetchTimeCurrentTime() {
-        await fetchTime(urltime)
-        return json_time['datetime']
-    }
-
-    // Paste Data
-    async function pasteData() {
-        // main divs
-        const hl_temperature_div = document.querySelector('.hl-temperature')
-        const srsn_sun_div = document.querySelector('.srsn-sun')
-        const rain_chance_div = document.querySelector('.rain-chance')
-        const visibility_div = document.querySelector('.visibility')
-        const humidity_div = document.querySelector('.humidity')
-        const weathercode_div = document.querySelector('.weathercode')
-        const wait_span = document.querySelector('.wait')
-
-        // current weather divs
-        const current_weather_div = document.querySelector('.wrapper-current-weather')
-        const current_temperature_div = document.querySelector('.current-temperature')
-        const current_windspeed_div = document.querySelector('.current-windspeed')
-        const current_winddirection_div = document.querySelector('.current-winddirection')
-        const current_lasttimeupdated_div = document.querySelector('.current-lasttimeupdated')
-        const wait_currentweather_div = document.querySelector('.wait-currweather')
-
-        // await fetch, call functions
-        let [h, l] = await fetchDataDaily(0)
-        let [sunrise, sunset] = await fetchDataSunriseSunset(0)
-        let percentage_of_rain = await fetchDataRain(0)
-        let current_weather = await fetchDataCurrentWeather()
-        let [time_, weathercode] = await fetchDataWeathercode()
-        let _timeCurrent = await fetchTimeCurrentTime()
-
-        let currentHour = _timeCurrent.slice(11, -19)
-        let currentHourlist = []
-        // reformat weathercode
-        for(let i = 0;i<time_.length;i++) { currentHourlist[i] = time_[i].slice(11, -3) }
-        let posAt = currentHourlist.indexOf(currentHour)
-        let weathercodeToday = weathercode[posAt]
-        // reformat visibility
-        let visibility = await fetchDataVisibility(posAt)
-        // reformat humidity
-        let humidity = await fetchDataHumidity(posAt)
-
-        // appending data into main divs
-        wait_span.innerHTML = ""
-        hl_temperature_div.innerHTML = h + l
-        srsn_sun_div.innerHTML = objects.images['sunrise'] + sunrise + objects.images['sunset'] + sunset
-        rain_chance_div.innerHTML = objects.images['precipitation'] + percentage_of_rain
-        visibility_div.innerHTML = objects.images['visibility'] + visibility
-        humidity_div.innerHTML = objects.images['humidity'] + humidity
-        weathercode_div.innerHTML = objects.objWeathercode[weathercodeToday]
-        wait_currentweather_div.innerHTML = "Current Weather: <br>"
-
-        let compassDir = Math.round((current_weather['winddirection']) / 45)
-
-        // current weather
-        for (let elem in current_weather) {
-            if (elem === "time") current_lasttimeupdated_div.innerHTML = "Last time updated: " + current_weather[elem].slice(11) + "<br>"
-            else if (elem === "weathercode") continue
-            else if(elem === "winddirection")
-                current_winddirection_div.innerHTML = elem + ": " + current_weather[elem] + "° " + objects.compassDirections[compassDir] + "<br>"
-            else if (elem === "temperature") current_temperature_div.innerHTML = elem + ": " + current_weather[elem] + " °C<br>"
-            else if (elem === "windspeed") current_windspeed_div.innerHTML = elem + ": " + current_weather[elem] + " km/h<br>"
+        async function fetchDataDaily() {
+            await fetchData(objects.url_daily_temp_max_min(objClass))
+            return [
+                "H: " + Math.round(json["daily"]["temperature_2m_max"][0]) + "° ",
+                "L: " + Math.round(json["daily"]["temperature_2m_min"][0]) + "° "
+            ]
         }
+
+        async function fetchDataSunriseSunset() {
+            await fetchData(objects.url_daily_sunrise_sunset(objClass))
+            return [
+                json['daily']["sunrise"][0].slice(11) + "<br>",
+                json['daily']['sunset'][0].slice(11)
+            ]
+        }
+
+        async function fetchDataRain() {
+            await fetchData(objects.url_daily_rain(objClass))
+            return json['daily']['precipitation_probability_mean'][0] + " %"
+        }
+
+        async function fetchDataCurrentWeather() {
+            await fetchData(objects.url_daily_currentweather(objClass))
+            return json['current_weather']
+        }
+
+        async function fetchDataVisibility(hour) {
+            await fetchData(objects.url_hourly_visibility(objClass))
+            return json['hourly']['visibility'][hour] + " m"
+        }
+
+        async function fetchDataHumidity(hour) {
+            await fetchData(objects.url_hourly_humidity(objClass))
+            return json['hourly']['relativehumidity_2m'][hour] + " %"
+        }
+
+        async function fetchDataWeathercode() {
+            await fetchData(objects.url_hourly_weathercode(objClass))
+            return [
+                json['hourly']['time'],
+                json['hourly']['weathercode']
+            ]
+        }
+
+        async function fetchTimeCurrentTime() {
+            await fetchTime(urltime)
+            return json_time['datetime']
+        }
+
+        // Paste Data
+        async function pasteData() {
+            // main divs
+            const hl_temperature_div = document.querySelector('.hl-temperature')
+            const srsn_sun_div = document.querySelector('.srsn-sun')
+            const rain_chance_div = document.querySelector('.rain-chance')
+            const visibility_div = document.querySelector('.visibility')
+            const humidity_div = document.querySelector('.humidity')
+            const weathercode_div = document.querySelector('.weathercode')
+            const wait_span = document.querySelector('.wait')
+
+            // current weather divs
+            const current_weather_div = document.querySelector('.wrapper-current-weather')
+            const current_temperature_div = document.querySelector('.current-temperature')
+            const current_windspeed_div = document.querySelector('.current-windspeed')
+            const current_winddirection_div = document.querySelector('.current-winddirection')
+            const current_lasttimeupdated_div = document.querySelector('.current-lasttimeupdated')
+            const wait_currentweather_div = document.querySelector('.wait-currweather')
+
+            // await fetch, call functions
+            let [h, l] = await fetchDataDaily()
+            let [sunrise, sunset] = await fetchDataSunriseSunset()
+            let percentage_of_rain = await fetchDataRain()
+            let current_weather = await fetchDataCurrentWeather()
+            let [time_, weathercode] = await fetchDataWeathercode()
+            let _timeCurrent = await fetchTimeCurrentTime()
+
+            let currentHour = _timeCurrent.slice(11, -19)
+            let currentHourlist = []
+            // reformat weathercode
+            for(let i = 0;i<time_.length;i++) { currentHourlist[i] = time_[i].slice(11, -3) }
+            let posAt = currentHourlist.indexOf(currentHour)
+            let weathercodeToday = weathercode[posAt]
+            // reformat visibility
+            let visibility = await fetchDataVisibility(posAt)
+            // reformat humidity
+            let humidity = await fetchDataHumidity(posAt)
+
+            // appending data into main divs
+            wait_span.innerHTML = ""
+            hl_temperature_div.innerHTML = h + l
+            srsn_sun_div.innerHTML = objects.icons['sunrise'] + sunrise + objects.icons['sunset'] + sunset
+            rain_chance_div.innerHTML = objects.icons['precipitation'] + percentage_of_rain
+            visibility_div.innerHTML = objects.icons['visibility'] + visibility
+            humidity_div.innerHTML = objects.icons['humidity'] + humidity
+            weathercode_div.innerHTML = objects.objWeathercode[weathercodeToday]
+            wait_currentweather_div.innerHTML = "Current Weather: <br>"
+
+            let compassDir = Math.round((current_weather['winddirection']) / 45)
+
+            // current weather
+            for (let elem in current_weather) {
+                if (elem === "time") current_lasttimeupdated_div.innerHTML = "Last time updated: " + current_weather[elem].slice(11) + "<br>"
+                else if (elem === "weathercode") continue
+                else if(elem === "winddirection")
+                    current_winddirection_div.innerHTML = elem + ": " + current_weather[elem] + "° " + objects.compassDirections[compassDir] + "<br>"
+                else if (elem === "temperature") current_temperature_div.innerHTML = elem + ": " + current_weather[elem] + " °C<br>"
+                else if (elem === "windspeed") current_windspeed_div.innerHTML = elem + ": " + current_weather[elem] + " km/h<br>"
+            }
+        }
+
+        async function changeBGImage() {
+            const body = document.querySelector('body')
+            const time = await fetchTime(urltime)
+            // let nowHourMinute = time['datetime'].slice(11, -16)
+            let nowHour = time['datetime'].slice(11, -19)
+            let nowHour_00 = time['datetime'].slice(11, -20)
+
+            if(nowHour <= 9 || nowHour_00 === 0) body.style.backgroundImage = `url('${objects.bgImages[0]}')`
+            else if(nowHour >= 10 && nowHour <= 17) body.style.backgroundImage = `url('${objects.bgImages[2]}')`
+            else if(nowHour >= 18 && nowHour <= 23 ) body.style.backgroundImage = `url('${objects.bgImages[1]}')`
+        }
+        await changeBGImage()
+        await pasteData()
     }
-    await pasteData()
-}
-
-function mobileVersion() {
-
-}
-
-function desktopVersion() {
-
-}
-
-function getPlatform() {
-    const isMobile = /iphone|ipad|android/i.test(navigator.userAgent)
-    return isMobile ? "mobile" : "desktop"
 }
