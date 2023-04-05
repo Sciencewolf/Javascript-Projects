@@ -43,9 +43,14 @@ class objects {
     }
 
     static bgImages = {
-        0: "img/am.jpg",
-        1: "img/pm.jpg",
-        2: "img/midday.jpg",
+        0: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/am.jpg?v=1680703581670",
+        1: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/pm.jpg?v=1680703588085",
+        2: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/midday_1.png?v=1680703923207",
+        "bgImagesMobile" : {
+            0: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/am_phone.jpg?v=1680705610142",
+            1: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/midday_1_phone.png?v=1680705613877",
+            2: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/pm_phone.jpg?v=1680705617229",
+        }
     }
 
     static compassDirections = [
@@ -213,19 +218,10 @@ class Main {
             const weathercode_div = document.querySelector('.weathercode')
             const wait_span = document.querySelector('.wait')
 
-            // current weather divs
-            const current_weather_div = document.querySelector('.wrapper-current-weather')
-            const current_temperature_div = document.querySelector('.current-temperature')
-            const current_windspeed_div = document.querySelector('.current-windspeed')
-            const current_winddirection_div = document.querySelector('.current-winddirection')
-            const current_lasttimeupdated_div = document.querySelector('.current-lasttimeupdated')
-            const wait_currentweather_div = document.querySelector('.wait-currweather')
-
             // await fetch, call functions
             let [h, l] = await fetchDataDaily()
             let [sunrise, sunset] = await fetchDataSunriseSunset()
             let percentage_of_rain = await fetchDataRain()
-            let current_weather = await fetchDataCurrentWeather()
             let [time_, weathercode] = await fetchDataWeathercode()
             let _timeCurrent = await fetchTimeCurrentTime()
 
@@ -239,6 +235,7 @@ class Main {
             let visibility = await fetchDataVisibility(posAt)
             // reformat humidity
             let humidity = await fetchDataHumidity(posAt)
+
             let c_temp = await fetchDataCurrentTemperature(posAt)
 
             // appending data into main divs
@@ -250,19 +247,6 @@ class Main {
             visibility_div.innerHTML = objects.icons['visibility'] + visibility
             humidity_div.innerHTML = objects.icons['humidity'] + humidity
             weathercode_div.innerHTML = objects.objWeathercode[weathercodeToday]
-            // wait_currentweather_div.innerHTML = "Current Weather: <br>"
-            //
-            // let compassDir = Math.round((current_weather['winddirection']) / 45)
-            //
-            // // current weather
-            // for (let elem in current_weather) {
-            //     if (elem === "time") current_lasttimeupdated_div.innerHTML = "Last time updated: " + current_weather[elem].slice(11) + "<br>"
-            //     else if (elem === "weathercode") continue
-            //     else if(elem === "winddirection")
-            //         current_winddirection_div.innerHTML = elem + ": " + current_weather[elem] + "° " + objects.compassDirections[compassDir] + "<br>"
-            //     else if (elem === "temperature") current_temperature_div.innerHTML = elem + ": " + current_weather[elem] + " °C<br>"
-            //     else if (elem === "windspeed") current_windspeed_div.innerHTML = elem + ": " + current_weather[elem] + " km/h<br>"
-            // }
         }
 
         async function changeBGImage() {
@@ -272,11 +256,23 @@ class Main {
             let nowHour = time['datetime'].slice(11, -19)
             let nowHour_00 = time['datetime'].slice(11, -20)
 
-            if(nowHour <= 9 || nowHour_00 === 0) body.style.backgroundImage = `url('${objects.bgImages[0]}')`
-            else if(nowHour >= 10 && nowHour <= 17) body.style.backgroundImage = `url('${objects.bgImages[2]}')`
-            else if(nowHour >= 18 && nowHour <= 23 ) body.style.backgroundImage = `url('${objects.bgImages[1]}')`
+            let platform = Main.getPlatform()
+            if(platform === 'desktop') {
+                if(nowHour <= 9 || nowHour_00 === 0) body.style.backgroundImage = `url('${objects.bgImages[0]}')`
+                else if(nowHour >= 10 && nowHour <= 17) body.style.backgroundImage = `url('${objects.bgImages[2]}')`
+                else if(nowHour >= 18 && nowHour <= 23 ) body.style.backgroundImage = `url('${objects.bgImages[1]}')`
+            }else if(platform === 'mobile') {
+                if(nowHour <= 9 || nowHour_00 === 0) body.style.backgroundImage = `url('${objects.bgImages['bgImagesMobile'][0]}')`
+                else if(nowHour >= 10 && nowHour <= 17) body.style.backgroundImage = `url('${objects.bgImages['bgImagesMobile'][1]}')`
+                else if(nowHour >= 18 && nowHour <= 23 ) body.style.backgroundImage = `url('${objects.bgImages['bgImagesMobile'][2]}')`
+            }
         }
         await changeBGImage()
         await pasteData()
+    }
+
+    static getPlatform() {
+        const isMobile = /android|iphone|ipad/i.test(navigator.userAgent)
+        return isMobile ? "mobile" : "desktop"
     }
 }
