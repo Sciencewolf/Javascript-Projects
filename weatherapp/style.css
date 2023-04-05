@@ -45,13 +45,30 @@ div.wrapper {
     align-items: center;
     gap: .1em;
     flex-direction: column;
-    margin-top: 3em;
+    margin-top: 5em;
 }
 
-div:is(.weathercode, .hl-temperature, .srsn-sun, .rain-chance, .visibility, .humidity) {
+div:is(.weathercode, .hl-temperature, .m_current-temperature, .rain-chance, .visibility, .humidity) {
     background-color: transparent;
     border-radius: 10px;
     padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.srsn-sun {
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+div.m_current-temperature {
+    font-size: 32px;
+}
+
+div.hl-temperature {
+    font-size: 12px;
 }
 
 div.current-wrapper {
@@ -62,10 +79,11 @@ div.current-wrapper {
 }
 
 div:is(.current-temperature, .current-windspeed, .current-winddirection, .current-lasttimeupdated) {
-    background-color: lightslategrey;
+    background-color: transparent;
     border-radius: 7px;
     padding: 2px;
 }
+
 
 .wrapper-current-weather {
     position: absolute;
@@ -84,11 +102,19 @@ div:is(.current-temperature, .current-windspeed, .current-winddirection, .curren
 @media screen and (max-width: 768px) {
 
     div.wrapper {
+        background-color: white;
+        opacity: .5;
+        border-radius: 10px;
+        padding: 1px;
         position: absolute;
         top: 2em;
         display: flex;
-        justify-content: flex-start;
-        align-items: flex-start;
+        justify-content: center;
+        align-items: center;
+    }
+
+    div.wrapper > * {
+        z-index: 3;
     }
 
     div.wrapper-current-weather {

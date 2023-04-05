@@ -56,6 +56,10 @@ class objects {
         return `https://api.open-meteo.com/v1/forecast?latitude=${class_.x}&longitude=${class_.y}&timezone=Europe/Budapest&daily=temperature_2m_max,temperature_2m_min&forecast_days=1`
     }
 
+    static url_hourly_temp(class_) {
+        return `https://api.open-meteo.com/v1/forecast?latitude=${class_.x}&longitude=${class_.y}&timezone=Europe/Budapest&hourly=temperature_2m&forecast_days=1`
+    }
+
     static url_daily_sunrise_sunset(class_) {
         return `https://api.open-meteo.com/v1/forecast?latitude=${class_.x}&longitude=${class_.y}&timezone=Europe/Budapest&daily=sunrise,sunset&forecast_days=1`
     }
@@ -150,6 +154,12 @@ class Main {
             ]
         }
 
+        async function fetchDataCurrentTemperature(hour) {
+            await fetchData(objects.url_hourly_temp(objClass))
+            console.log(json)
+            return json['hourly']['temperature_2m'][hour] + "° "
+        }
+
         async function fetchDataSunriseSunset() {
             await fetchData(objects.url_daily_sunrise_sunset(objClass))
             return [
@@ -195,6 +205,7 @@ class Main {
         async function pasteData() {
             // main divs
             const hl_temperature_div = document.querySelector('.hl-temperature')
+            const curr_temp = document.querySelector('.m_current-temperature')
             const srsn_sun_div = document.querySelector('.srsn-sun')
             const rain_chance_div = document.querySelector('.rain-chance')
             const visibility_div = document.querySelector('.visibility')
@@ -228,28 +239,30 @@ class Main {
             let visibility = await fetchDataVisibility(posAt)
             // reformat humidity
             let humidity = await fetchDataHumidity(posAt)
+            let c_temp = await fetchDataCurrentTemperature(posAt)
 
             // appending data into main divs
             wait_span.innerHTML = ""
             hl_temperature_div.innerHTML = h + l
+            curr_temp.innerHTML = c_temp
             srsn_sun_div.innerHTML = objects.icons['sunrise'] + sunrise + objects.icons['sunset'] + sunset
             rain_chance_div.innerHTML = objects.icons['precipitation'] + percentage_of_rain
             visibility_div.innerHTML = objects.icons['visibility'] + visibility
             humidity_div.innerHTML = objects.icons['humidity'] + humidity
             weathercode_div.innerHTML = objects.objWeathercode[weathercodeToday]
-            wait_currentweather_div.innerHTML = "Current Weather: <br>"
-
-            let compassDir = Math.round((current_weather['winddirection']) / 45)
-
-            // current weather
-            for (let elem in current_weather) {
-                if (elem === "time") current_lasttimeupdated_div.innerHTML = "Last time updated: " + current_weather[elem].slice(11) + "<br>"
-                else if (elem === "weathercode") continue
-                else if(elem === "winddirection")
-                    current_winddirection_div.innerHTML = elem + ": " + current_weather[elem] + "° " + objects.compassDirections[compassDir] + "<br>"
-                else if (elem === "temperature") current_temperature_div.innerHTML = elem + ": " + current_weather[elem] + " °C<br>"
-                else if (elem === "windspeed") current_windspeed_div.innerHTML = elem + ": " + current_weather[elem] + " km/h<br>"
-            }
+            // wait_currentweather_div.innerHTML = "Current Weather: <br>"
+            //
+            // let compassDir = Math.round((current_weather['winddirection']) / 45)
+            //
+            // // current weather
+            // for (let elem in current_weather) {
+            //     if (elem === "time") current_lasttimeupdated_div.innerHTML = "Last time updated: " + current_weather[elem].slice(11) + "<br>"
+            //     else if (elem === "weathercode") continue
+            //     else if(elem === "winddirection")
+            //         current_winddirection_div.innerHTML = elem + ": " + current_weather[elem] + "° " + objects.compassDirections[compassDir] + "<br>"
+            //     else if (elem === "temperature") current_temperature_div.innerHTML = elem + ": " + current_weather[elem] + " °C<br>"
+            //     else if (elem === "windspeed") current_windspeed_div.innerHTML = elem + ": " + current_weather[elem] + " km/h<br>"
+            // }
         }
 
         async function changeBGImage() {
