@@ -1,13 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
 
 * {
-    /*box-sizing: border-box;*/
+    box-sizing: border-box;
     font-family: 'Sriracha', cursive;
 }
 
 body {
     background-size: 120em;
     background-repeat: no-repeat;
+}
+
+input {
+    border-radius: 10px;
+    width: 25em;
+
 }
 
 div img {
@@ -46,6 +52,7 @@ div.wrapper {
     gap: .1em;
     flex-direction: column;
     margin-top: 5em;
+    position: relative;
 }
 
 div:is(.weathercode, .hl-temperature, .m_current-temperature, .rain-chance, .visibility, .humidity) {
@@ -57,6 +64,12 @@ div:is(.weathercode, .hl-temperature, .m_current-temperature, .rain-chance, .vis
     align-items: center;
 }
 
+div.hl-temperature {
+    position: absolute;
+    top: 13em;
+    left: 50%;
+    transform: translateX(-50%);
+}
 div.srsn-sun {
     background-color: transparent;
     border-radius: 10px;
@@ -64,39 +77,11 @@ div.srsn-sun {
 }
 
 div.m_current-temperature {
-    font-size: 32px;
+    font-size: 44px;
 }
 
 div.hl-temperature {
     font-size: 12px;
-}
-
-div.current-wrapper {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-div:is(.current-temperature, .current-windspeed, .current-winddirection, .current-lasttimeupdated) {
-    background-color: transparent;
-    border-radius: 7px;
-    padding: 2px;
-}
-
-
-.wrapper-current-weather {
-    position: absolute;
-    top: 0;
-    right: 2em;
-    border: 1px solid black;
-    border-radius: 10px;
-    padding: 5px;
-
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
 }
 
 @media screen and (max-width: 768px) {
@@ -121,18 +106,11 @@ div:is(.current-temperature, .current-windspeed, .current-winddirection, .curren
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 20em;
+        width: 15em;
+        height: auto;
     }
 
     div.wrapper > * {
         z-index: 3;
-    }
-
-    div.wrapper-current-weather {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        top: 5em;
-        right: 2em;
     }
 }

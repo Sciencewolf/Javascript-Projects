@@ -44,18 +44,34 @@ class objects {
 
     static bgImages = {
         0: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/am.jpg?v=1680703581670",
-        1: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/pm.jpg?v=1680703588085",
-        2: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/midday_1.png?v=1680703923207",
-        "bgImagesMobile" : {
-            0: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/am_phone.jpg?v=1680705610142",
-            1: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/midday_1_phone.png?v=1680705613877",
-            2: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/pm_phone.jpg?v=1680705617229",
-        }
+        1: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/midday_1.png?v=1680703923207",
+        2: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/pm.jpg?v=1680703588085",
     }
 
-    static compassDirections = [
-        "N", "NNE", "NE", "ENE", "E", "ESE", "SE", "SSE", "S", "SSW", "SW", "WSW", "W", "WNW", "NW", "NNW", "N"
-    ]
+    static dayOfWeek = {
+        1: "Monday",
+        2: "Tuesday",
+        3: "Wednesday",
+        4: "Thursday",
+        5: "Friday",
+        6: "Saturday",
+        0: "Sunday",
+    }
+
+    static month = {
+        '01': "January",
+        '02': "February",
+        '03': "March",
+        '04': "April",
+        '05': "May",
+        '06': "June",
+        '07': "July",
+        '08': "August",
+        '09': "September",
+        '10': "October",
+        '11': "November",
+        '12': "December",
+    }
 
     static url_daily_temp_max_min(class_) {
         return `https://api.open-meteo.com/v1/forecast?latitude=${class_.x}&longitude=${class_.y}&timezone=Europe/Budapest&daily=temperature_2m_max,temperature_2m_min&forecast_days=1`
@@ -69,24 +85,20 @@ class objects {
         return `https://api.open-meteo.com/v1/forecast?latitude=${class_.x}&longitude=${class_.y}&timezone=Europe/Budapest&daily=sunrise,sunset&forecast_days=1`
     }
 
-    static url_daily_rain(class_) {
-        return `https://api.open-meteo.com/v1/forecast?latitude=${class_.x}&longitude=${class_.y}&timezone=Europe/Budapest&daily=precipitation_probability_mean&forecast_days=1`
-    }
-
-    static url_daily_currentweather(class_) {
-        return `https://api.open-meteo.com/v1/forecast?latitude=${class_.x}&longitude=${class_.y}&timezone=Europe/Budapest&current_weather=true&forecast_days=1`
-    }
-
     static url_hourly_visibility(class_) {
         return `https://api.open-meteo.com/v1/forecast?latitude=${class_.x}&longitude=${class_.y}&timezone=Europe/Budapest&hourly=visibility&forecast_days=1`
     }
 
-    static url_hourly_humidity(class_) {
-        return `https://api.open-meteo.com/v1/forecast?latitude=${class_.x}&longitude=${class_.y}&timezone=Europe/Budapest&hourly=relativehumidity_2m&forecast_days=1`
-    }
-
     static url_hourly_weathercode(class_) {
         return `https://api.open-meteo.com/v1/forecast?latitude=${class_.x}&longitude=${class_.y}&timezone=Europe/Budapest&hourly=weathercode&forecast_days=1`
+    }
+
+    static url_time() {
+        return "https://worldtimeapi.org/api/timezone/Europe/Budapest"
+    }
+
+    static get_X_Y_coords(searchedvalue) {
+
     }
 }
 
@@ -131,7 +143,6 @@ class Main {
 
         let json = ""
         let json_time = ""
-        let urltime = "https://worldtimeapi.org/api/timezone/Europe/Budapest"
 
         async function fetchData(_url) {
             try {
@@ -151,6 +162,14 @@ class Main {
             }
         }
 
+        async function fetchDateTime() {
+            await fetchTime(objects.url_time())
+            return [
+                json_time['datetime'],
+                json_time['day_of_week'],
+            ]
+        }
+
         async function fetchDataDaily() {
             await fetchData(objects.url_daily_temp_max_min(objClass))
             return [
@@ -161,7 +180,6 @@ class Main {
 
         async function fetchDataCurrentTemperature(hour) {
             await fetchData(objects.url_hourly_temp(objClass))
-            console.log(json)
             return json['hourly']['temperature_2m'][hour] + "° "
         }
 
@@ -173,24 +191,9 @@ class Main {
             ]
         }
 
-        async function fetchDataRain() {
-            await fetchData(objects.url_daily_rain(objClass))
-            return json['daily']['precipitation_probability_mean'][0] + " %"
-        }
-
-        async function fetchDataCurrentWeather() {
-            await fetchData(objects.url_daily_currentweather(objClass))
-            return json['current_weather']
-        }
-
         async function fetchDataVisibility(hour) {
             await fetchData(objects.url_hourly_visibility(objClass))
             return json['hourly']['visibility'][hour] + " m"
-        }
-
-        async function fetchDataHumidity(hour) {
-            await fetchData(objects.url_hourly_humidity(objClass))
-            return json['hourly']['relativehumidity_2m'][hour] + " %"
         }
 
         async function fetchDataWeathercode() {
@@ -202,77 +205,73 @@ class Main {
         }
 
         async function fetchTimeCurrentTime() {
-            await fetchTime(urltime)
+            await fetchTime(objects.url_time())
             return json_time['datetime']
         }
 
         // Paste Data
         async function pasteData() {
             // main divs
+            const datetime_div = document.querySelector('.datetime')
             const hl_temperature_div = document.querySelector('.hl-temperature')
             const curr_temp = document.querySelector('.m_current-temperature')
             const srsn_sun_div = document.querySelector('.srsn-sun')
-            const rain_chance_div = document.querySelector('.rain-chance')
             const visibility_div = document.querySelector('.visibility')
-            const humidity_div = document.querySelector('.humidity')
             const weathercode_div = document.querySelector('.weathercode')
             const wait_span = document.querySelector('.wait')
 
             // await fetch, call functions
             let [h, l] = await fetchDataDaily()
             let [sunrise, sunset] = await fetchDataSunriseSunset()
-            let percentage_of_rain = await fetchDataRain()
             let [time_, weathercode] = await fetchDataWeathercode()
             let _timeCurrent = await fetchTimeCurrentTime()
 
             let currentHour = _timeCurrent.slice(11, -19)
             let currentHourlist = []
+
             // reformat weathercode
             for(let i = 0;i<time_.length;i++) { currentHourlist[i] = time_[i].slice(11, -3) }
             let posAt = currentHourlist.indexOf(currentHour)
             let weathercodeToday = weathercode[posAt]
+
             // reformat visibility
             let visibility = await fetchDataVisibility(posAt)
-            // reformat humidity
-            let humidity = await fetchDataHumidity(posAt)
 
+            // reformat current temperature
             let c_temp = await fetchDataCurrentTemperature(posAt)
+
+            // reformat datetime
+            let [date, day] = await fetchDateTime()
+            let year = date.slice(0, -28).toString()
+            let month = date.slice(5, -25).toString()
 
             // appending data into main divs
             wait_span.innerHTML = ""
+            datetime_div.innerHTML = objects.dayOfWeek[day] + ", " + day + " " + objects.month[month] + " " + year
             hl_temperature_div.innerHTML = h + l
             curr_temp.innerHTML = c_temp
             srsn_sun_div.innerHTML = objects.icons['sunrise'] + sunrise + objects.icons['sunset'] + sunset
-            rain_chance_div.innerHTML = objects.icons['precipitation'] + percentage_of_rain
             visibility_div.innerHTML = objects.icons['visibility'] + visibility
-            humidity_div.innerHTML = objects.icons['humidity'] + humidity
             weathercode_div.innerHTML = objects.objWeathercode[weathercodeToday]
         }
 
         async function changeBGImage() {
             const body = document.querySelector('body')
-            const time = await fetchTime(urltime)
-            // let nowHourMinute = time['datetime'].slice(11, -16)
+            const time = await fetchTime(objects.url_time())
             let nowHour = time['datetime'].slice(11, -19)
             let nowHour_00 = time['datetime'].slice(11, -20)
 
-            let platform = Main.getPlatform()
-            if(platform === 'desktop') {
-                if(nowHour <= 9 || nowHour_00 === 0) body.style.backgroundImage = `url('${objects.bgImages[0]}')`
-                else if(nowHour >= 10 && nowHour <= 17) body.style.backgroundImage = `url('${objects.bgImages[2]}')`
-                else if(nowHour >= 18 && nowHour <= 23 ) body.style.backgroundImage = `url('${objects.bgImages[1]}')`
-            }else if(platform === 'mobile') {
-                if(nowHour <= 9 || nowHour_00 === 0) body.style.backgroundImage = `url('${objects.bgImages['bgImagesMobile'][0]}')`
-                else if(nowHour >= 10 && nowHour <= 17) body.style.backgroundImage = `url('${objects.bgImages['bgImagesMobile'][1]}')`
-                else if(nowHour >= 18 && nowHour <= 23 ) body.style.backgroundImage = `url('${objects.bgImages['bgImagesMobile'][2]}')`
+            if(nowHour <= 9 || nowHour_00 === 0) body.style.backgroundImage = `url('${objects.bgImages[0]}')`
+            else if(nowHour >= 10 && nowHour <= 17) body.style.backgroundImage = `url('${objects.bgImages[1]}')`
+            else if(nowHour >= 18 && nowHour <= 23 ) {
+                body.style.backgroundImage = `url('${objects.bgImages[2]}')`
             }
         }
         await changeBGImage()
         await pasteData()
     }
 
-    static getPlatform() {
-        const isMobile = /android|iphone|ipad/i.test(navigator.userAgent)
-        return isMobile ? "mobile" : "desktop"
+    static changeTextColor(color) {
+
     }
 }
