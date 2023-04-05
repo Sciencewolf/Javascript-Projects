@@ -97,8 +97,14 @@ class objects {
         return "https://worldtimeapi.org/api/timezone/Europe/Budapest"
     }
 
-    static get_X_Y_coords(searchedvalue) {
-
+    static async getCoords(searchedvalue) {
+        let json = ""
+        const response = await fetch(
+            `https://api.api-ninjas.com/v1/geocoding?city=${searchedvalue}`,
+            { method: "GET", headers: {"X-Api-Key": "dqx2IUzCCSXClal7HrQpjQ==8FG8UkeolLhT9hxD"}
+            })
+        json = await response.json()
+        return json
     }
 }
 
@@ -209,9 +215,12 @@ class Main {
             return json_time['datetime']
         }
 
-        // Paste Data
-        async function pasteData() {
-            // main divs
+        async function fetchInput() {
+            const input_value = document.getElementById('search').value
+            return await objects.getCoords(input_value)
+        }
+
+        function getElement() {
             const datetime_div = document.querySelector('.datetime')
             const hl_temperature_div = document.querySelector('.hl-temperature')
             const curr_temp = document.querySelector('.m_current-temperature')
@@ -220,6 +229,12 @@ class Main {
             const weathercode_div = document.querySelector('.weathercode')
             const wait_span = document.querySelector('.wait')
 
+            return [
+                datetime_div, hl_temperature_div, curr_temp, srsn_sun_div, visibility_div, weathercode_div, wait_span
+            ]
+        }
+
+        async function awaitDatas() {
             // await fetch, call functions
             let [h, l] = await fetchDataDaily()
             let [sunrise, sunset] = await fetchDataSunriseSunset()
@@ -245,6 +260,54 @@ class Main {
             let year = date.slice(0, -28).toString()
             let month = date.slice(5, -25).toString()
 
+            return [
+                h, l, sunrise, sunset, weathercodeToday, visibility, c_temp, day, year, month
+            ]
+        }
+
+        async function pasteDatabySearch() {
+            const input = document.getElementById('search')
+            // main divs
+            let [
+                datetime_div,
+                hl_temperature_div,
+                curr_temp,
+                srsn_sun_div,
+                visibility_div,
+                weathercode_div,
+                wait_span
+            ] = getElement()
+
+            let [
+                h, l, sunrise, sunset, weathercodeToday, visibility, c_temp, day, year, month
+            ] = await awaitDatas()
+
+            input.addEventListener('keydown', async (e) => {
+                if(e.key === 'Enter') {
+                    const jsoninput = await fetchInput()
+                    // for(let i = 0;i<jsoninput.length;i++) {
+                    //
+                    // }
+                }
+            })
+        }
+
+        // Paste Data
+        async function pasteData() {
+            // main divs
+            let [
+                datetime_div, hl_temperature_div,
+                curr_temp,
+                srsn_sun_div,
+                visibility_div,
+                weathercode_div,
+                wait_span
+            ] = getElement()
+
+            let [
+                h, l, sunrise, sunset, weathercodeToday, visibility, c_temp, day, year, month
+            ] = await awaitDatas()
+
             // appending data into main divs
             wait_span.innerHTML = ""
             datetime_div.innerHTML = objects.dayOfWeek[day] + ", " + day + " " + objects.month[month] + " " + year
@@ -265,13 +328,11 @@ class Main {
             else if(nowHour >= 10 && nowHour <= 17) body.style.backgroundImage = `url('${objects.bgImages[1]}')`
             else if(nowHour >= 18 && nowHour <= 23 ) {
                 body.style.backgroundImage = `url('${objects.bgImages[2]}')`
+                body.style.color = 'white'
             }
         }
         await changeBGImage()
         await pasteData()
-    }
-
-    static changeTextColor(color) {
-
+        await pasteDatabySearch()
     }
 }
