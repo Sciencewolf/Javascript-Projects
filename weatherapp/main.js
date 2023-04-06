@@ -13,39 +13,33 @@ class objects {
         48: "Depositing Rime Fog",
         51: "Drizzle: Light",
         53: "Drizzle: Moderate",
-        55: "Drizzle: Dense Intensity",
-        56: "Freezing Drizzle: Light",
-        57: "Freezing Drizzle: Dense Intensity",
-        61: "Rain: Slight",
-        63: "Rain: Moderate",
-        65: "Rain: Heavy Intensity",
-        66: "Freezing Rain: Light",
-        67: "Freezing Rain: Heavy Intensity",
-        71: "Snow Fall: Slight",
-        73: "Snow Fall: Moderate",
-        75: "Snow Fall: Heavy Intensity",
+        55: "Drizzle",
+        56: "Freezing Drizzle",
+        57: "Freezing Drizzle",
+        61: "Rain",
+        63: "Rain",
+        65: "Rain",
+        66: "Freezing Rain",
+        67: "Freezing Rain",
+        71: "Snow",
+        73: "Snow ",
+        75: "Snow ",
         77: "Snow Grains",
-        80: "Rain Showers: Slight",
-        81: "Rain Showers: Moderate",
-        82: "Rain Showers: Violent",
-        85: "Snow Shower: Slight",
-        86: "Snow Shower: Heavy",
-        95: "Thunderstorm: Slight or Moderate",
+        80: "Rain Shower",
+        81: "Rain Shower",
+        82: "Rain Shower",
+        85: "Snow Shower",
+        86: "Snow Shower",
+        95: "Thunderstorm",
         96: "Thunderstorm: with Slight and Heavy Hail"
-    }
-
-    static icons = {
-        "sunset": "<img src='https://img.icons8.com/ios/50/null/sunset--v1.png'/>",
-        "sunrise": "<img src='https://img.icons8.com/ios/50/null/sunrise--v1.png'/>",
-        "precipitation": "<img src='https://img.icons8.com/external-microdots-premium-microdot-graphic/64/null/external-precipitation-weather-forecast-microdots-premium-microdot-graphic-2.png' />",
-        "visibility": '<img src="https://img.icons8.com/fluency-systems-filled/48/null/visible.png"/>',
-        "humidity": '<img src="https://img.icons8.com/ios-glyphs/30/null/hygrometer.png"/>',
     }
 
     static bgImages = {
         0: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/am.jpg?v=1680703581670",
         1: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/midday_1.png?v=1680703923207",
         2: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/pm.jpg?v=1680703588085",
+        3: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/night.jpg?v=1680729064976",
+        4: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/night_2.jpg?v=1680729069885",
     }
 
     static dayOfWeek = {
@@ -98,21 +92,19 @@ class objects {
     }
 
     static async getCoords(searchedvalue) {
-        let json = ""
         const response = await fetch(
             `https://api.api-ninjas.com/v1/geocoding?city=${searchedvalue}`,
-            { method: "GET", headers: {"X-Api-Key": "dqx2IUzCCSXClal7HrQpjQ==8FG8UkeolLhT9hxD"}
+            { method: "GET", headers: {"X-Api-Key": "dqx2IUzCCSXClal7HrQpjQ==8FG8UkeolLhT9hxD"}, mode: "cors"
             })
-        json = await response.json()
-        return json
+        return await response.json()
     }
 }
 
-async function onLoad() {
-    await onLoadGetGeolocation()
+function onLoad() {
+    onLoadGetGeolocation()
 }
 
-async function onLoadGetGeolocation() {
+function onLoadGetGeolocation() {
     const span_geolocation = document.getElementById('geolocation')
     if(navigator.geolocation) navigator.geolocation.getCurrentPosition(position)
     else span_geolocation.innerHTML = "unknown"
@@ -142,8 +134,22 @@ async function position(pos) {
     await main_class.fetchDataFromWeatherAPI(x, y)
 }
 
-class Main {
+async function reloadData(x, y) {
+    let bdcApi = "https://api.bigdatacloud.net/data/reverse-geocode-client"
+    const span_geolocation = document.getElementById('geolocation')
+    let url = bdcApi + "?latitude=" + x + "&longitude=" + y + "&localityLanguage=en"
 
+    const response = await fetch(url, {method: 'GET'})
+    const json = await response.json()
+
+    if(json['city'] !== "") span_geolocation.innerHTML = json['city'] + ", " + json['countryCode']
+    else span_geolocation.innerHTML = json['locality'] + ", " + json['countryCode']
+
+    const main_class = new Main()
+    await main_class.fetchDataFromWeatherAPI(x, y)
+}
+
+class Main {
     async fetchDataFromWeatherAPI(x, y) {
         const objClass = new objects(x, y)
 
@@ -179,8 +185,8 @@ class Main {
         async function fetchDataDaily() {
             await fetchData(objects.url_daily_temp_max_min(objClass))
             return [
-                "H: " + Math.round(json["daily"]["temperature_2m_max"][0]) + "° ",
-                "L: " + Math.round(json["daily"]["temperature_2m_min"][0]) + "° "
+                Math.round(json["daily"]["temperature_2m_max"][0]) + "°  / ",
+                Math.round(json["daily"]["temperature_2m_min"][0]) + "° "
             ]
         }
 
@@ -215,23 +221,8 @@ class Main {
             return json_time['datetime']
         }
 
-        async function fetchInput() {
-            const input_value = document.getElementById('search').value
-            return await objects.getCoords(input_value)
-        }
-
-        function getElement() {
-            const datetime_div = document.querySelector('.datetime')
-            const hl_temperature_div = document.querySelector('.hl-temperature')
-            const curr_temp = document.querySelector('.m_current-temperature')
-            const srsn_sun_div = document.querySelector('.srsn-sun')
-            const visibility_div = document.querySelector('.visibility')
-            const weathercode_div = document.querySelector('.weathercode')
-            const wait_span = document.querySelector('.wait')
-
-            return [
-                datetime_div, hl_temperature_div, curr_temp, srsn_sun_div, visibility_div, weathercode_div, wait_span
-            ]
+        async function fetchInput(value) {
+            return await objects.getCoords(value)
         }
 
         async function awaitDatas() {
@@ -256,83 +247,206 @@ class Main {
             let c_temp = await fetchDataCurrentTemperature(posAt)
 
             // reformat datetime
-            let [date, day] = await fetchDateTime()
+            let [date, day_of_week] = await fetchDateTime()
             let year = date.slice(0, -28).toString()
             let month = date.slice(5, -25).toString()
+            let day = date.slice(8, -22).toString()
 
             return [
-                h, l, sunrise, sunset, weathercodeToday, visibility, c_temp, day, year, month
+                h, l, sunrise, sunset, weathercodeToday, visibility, c_temp, day_of_week, year, month, day
             ]
         }
 
         async function pasteDatabySearch() {
-            const input = document.getElementById('search')
-            // main divs
+            const input = document.getElementById('search-input')
+            const div_guess = document.querySelector('.guess')
             let [
-                datetime_div,
-                hl_temperature_div,
-                curr_temp,
-                srsn_sun_div,
-                visibility_div,
-                weathercode_div,
-                wait_span
-            ] = getElement()
-
-            let [
-                h, l, sunrise, sunset, weathercodeToday, visibility, c_temp, day, year, month
+                h, l, sunrise, sunset, weathercodeToday, visibility, c_temp, day_of_week, year, month, day
             ] = await awaitDatas()
 
             input.addEventListener('keydown', async (e) => {
-                if(e.key === 'Enter') {
-                    const jsoninput = await fetchInput()
-                    // for(let i = 0;i<jsoninput.length;i++) {
-                    //
-                    // }
-                }
+                    if(e.key === 'Enter') {
+                        const input_value = input.value
+                        if(input_value.value !== "") await handleInputEnter(input, div_guess)
+                    }
+                    else if(e.key === 'Backspace') {
+                        const input_val = input.value
+                        if(input_val !== "") await handleInputBackspace(input, div_guess)
+                    }
             })
+            Main.pasteInnerHTML(day_of_week, day, month, year, h, l, c_temp, sunrise, sunset, visibility, weathercodeToday)
+        }
+
+        async function handleInputEnter(input_elem, div_guess) {
+            try {
+                const input = document.getElementById('search-input')
+
+                const json_input = await fetchInput(input.value)
+                if(json_input.length > 1) {
+                    div_guess.style.display = "block"
+                    for(let i = 0;i<json_input.length;i++) {
+                        const span = document.createElement('span')
+                        span.id = `${i}`
+
+                        if(i !== 0) {
+                            if(json_input[i - 1]['name'] === json_input[i]['name']) {
+                                span.innerHTML = json_input[i]['name'] + ", " + json_input[i]['country'] + ", " + json_input[i]['state']
+                            }else span.innerHTML = json_input[i]['name'] + ", " +json_input[i]['country']
+                        }else span.innerHTML = json_input[i]['name'] + ", " + json_input[i]['country'] + ", " + json_input[i]['state']
+                        div_guess.appendChild(span)
+                    }
+
+                    const spans = document.getElementById('guess').getElementsByTagName('span')
+                    for(let i = 0;i<spans.length;i++) {
+                        spans[i].addEventListener('click', async function(event) {
+                            input_elem.placeholder = event.target.innerHTML + " [searched]"
+                            input_elem.value = ""
+
+                            div_guess.innerHTML = ""
+                            div_guess.style.display = 'none'
+
+                            let id_of_selected_element = event.target.id.toString()
+                            let x = json_input[id_of_selected_element]['latitude']
+                            let y = json_input[id_of_selected_element]['longitude']
+                            await reloadData(x, y)
+                        })
+                    }
+                }
+                else {
+                    div_guess.style.display = 'block'
+                    let x = json_input[0]['latitude']
+                    let y = json_input[0]['longitude']
+
+                    let text = Main.getGeolocationText()
+                    input_elem.placeholder = text + '[searched]'
+                    input_elem.value = ""
+
+                    div_guess.innerHTML = ""
+                    div_guess.style.display = 'none'
+                    await reloadData(x, y)
+                }
+            }catch (err) { console.log(err) }
+        }
+
+        async function handleInputBackspace(input_elem, div_guess) { // need to fix issue with deleting
+            try {
+                const input = document.getElementById('search-input')
+
+                div_guess.innerHTML = ""
+                div_guess.style.display = "none"
+                const json_new_input = await fetchInput(input.value)
+                if(json_new_input.length > 1) {
+                    div_guess.style.display = "block"
+                    for(let i = 0;i<json_new_input.length;i++) {
+                        const span = document.createElement('span')
+                        span.id = `${i}`
+                        if(i !== 0 && json_new_input[i - 1]['name'] === json_new_input[i]['name'] && json_new_input['state'] !== undefined) {
+                            span.innerHTML = json_new_input[i]['name'] + ", " + json_new_input[i]['country'] + ", " + json_new_input[i]['state']
+                        }else span.innerHTML = json_new_input[i]['name'] + ", " + json_new_input[i]['country']
+
+                        div_guess.appendChild(span)
+                    }
+
+                    const spans = document.getElementById('guess').getElementsByTagName('span')
+                    for(let i = 0;i<spans.length;i++) {
+                        spans[i].addEventListener('click', function(event) {
+                            input_elem.value = event.target.innerHTML
+                            div_guess.innerHTML = ""
+                            div_guess.style.display = 'none'
+                        })
+                    }
+                }
+                else {
+                    div_guess.style.display = 'block'
+                    await reloadData()
+                }
+            }catch (err) { console.log(err) }
         }
 
         // Paste Data
         async function pasteData() {
-            // main divs
             let [
-                datetime_div, hl_temperature_div,
-                curr_temp,
-                srsn_sun_div,
-                visibility_div,
-                weathercode_div,
-                wait_span
-            ] = getElement()
-
-            let [
-                h, l, sunrise, sunset, weathercodeToday, visibility, c_temp, day, year, month
+                h, l, sunrise, sunset, weathercodeToday, visibility, c_temp, day_of_week, year, month, day
             ] = await awaitDatas()
-
-            // appending data into main divs
-            wait_span.innerHTML = ""
-            datetime_div.innerHTML = objects.dayOfWeek[day] + ", " + day + " " + objects.month[month] + " " + year
-            hl_temperature_div.innerHTML = h + l
-            curr_temp.innerHTML = c_temp
-            srsn_sun_div.innerHTML = objects.icons['sunrise'] + sunrise + objects.icons['sunset'] + sunset
-            visibility_div.innerHTML = objects.icons['visibility'] + visibility
-            weathercode_div.innerHTML = objects.objWeathercode[weathercodeToday]
+            Main.pasteInnerHTML(day_of_week, day, month, year, h, l, c_temp, sunrise, sunset, visibility, weathercodeToday)
         }
 
-        async function changeBGImage() {
-            const body = document.querySelector('body')
-            const time = await fetchTime(objects.url_time())
-            let nowHour = time['datetime'].slice(11, -19)
-            let nowHour_00 = time['datetime'].slice(11, -20)
+        const time = await fetchTime(objects.url_time())
 
-            if(nowHour <= 9 || nowHour_00 === 0) body.style.backgroundImage = `url('${objects.bgImages[0]}')`
-            else if(nowHour >= 10 && nowHour <= 17) body.style.backgroundImage = `url('${objects.bgImages[1]}')`
-            else if(nowHour >= 18 && nowHour <= 23 ) {
-                body.style.backgroundImage = `url('${objects.bgImages[2]}')`
-                body.style.color = 'white'
-            }
-        }
-        await changeBGImage()
-        await pasteData()
+        Main.handleGeolocationText()
+        await Main.changeBGImage(time)
         await pasteDatabySearch()
+        await pasteData()
+    } // End ------------------------------------------------------------------------------------------------------------------
+
+    static getElement() {
+        const datetime_div = document.querySelector('.datetime')
+        const hl_temperature_div = document.querySelector('.hl-temperature')
+        const curr_temp = document.querySelector('.m_current-temperature')
+        const srsn_sun_div = document.querySelector('.srsn-sun')
+        const visibility_div = document.querySelector('.visibility')
+        const weathercode_div = document.querySelector('.weathercode')
+        const wait_span = document.querySelector('.wait')
+
+        return [
+            datetime_div, hl_temperature_div, curr_temp, srsn_sun_div, visibility_div, weathercode_div, wait_span
+        ]
+    }
+
+    static pasteInnerHTML(day_of_week, day, month, year, h, l, c_temp, sunrise, sunset, visibility, weathercodeToday) {
+        let [
+            datetime_div,
+            hl_temperature_div,
+            curr_temp,
+            srsn_sun_div,
+            visibility_div,
+            weathercode_div,
+            wait_span
+        ] = Main.getElement()
+
+        wait_span.innerHTML = ""
+        datetime_div.innerHTML = objects.dayOfWeek[day_of_week] + ", " + day + " " + objects.month[month] + " " + year
+        hl_temperature_div.innerHTML = h + l
+        curr_temp.innerHTML = c_temp
+        srsn_sun_div.innerHTML = 'Sunrise: ' + sunrise + 'Sunset: ' + sunset
+        visibility_div.innerHTML = 'Visibility: ' + visibility
+        weathercode_div.innerHTML = objects.objWeathercode[weathercodeToday]
+    }
+
+    static async changeBGImage(time) {
+        const body = document.querySelector('body')
+        let nowHour = time['datetime'].slice(11, -19)
+        let nowHour_00 = time['datetime'].slice(11, -20)
+
+        if(nowHour_00 === 0 || (nowHour >= 1 && nowHour <= 5)) {
+            body.style.backgroundImage = `url('${objects.bgImages[3]}')`
+            body.style.color = 'white'
+        }
+        else if(nowHour >= 6 && nowHour <= 9) body.style.backgroundImage = `url('${objects.bgImages[0]}')`
+        else if(nowHour >= 10 && nowHour <= 17) body.style.backgroundImage = `url('${objects.bgImages[1]}')`
+        else if(nowHour >= 18 && nowHour <= 21) {
+            body.style.backgroundImage = `url('${objects.bgImages[2]}')`
+            body.style.color = 'white'
+        }
+        else if(nowHour <= 23) {
+            body.style.backgroundImage = `url('${objects.bgImages[3]}')`
+            body.style.color = 'white'
+        }
+    }
+
+    static getGeolocationText() {
+        const loc = document.getElementById('geolocation')
+        return loc.innerHTML
+    }
+
+    static handleGeolocationText() {
+        const geoloc = document.getElementById('geolocation')
+        if(geoloc.innerHTML.length > 10 && window.innerWidth <= 768) {
+            geoloc.style.fontSize = '20px'
+            geoloc.style.left = '50%'
+            geoloc.style.top = '3em'
+            geoloc.style.width = '100%'
+            geoloc.style.textAlign = 'center'
+        }
     }
 }

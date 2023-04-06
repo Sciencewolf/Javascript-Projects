@@ -14,8 +14,8 @@
     <link rel="stylesheet" href="https://raw.githack.com/Sciencewolf/Javascript-Projects/master/class/import-css.css">
 
     <!-- Import JS file -->
-    <script async src="main.js"></script>
-    <script type="module" async src="https://raw.githack.com/Sciencewolf/Javascript-Projects/master/class/import-script.js"></script>
+    <script async src="main.js" defer></script>
+    <script type="module" async src="https://raw.githack.com/Sciencewolf/Javascript-Projects/master/class/import-script.js" defer></script>
 
     <!-- Favicon -->
     <link rel="icon" href="https://img.icons8.com/doodle/48/null/apple-weather.png" />
@@ -45,10 +45,10 @@
         
     </main>
 
-    <div class="search">
-        <input type="text" id="search">
-        <div class="guess"></div>
-    </div>
+<div class="search">
+    <input type="text" id="search-input" placeholder="City Name">
+    <div class="guess" id="guess"></div>
+</div>
 
     <!-- Footer -->
     <!-- create just footer like below, first appName , second link to website -->
