@@ -6,12 +6,12 @@ const onLoadJSProject = () => {
     "https://github.com/Sciencewolf/Javascript-Projects/tree/master/codeeditor"
   );
 
-  createDivForProjects(
-    "project-askmeaquestion",
-    "https://askmeaquestionproject.glitch.me/",
-    "Ask Me A Question",
-    "https://github.com/Sciencewolf/Javascript-Projects/tree/master/askmeaquestion"
-  );
+  // createDivForProjects(
+  //   "project-askmeaquestion",
+  //   "https://askmeaquestionproject.glitch.me/",
+  //   "Ask Me A Question",
+  //   "https://github.com/Sciencewolf/Javascript-Projects/tree/master/askmeaquestion"
+  // );
 
   createDivForProjects(
     "project-randomcolor",
