@@ -33,6 +33,13 @@ const onLoadJSProject = () => {
     "Weather App",
     "https://github.com/Sciencewolf/Javascript-Projects/tree/master/weatherapp"
   );
+
+  createDivForProjects(
+    "project-cryptomarket",
+    "https://cryptomarketproject.glitch.me/",
+    "CryptoMarket",
+    "https://github.com/Sciencewolf/Javascript-Projects/tree/master/cryptomarket"
+  )
 }
 
 function createDivForProjects(div_ClassName, first_aTag_href, first_aTag_Text, second_aTag_href, second_aTag_Text = "[Source Code]") {
