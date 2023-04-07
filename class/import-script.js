@@ -65,8 +65,8 @@ _Import.footer()
 
 const body = document.querySelector('body#maintenance-glitch')
 if(body !== null) {
-    console.log('Maintenance in on')
+    console.log('Maintenance is on')
     _Import.showMaintenanceWindow()
 }else {
-    console.log("Maintenance if off")
+    console.log("Maintenance is off")
 }
