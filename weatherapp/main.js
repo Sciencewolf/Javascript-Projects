@@ -99,9 +99,9 @@ class objects {
     }
 }
 
-function onLoad() {
-    if(Main.isMobilePlatform()) Main.mobileVersion()
+async function onLoad() {
     onLoadGetGeolocation()
+    if(Main.isMobilePlatform()) await Main.mobileVersion()
 }
 
 function onLoadGetGeolocation() {
@@ -444,21 +444,25 @@ class Main {
             geoloc.style.width = `${window.innerWidth}px`
         }
 
-        const body = document.querySelector('body')
+        Main.changeThemeColor()
+    }
+
+    static changeThemeColor() {
         const meta_theme = document.getElementById('meta-theme')
-        if(body.id === 'night') {
-            meta_theme.content = '#0c1445'
-        }
-        else if(body.id === 'am') {
-            meta_theme.content = '#ffcd80'
-        }
-        else if(body.id === 'midday') {
-            body.style.color = 'black'
-            meta_theme.content = '#fff4a5'
-        }
-        else if(body.id === 'pm') {
-            meta_theme.content = '#3F3FD4'
-        }
+
+        const interval = setInterval(() => {
+            const body = document.querySelector('body')
+            if(body.id !== 'default') {
+                if(body.id === 'night') meta_theme.content = "#060d36"
+                else if(body.id === 'am') meta_theme.content = '#ffcd80'
+                else if(body.id === 'midday') {
+                    body.style.color = 'black'
+                    meta_theme.content = '#fff4a5'
+                }
+                else if(body.id === 'pm') meta_theme.content = '#3F3FD4'
+                clearInterval(interval)
+            }
+        }, 100)
     }
 
     static handleErrors(err) {
