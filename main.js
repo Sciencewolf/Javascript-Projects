@@ -42,7 +42,7 @@ const onLoadJSProject = () => {
   )
 }
 
-function createDivForProjects(div_ClassName, first_aTag_href, first_aTag_Text, second_aTag_href, second_aTag_Text = "[Source Code]") {
+function createDivForProjects(div_ClassName, first_aTag_href, first_aTag_Text, second_aTag_href) {
   const body = document.querySelector('body')
   const div = document.createElement('div')
   const a_first = document.createElement('a')
@@ -54,7 +54,7 @@ function createDivForProjects(div_ClassName, first_aTag_href, first_aTag_Text, s
   a_first.target = "_blank"
 
   a_second.href = second_aTag_href
-  a_second.innerHTML = second_aTag_Text
+  a_second.innerHTML = "[Source Code]"
   a_second.target = "_blank"
 
   div.appendChild(a_first)

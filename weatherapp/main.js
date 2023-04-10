@@ -35,11 +35,10 @@ class objects {
     }
 
     static bgImages = {
-        0: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/am.jpg?v=1680703581670",
+        0: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/am.jpg?v=1681156306593",
         1: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/midday_1.png?v=1680703923207",
-        2: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/pm.jpg?v=1680703588085",
+        2: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/pm.jpg?v=1681156399767",
         3: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/night.jpg?v=1680729064976",
-        4: "https://cdn.glitch.global/6657a51d-b131-4f5d-b5be-dbcf44368ed8/night_2.jpg?v=1680729069885",
     }
 
     static dayOfWeek = {
@@ -102,7 +101,7 @@ class objects {
 
 function onLoad() {
     if(Main.isMobilePlatform()) Main.mobileVersion()
-    else onLoadGetGeolocation()
+    onLoadGetGeolocation()
 }
 
 function onLoadGetGeolocation() {
@@ -162,7 +161,7 @@ class Main {
                 const response = await fetch(_url, { method: "GET" })
                 return json = await response.json()
             }catch (err) {
-                console.log(err)
+                Main.handleErrors(err)
             }
         }
 
@@ -171,7 +170,7 @@ class Main {
                 const response = await fetch(__url)
                 return json_time = await response.json()
             }catch(err) {
-                console.log(err)
+                Main.handleErrors(err)
             }
         }
 
@@ -315,7 +314,7 @@ class Main {
                         })
                     }
                 }
-            }catch (err) { console.log(err) }
+            }catch (err) { Main.handleErrors(err) }
         }
 
         async function handleInputBackspace(input_elem, div_guess) { /* need to fix issue with deleting */
@@ -350,7 +349,7 @@ class Main {
                     div_guess.style.display = 'block'
                     await reloadData()
                 }
-            }catch (err) { console.log(err) }
+            }catch (err) { Main.handleErrors(err) }
         }
 
         async function pasteData() {
@@ -390,7 +389,7 @@ class Main {
             visibility_div,
             weathercode_div,
             wait_span
-        ] = Main.getElement()
+        ] = this.getElement()
 
         wait_span.innerHTML = ""
         datetime_div.innerHTML = objects.dayOfWeek[day_of_week] + ", " + day + " " + objects.month[month] + " " + year
@@ -411,11 +410,11 @@ class Main {
             body.style.color = 'white'
             body.id = 'night'
         }
-        else if(nowHour >= 6 && nowHour <= 9) {
+        else if(nowHour >= 6 && nowHour <= 10) {
             body.style.backgroundImage = `url('${objects.bgImages[0]}')`
             body.id = 'am'
         }
-        else if(nowHour >= 10 && nowHour <= 17) {
+        else if(nowHour >= 11 && nowHour <= 17) {
             body.style.backgroundImage = `url('${objects.bgImages[1]}')`
             body.id = 'midday'
         }
@@ -436,7 +435,6 @@ class Main {
     }
 
     static mobileVersion() {
-        const div_wrapper = document.querySelector('div.wrapper')
         const geoloc = document.getElementById('geolocation')
         if(geoloc.innerHTML.length > 14) {
             geoloc.style.fontSize = '20px'
@@ -447,10 +445,25 @@ class Main {
         }
 
         const body = document.querySelector('body')
-        if(body.id === 'midday') {
-            body.style.color = 'black'
-            div_wrapper.style.backgroundColor = 'white'
-            div_wrapper.style.opacity = '.8'
+        const meta_theme = document.getElementById('meta-theme')
+        if(body.id === 'night') {
+            meta_theme.content = '#0c1445'
         }
+        else if(body.id === 'am') {
+            meta_theme.content = '#ffcd80'
+        }
+        else if(body.id === 'midday') {
+            body.style.color = 'black'
+            meta_theme.content = '#fff4a5'
+        }
+        else if(body.id === 'pm') {
+            meta_theme.content = '#3F3FD4'
+        }
+    }
+
+    static handleErrors(err) {
+        const body = document.querySelector('body')
+        body.innerHTML = ""
+        body.innerHTML = 'Error/ Reload page!' + err
     }
 }

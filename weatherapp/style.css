@@ -6,8 +6,8 @@
 }
 
 body {
-    background-size: 120em;
     background-repeat: no-repeat;
+    background-color: grey;
 }
 
 input {
@@ -119,11 +119,6 @@ div.hl-temperature {
 }
 
 @media screen and (max-width: 768px) {
-
-    body {
-        /*object-fit: cover;*/
-    }
-
     #geolocation {
         position: fixed;
         font-size: 30px;

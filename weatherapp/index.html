@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-
     <!-- required meta tags -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-    <meta name="theme-color" content="#E4FFCE" />
+    <meta name="theme-color" content="#E4FFCE" id="meta-theme"/>
     <meta name="keywords" content="weather, Weather, tomorrow, today, temperature" />
 
     <!-- Import CSS file -->
     <link rel="stylesheet" href="style.css" />
     <link rel="stylesheet" href="https://raw.githack.com/Sciencewolf/Javascript-Projects/master/class/import-css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <!-- Import JS file -->
     <script async src="main.js" defer></script>
@@ -19,20 +19,20 @@
 
     <!-- Favicon -->
     <link rel="icon" href="https://img.icons8.com/doodle/48/null/apple-weather.png" />
-
+    
     <!-- Title -->
     <title>Weather App</title>
+    
+    <!-- for Safari browser -->
+    <link rel="shortcut icon" type="image/png" href="https://img.icons8.com/doodle/48/null/apple-weather.png" />
+    <link rel="apple-touch-icon" type="image/png" href="https://img.icons8.com/doodle/48/null/apple-weather.png" />
+    <link rel="apple-touch-startup-image" type="image/png" href="https://img.icons8.com/doodle/48/null/apple-weather.png" />
+    
 </head>
 <body onload="onLoad()"><!-- <body id="maintenance-glitch"> -->
-    <!-- Header -->
-    <header class="header">
-        Weather App
-    </header>
+    <header class="header">Weather App</header>
 <span id="geolocation"></span>
-
-    <!-- Main -->
     <main class="main">
-        
         <div class="wrapper">
             <span class="wait">Wait...</span>
             <div class="datetime">--</div>
@@ -42,17 +42,18 @@
             <div class="srsn-sun">--</div>
             <div class="visibility">--</div>
         </div>
-        
     </main>
-
 <div class="search">
-    <input type="text" id="search-input" placeholder="City Name">
+    <input type="text" id="search-input" placeholder="Search">
     <div class="guess" id="guess"></div>
 </div>
 
-    <!-- Footer -->
-    <!-- create just footer like below, first appName , second link to website -->
+<!--In future add favourite city to list-->
+<!--<div class="favourites">-->
+<!--    <span class="span-fav-count">0</span>-->
+<!--    <button type="button">Favourite</button>-->
+<!--</div>-->
+
     <footer class="footer">WeatherApp,https://weatherappproject.glitch.me/</footer>
-    
 </body>
 </html>
