@@ -123,8 +123,8 @@ div.hl-temperature {
         position: fixed;
         font-size: 30px;
         top: .1em;
-        right: .5em;
-        text-align: center;
+        right: .2em;
+        text-align: right;
         transform: translate(0);
     }
 

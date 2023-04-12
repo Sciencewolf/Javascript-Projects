@@ -101,7 +101,6 @@ class objects {
 
 async function onLoad() {
     onLoadGetGeolocation()
-    if(Main.isMobilePlatform()) await Main.mobileVersion()
 }
 
 function onLoadGetGeolocation() {
@@ -118,17 +117,9 @@ async function position(pos) {
 
     let url = bdcApi + "?latitude=" + x + "&longitude=" + y + "&localityLanguage=en"
 
-    await fetch(
-        url, { method: "GET" }
-    ).then(
-        response => {
-            return response.json()
-        }
-    ).then(resJSON =>
-        span_geolocation.innerHTML = `${resJSON['city']},  ${resJSON['countryCode']}`
-    ).catch(_ => {
-        span_geolocation.innerHTML = "Error!"
-    })
+    const response = await fetch(url, { method: "GET" })
+    const resJSON = await response.json()
+    span_geolocation.innerHTML = `${resJSON['city']},  ${resJSON['countryCode']}`
 
     const main_class = new Main();
     await main_class.fetchDataFromWeatherAPI(x, y)
@@ -259,29 +250,41 @@ class Main {
                 h, l, sunrise, sunset, weathercodeToday, visibility, c_temp, day_of_week, year, month, day
             ] = await awaitDatas()
 
-            input.addEventListener('keydown', async (e) => {
-                    if(e.key === 'Enter' && input.value !== "") {
+            let timeout
+
+            input.addEventListener('keypress', async (e) => {
+                    if(input.value !== "") {
+                        div_guess.innerHTML = ""
+                        clearTimeout(timeout)
+                        const span = document.createElement('span')
+                        span.innerHTML = 'Wait...'
+                        div_guess.appendChild(span)
+                        div_guess.style.display = 'block'
+
+                        timeout = setTimeout(async() => {
+                            setTimeout(async() => {
+                                await handleInput(input, div_guess)
+                            }, 1000)
+                        }, 1000)
+                    }
+                    else if (e.key === 'Enter' && input.value !== "") {
                         div_guess.innerHTML = ""
                         const span = document.createElement('span')
                         span.innerHTML = 'Wait...'
                         div_guess.appendChild(span)
                         div_guess.style.display = 'block'
-                        await handleInputEnter(input, div_guess)
-                    }
-                    else {
-                        div_guess.innerHTML = ""
-                        div_guess.style.display = 'none'
+                        await handleInput(input, div_guess)
                     }
             })
             Main.pasteInnerHTML(day_of_week, day, month, year, h, l, c_temp, sunrise, sunset, visibility, weathercodeToday)
         }
 
-        async function handleInputEnter(input_elem, div_guess) {
+        async function handleInput(input_elem, div_guess) {
             try {
                 const input = document.getElementById('search-input')
 
                 const json_input = await fetchInput(input.value)
-                if(json_input.length > 0) {
+                if(json_input.length > 1) {
                     div_guess.innerHTML = ""
                     div_guess.style.display = "block"
                     for(let i = 0;i<json_input.length;i++) {
@@ -314,40 +317,17 @@ class Main {
                         })
                     }
                 }
-            }catch (err) { Main.handleErrors(err) }
-        }
-
-        async function handleInputBackspace(input_elem, div_guess) { /* need to fix issue with deleting */
-            try {
-                const input = document.getElementById('search-input')
-
-                div_guess.innerHTML = ""
-                div_guess.style.display = "none"
-                const json_new_input = await fetchInput(input.value)
-                if(json_new_input.length > 1) {
-                    div_guess.style.display = "block"
-                    for(let i = 0;i<json_new_input.length;i++) {
-                        const span = document.createElement('span')
-                        span.id = `${i}`
-                        if(i !== 0 && json_new_input[i - 1]['name'] === json_new_input[i]['name'] && json_new_input['state'] !== undefined) {
-                            span.innerHTML = json_new_input[i]['name'] + ", " + json_new_input[i]['country'] + ", " + json_new_input[i]['state']
-                        }else span.innerHTML = json_new_input[i]['name'] + ", " + json_new_input[i]['country']
-
-                        div_guess.appendChild(span)
-                    }
-
-                    const spans = document.getElementById('guess').getElementsByTagName('span')
-                    for(let i = 0;i<spans.length;i++) {
-                        spans[i].addEventListener('click', function(event) {
-                            input_elem.value = event.target.innerHTML
-                            div_guess.innerHTML = ""
-                            div_guess.style.display = 'none'
-                        })
-                    }
-                }
                 else {
-                    div_guess.style.display = 'block'
-                    await reloadData()
+                    input_elem.placeholder = json_input[0]['name'] + ", " + json_input[0]['country']
+                    input_elem.value = ''
+                    input_elem.blur()
+                    let x = json_input[0]['latitude']
+                    let y = json_input[0]['longitude']
+
+                    div_guess.innerHTML = ""
+                    div_guess.style.display = 'none'
+                    await reloadData(x, y)
+
                 }
             }catch (err) { Main.handleErrors(err) }
         }
@@ -364,6 +344,7 @@ class Main {
         await Main.changeBGImage(time)
         await pasteDatabySearch()
         await pasteData()
+        if(Main.isMobilePlatform()) await Main.mobileVersion()
     }
 
     static getElement() {
@@ -393,11 +374,11 @@ class Main {
 
         wait_span.innerHTML = ""
         datetime_div.innerHTML = objects.dayOfWeek[day_of_week] + ", " + day + " " + objects.month[month] + " " + year
-        hl_temperature_div.innerHTML = h + l
+        weathercode_div.innerHTML = objects.objWeathercode[weathercodeToday]
         curr_temp.innerHTML = c_temp
+        hl_temperature_div.innerHTML = h + l
         srsn_sun_div.innerHTML = 'Sunrise: ' + sunrise + 'Sunset: ' + sunset
         visibility_div.innerHTML = 'Visibility: ' + visibility
-        weathercode_div.innerHTML = objects.objWeathercode[weathercodeToday]
     }
 
     static async changeBGImage(time) {
@@ -436,12 +417,22 @@ class Main {
 
     static mobileVersion() {
         const geoloc = document.getElementById('geolocation')
+
         if(geoloc.innerHTML.length > 14) {
             geoloc.style.fontSize = '20px'
             geoloc.style.top = '3em'
+            geoloc.style.right = '1em'
             geoloc.style.textAlign = 'center'
             geoloc.style.left = '0px'
             geoloc.style.width = `${window.innerWidth}px`
+        }
+        else {
+            geoloc.style.fontSize = null
+            geoloc.style.top = null
+            geoloc.style.right = null
+            geoloc.style.textAlign = null
+            geoloc.style.left = null
+            geoloc.style.width = null
         }
 
         Main.changeThemeColor()
@@ -468,6 +459,6 @@ class Main {
     static handleErrors(err) {
         const body = document.querySelector('body')
         body.innerHTML = ""
-        body.innerHTML = 'Error/ Reload page!' + err
+        body.innerHTML = 'Error / Reload page! ' + err
     }
 }
