@@ -42,6 +42,10 @@ main {
     position: relative;
 }
 
+main button {
+    display: none;
+}
+
 div.wrapper {
     width: auto;
     height: 20em;
@@ -61,6 +65,11 @@ div.wrapper {
     transform: translate(-50%, 100%);
 }
 
+.search button {
+    border-radius: 10px;
+    appearance: none;
+}
+
 .guess {
     display: none;
     width: auto;
@@ -76,10 +85,6 @@ div.wrapper {
     text-align: center;
     margin: 1px;
     cursor: pointer;
-}
-
-.guess span:hover {
-    background-color: lightslategrey;
 }
 
 div:is(.weathercode, .hl-temperature, .rain-chance, .visibility, .humidity) {
@@ -116,6 +121,69 @@ div.m_current-temperature {
 
 div.hl-temperature {
     font-size: 12px;
+}
+
+div.favorites {
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 2px;
+    padding-right: 2px;
+    user-select: none;
+}
+
+div.favorites button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: lightskyblue;
+    border: none;
+    border-radius: 5px;
+    user-select: none;
+    width: auto;
+    height: 3em;
+}
+
+div.favorites img {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+#span-error {
+    position: fixed;
+    bottom: 4em;
+    left: 50%;
+    transform: translateX(-50%);
+    color: red;
+    background-color: lightskyblue;
+    padding-left: 3px;
+    padding-right: 3px;
+    font-size: 28px;
+    border-radius: 5px;
+}
+
+#btn-add, #btn-fav {
+    display: none;
+}
+
+@media (hover: hover) {
+    .search button:hover {
+        cursor: pointer;
+        background-color: grey;
+        color: white;
+    }
+
+    .guess span:hover {
+        background-color: lightslategrey;
+    }
+
+    div.favorites button:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+    }
 }
 
 @media screen and (max-width: 768px) {

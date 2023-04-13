@@ -329,7 +329,7 @@ class Main {
                     await reloadData(x, y)
 
                 }
-            }catch (err) { Main.handleErrors(err) }
+            }catch (err) { Main.onInputError() }
         }
 
         async function pasteData() {
@@ -411,6 +411,14 @@ class Main {
         }
     }
 
+    static Favorites() {
+        const btn_add = document.getElementById('btn-add')
+
+        btn_add.addEventListener('click', () => {
+
+        })
+    }
+
     static isMobilePlatform() {
         return /android|iphone|ipad/i.test(navigator.userAgent)
     }
@@ -433,6 +441,9 @@ class Main {
             geoloc.style.textAlign = null
             geoloc.style.left = null
             geoloc.style.width = null
+
+            // or like this
+            // geoloc.style.cssText = 'font-size: unset; top: unset; right: unset; text-align: unset; left: unset; width: unset;';
         }
 
         Main.changeThemeColor()
@@ -458,7 +469,31 @@ class Main {
 
     static handleErrors(err) {
         const body = document.querySelector('body')
-        body.innerHTML = ""
-        body.innerHTML = 'Error / Reload page! ' + err
+        const span = document.createElement('span')
+
+        console.log(err)
+
+        span.id = 'span-error'
+        span.innerHTML = 'Try Again! / Reload Page!'
+        body.appendChild(span)
+
+        setTimeout(() => {
+            body.removeChild(span)
+        }, 3000)
+    }
+
+    static onInputError() {
+        const input = document.querySelector('#search-input')
+        const div_guess = document.querySelector('.guess')
+
+        if(typeof (input) !== undefined && input !== null) {
+            input.value = ''
+            input.placeholder = 'Try Again!'
+            input.style.cssText = 'border: 1px solid red;'
+            input.blur()
+
+            div_guess.innerHTML = ''
+            div_guess.style.display = 'none'
+        }
     }
 }

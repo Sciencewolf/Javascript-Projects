@@ -32,7 +32,8 @@
 </head>
 <body onload="onLoad()" id="default"><!-- <body id="maintenance-glitch"> -->
     <header class="header">Weather App</header>
-<span id="geolocation"></span>
+    <span id="geolocation"></span>
+    
     <main class="main">
         <div class="wrapper">
             <span class="wait">Wait...</span>
@@ -43,11 +44,24 @@
             <div class="srsn-sun">--</div>
             <div class="visibility">--</div>
         </div>
+        
+        <button type="button" id="btn-next"></button>
+        <button type="button" id="btn-prev"></button>
     </main>
-<div class="search">
-    <input type="text" id="search-input" placeholder="Search" autocomplete="off">
-    <div class="guess" id="guess"></div>
-</div>
+    
+    <div class="search">
+        <input type="text" id="search-input" placeholder="Search" autocomplete="off" autofocus>
+        <button id="btn-add" type="button">Add</button>
+        <div class="guess" id="guess"></div>
+    </div>
+
+    <div class="favorites" role="button">
+        <button type="button" id="btn-fav">
+            <img src="https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/null/external-place-travel-dreamstale-lineal-dreamstale.png" alt="place_icon"/>
+            Places <!-- btn text -->
+        </button>
+    </div>
+
     <footer class="footer">WeatherApp,https://weatherappproject.glitch.me/</footer>
 </body>
 </html>
