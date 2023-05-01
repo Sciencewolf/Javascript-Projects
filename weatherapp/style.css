@@ -60,7 +60,7 @@ div.wrapper {
 
 .search {
     position: absolute;
-    bottom: 50%;
+    bottom: 40%;
     left: 50%;
     transform: translate(-50%, 100%);
 }

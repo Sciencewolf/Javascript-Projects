@@ -236,7 +236,14 @@ class Main {
             let [date, day_of_week] = await fetchDateTime()
             let year = date.slice(0, -28).toString()
             let month = date.slice(5, -25).toString()
-            let day = date.slice(8, -22).toString()
+            let day;
+
+            if(date.slice(8, -22).startsWith('0')) {
+                day = date.slice(9, -22).toString()
+            }
+            else {
+                day = date.slice(8, -22).toString()
+            }
 
             return [
                 h, l, sunrise, sunset, weathercodeToday, visibility, c_temp, day_of_week, year, month, day
