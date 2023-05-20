@@ -400,6 +400,9 @@ class Main {
         }
         else if(nowHour >= 6 && nowHour <= 10) {
             body.style.backgroundImage = `url('${objects.bgImages[0]}')`
+            if(this.isMobilePlatform()) {
+                body.style.color = 'white'
+            }
             body.id = 'am'
         }
         else if(nowHour >= 11 && nowHour <= 17) {
