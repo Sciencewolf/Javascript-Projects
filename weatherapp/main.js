@@ -260,28 +260,28 @@ class Main {
             let timeout
 
             input.addEventListener('keypress', async (e) => {
-                    if(input.value !== "") {
-                        div_guess.innerHTML = ""
-                        clearTimeout(timeout)
-                        const span = document.createElement('span')
-                        span.innerHTML = 'Wait...'
-                        div_guess.appendChild(span)
-                        div_guess.style.display = 'block'
+                if(input.value !== "") {
+                    div_guess.innerHTML = ""
+                    clearTimeout(timeout)
+                    const span = document.createElement('span')
+                    span.innerHTML = 'Wait...'
+                    div_guess.appendChild(span)
+                    div_guess.style.display = 'block'
 
-                        timeout = setTimeout(async() => {
-                            setTimeout(async() => {
-                                await handleInput(input, div_guess)
-                            }, 1000)
+                    timeout = setTimeout(async() => {
+                        setTimeout(async() => {
+                            await handleInput(input, div_guess)
                         }, 1000)
-                    }
-                    else if (e.key === 'Enter' && input.value !== "") {
-                        div_guess.innerHTML = ""
-                        const span = document.createElement('span')
-                        span.innerHTML = 'Wait...'
-                        div_guess.appendChild(span)
-                        div_guess.style.display = 'block'
-                        await handleInput(input, div_guess)
-                    }
+                    }, 1000)
+                }
+                else if (e.key === 'Enter' && input.value !== "") {
+                    div_guess.innerHTML = ""
+                    const span = document.createElement('span')
+                    span.innerHTML = 'Wait...'
+                    div_guess.appendChild(span)
+                    div_guess.style.display = 'block'
+                    await handleInput(input, div_guess)
+                }
             })
             Main.pasteInnerHTML(day_of_week, day, month, year, h, l, c_temp, sunrise, sunset, visibility, weathercodeToday)
         }
@@ -465,11 +465,13 @@ class Main {
         const interval = setInterval(() => {
             const body = document.querySelector('body')
             if(body.id !== 'default') {
-                if(body.id === 'night') meta_theme.content = "#060d36"
+                if(body.id === 'night') meta_theme.content = "#001"
                 else if(body.id === 'am') meta_theme.content = '#ffcd80'
                 else if(body.id === 'midday') {
                     body.style.color = 'black'
-                    meta_theme.content = '#fff4a5'
+                    meta_theme.content = '#87CEEB'
+                    //                    #fff4a5
+
                 }
                 else if(body.id === 'pm') meta_theme.content = '#3F3FD4'
                 clearInterval(interval)
@@ -480,8 +482,6 @@ class Main {
     static handleErrors(err) {
         const body = document.querySelector('body')
         const span = document.createElement('span')
-
-        console.log(err)
 
         span.id = 'span-error'
         span.innerHTML = 'Try Again! / Reload Page!'
