@@ -2,6 +2,10 @@ a {
     text-decoration: none;
 }
 
+a:visited {
+color: black;
+}
+
 a:hover {
     text-decoration: underline;
 }
@@ -12,4 +16,8 @@ div {
     align-items: center;
     gap: 0.5em;
     margin: 1em;
+}
+
+body {
+    background-color: lightskyblue;
 }

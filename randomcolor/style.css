@@ -1,32 +1,289 @@
+@import url('https://fonts.googleapis.com/css2?family=Sono:wght@500&display=swap');
+
+* {
+    font-family: 'Sono', sans-serif;
+    transition: .1s all;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    width: 100%;
-    height: 90vh;
+    height: 95vh;
+    overflow: hidden;
+}
+
+.header {
+    position: absolute;
+    z-index: 2;
+    top: 0.1em;
+    left: 1em;
+    margin: 0;
+    padding: 0;
+}
+
+.header h3 {
+    user-select: none;
+    color: black;
+    letter-spacing: 1px;
+    text-decoration: underline;
 }
 
 .wrapper {
+    position: relative;
     width: 100%;
-    height: 100%;
+    height: 90%;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 1em;
+    margin: 0;
+    padding: 0;
 }
 
-.wrapper div {
+.wrapper p#pText {
+    font-size: 22px;
+    position: absolute;
+    bottom: 2em;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 2;
+    margin: 0;
+}
+
+.wrapper div.div-one {
+    width: 100%;
+    height: 100%;
     position: relative;
 }
 
+.wrapper div {
+    width: 20%;
+    height: 100%;
+    position: relative;
+    border-radius: 5px;
+}
+
 .wrapper div p {
+    font-size: 22px;
     position: absolute;
-    bottom: 1em;
+    bottom: 5em;
     left: 50%;
     transform: translateX(-50%);
+    padding: 10px;
+    border-radius: 10px;
+    transition: 300ms;
 }
 
-p:hover {
-    cursor: pointer;
+.wrapper div p#pInfo {
+    font-size: 32px;
+    position: absolute;
+    width: auto;
+    height: 1em;
+    top: 50%;
+    background-color: transparent;
+    padding: 0;
+    animation: fade 6s linear;
 }
 
-button:hover {
+.checkbox {
+    position: absolute;
+    top: 0.5em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+}
+
+.btn {
+    display: flex;
+}
+
+.btn > button {
+    background-color: green;
+    border: none;
+    border-radius: 5px;
+    width: auto;
+    height: 2em;
+    color: white;
+    transition: 300ms;
+}
+
+footer {
+    background-color: azure;
+    position: relative;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    height: 7em;
+    border: none;
+    border-radius: 5px;
+}
+
+.footer input[type=checkbox] {
+    accent-color: green;
+    transform: scale(1.4);
+}
+
+#tweet {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+    position: absolute;
+    right: 1em;
+    bottom: 70%;
+    background-color: transparent;
+    border-radius: 5px;
+    width: auto;
+    height: 2em;
+    padding-left: 3px;
+    padding-right: 3px;
+    border: 1px solid black;
+}
+
+#tweet a {
+    text-decoration: none;
+    color: black;
+    font: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5em;
+}
+
+#dev {
+    position: absolute;
+    right: 1em;
+}
+
+#dev a{
+    text-decoration: none;
+}
+
+.alert-copy-desktop {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
+    background-color: grey;
+    border-radius: 10px;
+    width: 9em;
+    animation: moveto .3s;
+    bottom: 15px;
+}
+
+.alert-copy-desktop img {
+    width: 32px;
+    height: 32px;
+}
+
+.alert-copy-desktop p {
+    color: white;
+}
+
+/* Hover */
+
+#dev a:hover {
+    text-decoration: underline;
+ }
+
+:hover:is(p, button, input) {
     cursor: pointer;
+ }
+
+#pText:hover {
+    background-color: rgb(50, 50, 70) !important;
+    color: white !important;
+}
+
+ button:hover {
+    background-color: rgb(3, 252, 19);
+    color: black;
+ }
+
+ /* end hover */
+
+ .wrapper div p#pInfo:hover {
+    cursor: auto
+ }
+
+@keyframes moveto {
+    from {
+        bottom: 0;
+    }
+
+    to {
+        bottom: 15px;
+    }
+}
+
+@keyframes fade {
+
+    0%,
+    100% {
+        opacity: 0;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+/* Mobile version */
+@media screen and (max-width: 768px) {
+    body {
+        height: 90vh;
+    }
+
+    .wrapper {
+        height: 85%;
+    }
+
+    .wrapper div p#pInfo {
+        animation: fade 3s linear;
+    }
+
+    .footer {
+        height: 5em;
+    }
+
+    #tweet {
+        bottom: 40%;
+    }
+
+    #dev {
+        width: auto;
+        bottom: 1px;
+        right: 25px;
+    }
+}
+
+
+/*
+Maintenance
+*/
+
+.body-maintenance {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2em;
+    font-size: 40px;
+}
+
+.body-maintenance img {
+    width: 5em;
+    height: 5em;
+}
+
+.body-maintenance .span-return_later {
+    position: absolute;
+    top: 70%;
 }

@@ -1,0 +1,29 @@
+body {
+    background-color: darkgrey;
+}
+
+input:hover {
+    cursor: pointer;
+}
+
+input {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+.div_wrapper {
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    gap: 1em;
+    flex-wrap: wrap;
+}
+
+label {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    height: auto;
+    flex-wrap: wrap;
+}

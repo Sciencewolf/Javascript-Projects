@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- required meta tags -->
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="theme-color" content="transparent" id="meta-theme" />
+    <meta name="keywords" content="weather, Weather, tomorrow, today, temperature" />
+
+    <!-- Import CSS file -->
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://raw.githack.com/Sciencewolf/Javascript-Projects/master/class/import-css.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+    <!-- Import JS file -->
+    <script async src="main.js" defer></script>
+    <script type="module" async src="https://raw.githack.com/Sciencewolf/Javascript-Projects/master/class/import-script.js" defer></script>
+    <noscript>Enable Javascript to use website</noscript>
+
+    <!-- Favicon -->
+    <link rel="icon" href="https://img.icons8.com/doodle/48/null/apple-weather.png" />
+    
+    <!-- Title -->
+    <title>Weather App</title>
+    
+    <!-- for Safari browser -->
+    <link rel="shortcut icon" type="image/png" href="https://img.icons8.com/doodle/48/null/apple-weather.png" />
+    <link rel="apple-touch-icon" type="image/png" href="https://img.icons8.com/doodle/48/null/apple-weather.png" />
+    <link rel="apple-touch-startup-image" type="image/png" href="https://img.icons8.com/doodle/48/null/apple-weather.png" />
+    
+</head>
+<body onload="onLoad()" id="default"><!-- <body id="maintenance-glitch"> -->
+    <header class="header">Weather App</header>
+    <span id="geolocation"></span>
+    
+    <main class="main">
+        <div class="wrapper">
+            <span class="wait">Wait...</span>
+            <div class="datetime">--</div>
+            <div class="weathercode">--</div>
+            <div class="m_current-temperature"></div>
+            <div class="hl-temperature">--</div>
+            <div class="srsn-sun">--</div>
+            <div class="visibility">--</div>
+        </div>
+        
+        <button type="button" id="btn-next"></button>
+        <button type="button" id="btn-prev"></button>
+    </main>
+    
+    <div class="search">
+        <input type="text" id="search-input" placeholder="Search" autocomplete="off" autofocus>
+        <button id="btn-add" type="button">Add</button>
+        <div class="guess" id="guess"></div>
+    </div>
+
+    <div class="favorites" role="button">
+        <button type="button" id="btn-fav">
+            <img src="https://img.icons8.com/external-dreamstale-lineal-dreamstale/32/null/external-place-travel-dreamstale-lineal-dreamstale.png" alt="place_icon"/>
+            Places <!-- btn text -->
+        </button>
+    </div>
+
+    <footer class="footer">WeatherApp,https://weatherappproject.glitch.me/</footer>
+</body>
+</html>

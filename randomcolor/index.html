@@ -1,16 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
+    <!-- required meta tags -->
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="main.js"></script>
+    <meta name="theme-color" content="" id="meta-themecolor">
+    <meta name="keywords" content="random color, color, random, pick random color, generate, generate random color">
+
+    <!-- Import JS file -->
+    <script src="main.js" defer></script>
+
+    <!-- Import CSS file -->
     <link rel="stylesheet" href="style.css">
-    <title>Random Color</title>
-</head>
-<body onload="onLoad()">
-    <div class="wrapper"></div>
-    <div class="settings"></div>
+
+    <!-- favicon -->
+    <link rel="icon" href="https://img.icons8.com/fluency/48/null/color-wheel-2.png">
+
+    <!-- Title -->
+    <title>RandColor</title>
     
+    <!-- for Safari browser -->
+    <link rel="shortcut icon" type="image/png" href="https://img.icons8.com/fluency/48/null/color-wheel-2.png" />
+    <link rel="apple-touch-icon" type="image/png" href="https://img.icons8.com/fluency/48/null/color-wheel-2.png" />
+    <link rel="apple-touch-startup-image" type="image/png" href="https://img.icons8.com/fluency/48/null/color-wheel-2.png" />
+    
+</head>
+<body onload="onLoad()"> <!-- showMaintenanceWindow() -->
+    <header class="header">
+        <h3>RandColor</h3>
+    </header>
+    <div class="wrapper"></div>
+    <hr>
+    <footer class="footer">
+        <div class="checkbox">
+            <input type="checkbox" id="checkbox-pick-multiple-color" onchange="handleCheckbox(this)">
+            <label>Pick Multiple Color</label>
+        </div>
+
+        <div class="btn">
+            <button type="button" id="btn-reload" onclick="this.blur()">Generate New Color</button>
+        </div>
+
+        <span id="tweet">
+            <a 
+            id="tweet-link" 
+            href="https://twitter.com/intent/tweet?text=RandColor%20by%20@aronmarton_%20https://randomcolorproject.glitch.me/" 
+            target="_blank">
+                <img src="https://img.icons8.com/tiny-color/16/null/twitter.png"/>
+                Tweet <!-- Text -->
+            </a>
+        </span>
+
+        <span id="dev"></span>
+
+    </footer>
 </body>
 </html>

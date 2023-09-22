@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Sriracha&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Sriracha', cursive;
+}
+
+body {
+    background-repeat: no-repeat;
+    background-color: grey;
+}
+
+input {
+    border-radius: 10px;
+    width: 25em;
+}
+
+div img {
+    width: 1.5em;
+    height: 1.5em;
+    margin-right: 1em;
+}
+
+header {
+    position: absolute;
+    top: 1em;
+    left: 1em;
+    width: 15em;
+    margin: 0;
+    padding: 0;
+}
+
+#geolocation {
+    position: absolute;
+    top: .5em;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+}
+
+main {
+    position: relative;
+}
+
+main button {
+    display: none;
+}
+
+div.wrapper {
+    width: auto;
+    height: 20em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .1em;
+    flex-direction: column;
+    margin-top: 5em;
+    position: relative;
+}
+
+.search {
+    position: absolute;
+    bottom: 40%;
+    left: 50%;
+    transform: translate(-50%, 100%);
+}
+
+.search button {
+    border-radius: 10px;
+    appearance: none;
+}
+
+.guess {
+    display: none;
+    width: auto;
+    max-height: 120px;
+    overflow: auto;
+    border: 1px solid black;
+}
+
+.guess span {
+    display: block;
+    background-color: lightblue;
+    width: auto;
+    text-align: center;
+    margin: 1px;
+    cursor: pointer;
+}
+
+div:is(.weathercode, .hl-temperature, .rain-chance, .visibility, .humidity) {
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.hl-temperature {
+    position: absolute;
+    top: 13em;
+    left: 50%;
+    transform: translateX(-50%);
+}
+div.srsn-sun {
+    background-color: transparent;
+    border-radius: 10px;
+    padding: 5px;
+}
+
+div.m_current-temperature {
+    background-color: transparent;
+    padding: 5px;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    font-size: 50px;
+    height: fit-content;
+}
+
+div.hl-temperature {
+    font-size: 12px;
+}
+
+div.favorites {
+    position: fixed;
+    top: 1em;
+    right: 1em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-left: 2px;
+    padding-right: 2px;
+    user-select: none;
+}
+
+div.favorites button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: lightskyblue;
+    border: none;
+    border-radius: 5px;
+    user-select: none;
+    width: auto;
+    height: 3em;
+}
+
+div.favorites img {
+    width: 1.5em;
+    height: 1.5em;
+}
+
+#span-error {
+    position: fixed;
+    bottom: 4em;
+    left: 50%;
+    transform: translateX(-50%);
+    color: red;
+    background-color: lightskyblue;
+    padding-left: 3px;
+    padding-right: 3px;
+    font-size: 28px;
+    border-radius: 5px;
+}
+
+#btn-add, #btn-fav {
+    display: none;
+}
+
+@media (hover: hover) {
+    .search button:hover {
+        cursor: pointer;
+        background-color: grey;
+        color: white;
+    }
+
+    .guess span:hover {
+        background-color: lightslategrey;
+    }
+
+    div.favorites button:hover {
+        cursor: pointer;
+        transform: scale(1.1);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    #geolocation {
+        position: fixed;
+        font-size: 30px;
+        top: .1em;
+        right: .2em;
+        text-align: right;
+        transform: translate(0);
+    }
+
+    main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    div.wrapper {
+        border-radius: 10px;
+        padding: 2px;
+        position: absolute;
+        top: 2em;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 15em;
+        height: auto;
+    }
+
+    div.hl-temperature {
+        top: 8em;
+        transform: translateX(-50%);
+        font-size: 15px;
+    }
+
+    div.m_current-temperature {
+        font-size: 49px;
+        padding: 0;
+        margin: 20px;
+        height: 1em;
+        display: flex;
+        align-items: flex-end;
+        justify-content: center;
+    }
+
+    input {
+        appearance: none;
+        width: 20em;
+    }
+
+    .search {
+        bottom: 15em;
+    }
+
+    div.wrapper > * {
+        z-index: 3;
+    }
+}
